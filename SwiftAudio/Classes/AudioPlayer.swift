@@ -31,9 +31,6 @@ public struct APError {
 
 public class AudioPlayer {
     
-    /// Static to avoid KVO .initial problem: http://michael-brown.net/2017/swift-and-kvo-context-variables/
-    static var context = 0
-    
     struct Constants {
         static let assetPlayableKey = "playable"
     }
