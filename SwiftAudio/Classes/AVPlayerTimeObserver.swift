@@ -25,18 +25,26 @@ class AVPlayerTimeObserver {
     /// The time to use as start boundary time. Cannot be zero.
     private static let startBoundaryTime: CMTime = CMTime(value: 1, timescale: 1000)
     
-    /// The frequence to receive periodic time events.
-    private static let periodicObserverTimeInterval: CMTime = CMTime(value: 1, timescale: 1)
-
     private var boundaryTimeStartObserverToken: Any?
     private var periodicTimeObserverToken: Any?
     
     private let player: AVPlayer
     
+    /// The frequence to receive periodic time events.
+    /// Setting this to a new value will trigger a re-registering to the periodic events of the player.
+    var periodicObserverTimeInterval: CMTime {
+        didSet {
+            if oldValue != periodicObserverTimeInterval {
+                registerForPeriodicTimeEvents()
+            }
+        }
+    }
+    
     weak var delegate: AVPlayerTimeObserverDelegate?
     
-    init(player: AVPlayer) {
+    init(player: AVPlayer, periodicObserverTimeInterval: CMTime) {
         self.player = player
+        self.periodicObserverTimeInterval = periodicObserverTimeInterval
     }
     
     /**
@@ -53,6 +61,9 @@ class AVPlayerTimeObserver {
         NotificationCenter.default.addObserver(self, selector: #selector(didFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
     }
     
+    /**
+     Unregister from the boundary events of the player.
+     */
     func unregisterForBoundaryTimeEvents() {
         
         if let boundaryTimeStartObserverToken = boundaryTimeStartObserverToken {
@@ -64,11 +75,22 @@ class AVPlayerTimeObserver {
     
     /**
      Start observing periodic time events.
+     Will trigger unregisterForPeriodicEvents() first to avoid multiple subscriptions.
      */
     func registerForPeriodicTimeEvents() {
-        periodicTimeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: nil, using: { (time) in
+        unregisterForPeriodicEvents()
+        periodicTimeObserverToken = player.addPeriodicTimeObserver(forInterval: periodicObserverTimeInterval, queue: nil, using: { (time) in
             self.delegate?.timeEvent(time: time)
         })
+    }
+    
+    /**
+     Unregister for periodic events.
+     */
+    func unregisterForPeriodicEvents() {
+        if let periodicTimeObserverToken = periodicTimeObserverToken {
+            self.player.removeTimeObserver(periodicTimeObserverToken)
+        }
     }
     
     @objc private func didFinishPlaying() {

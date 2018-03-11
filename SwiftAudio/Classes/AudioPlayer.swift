@@ -15,7 +15,7 @@ public protocol AudioPlayerDelegate: class {
     
     func audioPlayer(didChangeState state: AudioPlayerState)
     func audioPlayerItemDidComplete()
-    func audioPlayer(secondsElapsed seconds: Int)
+    func audioPlayer(secondsElapsed seconds: Double)
     func audioPlayer(failedWithError error: Error)
     func audioPlayer(seekTo seconds: Int, didFinish: Bool)
     
@@ -105,11 +105,12 @@ public class AudioPlayer {
         self.avPlayer = AVPlayer()
         self.config = config
         self.playerObserver = AVPlayerObserver(player: avPlayer)
-        self.playerTimeObserver = AVPlayerTimeObserver(player: avPlayer)
+        self.playerTimeObserver = AVPlayerTimeObserver(player: avPlayer, periodicObserverTimeInterval: config.timeEventFrequency.getTime())
 
         self.playerObserver.delegate = self
         self.playerTimeObserver.delegate = self
         
+        configureFromConfig()
         playerTimeObserver.registerForPeriodicTimeEvents()
     }
     
@@ -199,6 +200,7 @@ public class AudioPlayer {
      */
     private func configureFromConfig() {
         avPlayer.automaticallyWaitsToMinimizeStalling = config.automaticallyWaitsToMinimizeStalling
+        playerTimeObserver.periodicObserverTimeInterval = config.timeEventFrequency.getTime()
     }
     
 }
@@ -255,8 +257,7 @@ extension AudioPlayer: AVPlayerTimeObserverDelegate {
     }
     
     func timeEvent(time: CMTime) {
-        let seconds = Int(time.seconds)
-        self.delegate?.audioPlayer(secondsElapsed: seconds)
+        self.delegate?.audioPlayer(secondsElapsed: time.seconds)
     }
     
 }

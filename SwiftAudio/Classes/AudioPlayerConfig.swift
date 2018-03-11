@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import AVFoundation
+
 
 extension AudioPlayer {
     
@@ -27,6 +29,17 @@ extension AudioPlayer {
          - Important: This setting will have no effect if `automaticallyWaitsToMinimizeStalling` is set to `true`
          */
         public var bufferDuration: TimeInterval = 0
+        
+        /**
+         Set this to decide how often the player should call the delegate with time progress events.
+         Default is every second.
+         Options:
+         * every second
+         * every half second
+         * every quarter second
+         */
+        public var timeEventFrequency: TimeEventFrequency = .everySecond
+        
         
         public init() {}
     }

@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftAudio
+import AVFoundation
 
 
 class ViewController: UIViewController {
@@ -20,6 +21,7 @@ class ViewController: UIViewController {
     lazy var player: AudioPlayer = {
         let p = AudioPlayer(config: AudioPlayer.Config())
         p.delegate = self
+        p.config.timeEventFrequency = TimeEventFrequency.everyQuarterSecond
         return p
     }()
     
@@ -67,8 +69,8 @@ extension ViewController: AudioPlayerDelegate {
         
     }
     
-    func audioPlayer(secondsElapsed seconds: Int) {
-        print("Seconds elapsed")
+    func audioPlayer(secondsElapsed seconds: Double) {
+        print(seconds)
         if !isScrubbing {
             slider.setValue(Float(seconds), animated: true)
         }
