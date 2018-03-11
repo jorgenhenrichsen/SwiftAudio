@@ -1,5 +1,4 @@
 import XCTest
-import SwiftAudio
 
 class Tests: XCTestCase {
     

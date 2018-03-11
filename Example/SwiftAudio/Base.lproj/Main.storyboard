@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,11 +21,55 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ExO-ir-bnt">
+                                <rect key="frame" x="168" y="20" width="38" height="30"/>
+                                <state key="normal" title="PlayA"/>
+                                <connections>
+                                    <action selector="playA:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="KZw-pL-C6H"/>
+                                </connections>
+                            </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="RWN-If-dGG">
+                                <rect key="frame" x="14" y="318.5" width="347" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="CD7-DZ-gUR"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="scrubbing:" destination="vXZ-lx-hvc" eventType="touchUpOutside" id="HeH-aB-VXZ"/>
+                                    <action selector="scrubbing:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="NfP-3T-dnw"/>
+                                    <action selector="startScrubbing:" destination="vXZ-lx-hvc" eventType="touchDown" id="lD9-dR-QTO"/>
+                                </connections>
+                            </slider>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOo-zV-6l2">
+                                <rect key="frame" x="164" y="494" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="9sD-FT-FL0"/>
+                                </constraints>
+                                <state key="normal" title="Play"/>
+                                <connections>
+                                    <action selector="togglePlay:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oYu-xi-n6T"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="EOo-zV-6l2" secondAttribute="trailing" constant="149" id="71L-Hv-1br"/>
+                            <constraint firstItem="RWN-If-dGG" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="Ee0-Yx-h5a"/>
+                            <constraint firstItem="RWN-If-dGG" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="EzW-Sk-mlN"/>
+                            <constraint firstItem="EOo-zV-6l2" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="148" id="OKq-yH-xWk"/>
+                            <constraint firstItem="ExO-ir-bnt" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="VtX-IN-h4a"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="EOo-zV-6l2" secondAttribute="bottom" constant="143" id="m8i-yM-pER"/>
+                            <constraint firstItem="ExO-ir-bnt" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="mc2-i7-c1f"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="playButton" destination="EOo-zV-6l2" id="2d1-ad-s1k"/>
+                        <outlet property="slider" destination="RWN-If-dGG" id="Yxw-Gf-bR3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="117.59999999999999" y="118.29085457271366"/>
         </scene>
     </scenes>
 </document>
