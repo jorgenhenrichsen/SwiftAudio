@@ -16,7 +16,7 @@ public protocol AudioPlayerDelegate: class {
     func audioPlayer(didChangeState state: AudioPlayerState)
     func audioPlayerItemDidComplete()
     func audioPlayer(secondsElapsed seconds: Double)
-    func audioPlayer(failedWithError error: Error)
+    func audioPlayer(failedWithError error: Error?)
     func audioPlayer(seekTo seconds: Int, didFinish: Bool)
     
 }
@@ -115,11 +115,29 @@ public class AudioPlayer {
     }
     
     /**
+     Start playback.
+     */
+    public func play() {
+        if avPlayer.timeControlStatus == .paused {
+            avPlayer.play()
+        }
+    }
+    
+    /**
+     Will pause playback.
+     */
+    public func pause() {
+        if avPlayer.timeControlStatus == .playing || avPlayer.timeControlStatus == .waitingToPlayAtSpecifiedRate {
+            avPlayer.pause()
+        }
+    }
+    
+    /**
      Will toggle playback.
      */
     public func togglePlaying() {
         switch avPlayer.timeControlStatus {
-        case .playing:
+        case .playing, .waitingToPlayAtSpecifiedRate:
             pause()
         case .paused:
             play()
@@ -173,20 +191,6 @@ public class AudioPlayer {
     // MARK: - Private
     
     /**
-     Start playback.
-     */
-    fileprivate func play() {
-        avPlayer.play()
-    }
-    
-    /**
-     Pause playback.
-     */
-    fileprivate func pause() {
-        avPlayer.pause()
-    }
-    
-    /**
      Reset to get ready for playing from a different source.
      */
     private func reset() {
@@ -232,9 +236,7 @@ extension AudioPlayer: AVPlayerObserverDelegate {
             break
 
         case .failed:
-            if let error = avPlayer.error {
-                self.delegate?.audioPlayer(failedWithError: error)
-            }
+            self.delegate?.audioPlayer(failedWithError: avPlayer.error)
             break
             
         case .unknown:
