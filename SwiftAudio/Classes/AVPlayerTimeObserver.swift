@@ -1,6 +1,6 @@
 //
 //  AudioPlayerTimeEventObserver.swift
-//  AudioPlayerTest
+//  SwiftAudio
 //
 //  Created by Jørgen Henrichsen on 09/03/2018.
 //  Copyright © 2018 Jørgen Henrichsen. All rights reserved.
@@ -12,7 +12,6 @@ import AVFoundation
 protocol AVPlayerTimeObserverDelegate: class {
     
     func audioDidStart()
-    func audioDidComplete()
     func timeEvent(time: CMTime)
     
 }
@@ -57,20 +56,15 @@ class AVPlayerTimeObserver {
         boundaryTimeStartObserverToken = player.addBoundaryTimeObserver(forTimes: startBoundaryTimes, queue: nil, using: { [weak self] in
             self?.delegate?.audioDidStart()
         })
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(didFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
     }
     
     /**
      Unregister from the boundary events of the player.
      */
     func unregisterForBoundaryTimeEvents() {
-        
         if let boundaryTimeStartObserverToken = boundaryTimeStartObserverToken {
             player.removeTimeObserver(boundaryTimeStartObserverToken)
         }
-        
-        NotificationCenter.default.removeObserver(self)
     }
     
     /**
@@ -93,8 +87,6 @@ class AVPlayerTimeObserver {
         }
     }
     
-    @objc private func didFinishPlaying() {
-        delegate?.audioDidComplete()
-    }
+
     
 }

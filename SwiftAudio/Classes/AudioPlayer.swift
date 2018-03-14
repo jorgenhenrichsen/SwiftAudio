@@ -1,6 +1,6 @@
 //
 //  AudioPlayer.swift
-//  AudioPlayerTest
+//  SwiftAudio
 //
 //  Created by Jørgen Henrichsen on 06/03/2018.
 //  Copyright © 2018 Jørgen Henrichsen. All rights reserved.
@@ -40,6 +40,7 @@ public class AudioPlayer {
     let avPlayer: AVPlayer
     let playerObserver: AVPlayerObserver
     let playerTimeObserver: AVPlayerTimeObserver
+    let playerItemNotificationObserver: AVPlayerItemNotificationObserver
     var _playWhenReady: Bool = true
     
     var currentAsset: AVAsset? {
@@ -106,9 +107,11 @@ public class AudioPlayer {
         self.config = config
         self.playerObserver = AVPlayerObserver(player: avPlayer)
         self.playerTimeObserver = AVPlayerTimeObserver(player: avPlayer, periodicObserverTimeInterval: config.timeEventFrequency.getTime())
+        self.playerItemNotificationObserver = AVPlayerItemNotificationObserver()
 
         self.playerObserver.delegate = self
         self.playerTimeObserver.delegate = self
+        self.playerItemNotificationObserver.delegate = self
         
         configureFromConfig()
         playerTimeObserver.registerForPeriodicTimeEvents()
@@ -185,6 +188,7 @@ public class AudioPlayer {
         // Register for events
         playerTimeObserver.registerForBoundaryTimeEvents()
         playerObserver.startObserving()
+        playerItemNotificationObserver.startObserving(item: currentItem)
         
     }
     
@@ -196,6 +200,7 @@ public class AudioPlayer {
     private func reset() {
         avPlayer.replaceCurrentItem(with: nil)
         playerTimeObserver.unregisterForBoundaryTimeEvents()
+        playerItemNotificationObserver.stopObservingCurrentItem()
     }
     
     /**
@@ -254,12 +259,18 @@ extension AudioPlayer: AVPlayerTimeObserverDelegate {
         self._state = .playing
     }
     
-    func audioDidComplete() {
-        delegate?.audioPlayerItemDidComplete()
-    }
-    
     func timeEvent(time: CMTime) {
         self.delegate?.audioPlayer(secondsElapsed: time.seconds)
+    }
+    
+}
+
+extension AudioPlayer: AVPlayerItemNotificationObserverDelegate {
+    
+    // MARK: - AVPlayerItemNotificationObserverDelegate
+    
+    func itemDidPlayToEndTime() {
+        delegate?.audioPlayerItemDidComplete()
     }
     
 }

@@ -1,6 +1,6 @@
 //
 //  TimeEventFrequency.swift
-//  Pods-SwiftAudio_Example
+//  SwiftAudio
 //
 //  Created by Jørgen Henrichsen on 11/03/2018.
 //

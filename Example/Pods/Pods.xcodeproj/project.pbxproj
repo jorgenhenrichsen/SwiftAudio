@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07D88139205902EA00F4E885 /* AVPlayerItemNotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FB54E520568B630049B508 /* AVPlayerItemNotificationObserver.swift */; };
 		07FB54E22055B1F40049B508 /* TimeEventFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FB54E12055B1F40049B508 /* TimeEventFrequency.swift */; };
 		1657E796FB2AF57A70B46B855708E31E /* AVPlayerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A491BDDB69C35E93E865E3184B18E /* AVPlayerObserver.swift */; };
 		3D134F244BA2063D3833DC8C74EDB489 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		0136A629F86E79FA6B68D9675E08D0AF /* Pods-SwiftAudio_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftAudio_Example-resources.sh"; sourceTree = "<group>"; };
 		07FB54E12055B1F40049B508 /* TimeEventFrequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeEventFrequency.swift; path = SwiftAudio/Classes/TimeEventFrequency.swift; sourceTree = "<group>"; };
+		07FB54E520568B630049B508 /* AVPlayerItemNotificationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayerItemNotificationObserver.swift; path = SwiftAudio/Classes/AVPlayerItemNotificationObserver.swift; sourceTree = "<group>"; };
 		0AC83F8F84F3F843896F4907ACFE3394 /* Pods-SwiftAudio_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftAudio_Tests-resources.sh"; sourceTree = "<group>"; };
 		198215D8EC1530861A8785AF9FC26AA8 /* Pods-SwiftAudio_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SwiftAudio_Tests.modulemap"; sourceTree = "<group>"; };
 		1B383967195D50E1E56C0D74932B9640 /* SwiftAudio.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftAudio.modulemap; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				B0AF719487FA9E4C3F8EB34465B1A8BA /* AudioPlayerState.swift */,
 				822A491BDDB69C35E93E865E3184B18E /* AVPlayerObserver.swift */,
 				86E42A45B2D1BA3CD8C0D167C6E5D524 /* AVPlayerTimeObserver.swift */,
+				07FB54E520568B630049B508 /* AVPlayerItemNotificationObserver.swift */,
 				07FB54E12055B1F40049B508 /* TimeEventFrequency.swift */,
 				381AFE73A72D7BE7A5B6138F1111E73B /* Support Files */,
 			);
@@ -358,6 +361,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D88139205902EA00F4E885 /* AVPlayerItemNotificationObserver.swift in Sources */,
 				4BAB7F38BC4C57085918A0D0D41B14EA /* AudioPlayer.swift in Sources */,
 				548D43589A9E62665BE67E6314F19CB6 /* AudioPlayerConfig.swift in Sources */,
 				95D0E8BC4D28FB95F630865CCAD8CAF5 /* AudioPlayerState.swift in Sources */,
