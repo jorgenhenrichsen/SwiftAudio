@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		07D88139205902EA00F4E885 /* AVPlayerItemNotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FB54E520568B630049B508 /* AVPlayerItemNotificationObserver.swift */; };
-		07FB54E22055B1F40049B508 /* TimeEventFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FB54E12055B1F40049B508 /* TimeEventFrequency.swift */; };
+		07D8813A205905CC00F4E885 /* TimeEventFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FB54E12055B1F40049B508 /* TimeEventFrequency.swift */; };
 		1657E796FB2AF57A70B46B855708E31E /* AVPlayerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A491BDDB69C35E93E865E3184B18E /* AVPlayerObserver.swift */; };
 		3D134F244BA2063D3833DC8C74EDB489 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		3FCC154E38BB2A28F3F95B418150C13B /* AVPlayerTimeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E42A45B2D1BA3CD8C0D167C6E5D524 /* AVPlayerTimeObserver.swift */; };
@@ -344,7 +344,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07FB54E22055B1F40049B508 /* TimeEventFrequency.swift in Sources */,
 				B71C8D5F86992E0CD87E5833E9FC78C8 /* Pods-SwiftAudio_Example-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,6 +366,7 @@
 				95D0E8BC4D28FB95F630865CCAD8CAF5 /* AudioPlayerState.swift in Sources */,
 				1657E796FB2AF57A70B46B855708E31E /* AVPlayerObserver.swift in Sources */,
 				3FCC154E38BB2A28F3F95B418150C13B /* AVPlayerTimeObserver.swift in Sources */,
+				07D8813A205905CC00F4E885 /* TimeEventFrequency.swift in Sources */,
 				DDF7FC8F9137584FEA0DB0B706EEC040 /* SwiftAudio-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
