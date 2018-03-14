@@ -66,22 +66,23 @@ extension ViewController: AudioPlayerDelegate {
     }
     
     func audioPlayerItemDidComplete() {
-        
+        print("Complete!")
     }
     
     func audioPlayer(secondsElapsed seconds: Double) {
         print(seconds)
         if !isScrubbing {
-            slider.setValue(Float(seconds), animated: true)
+            slider.setValue(Float(seconds), animated: false)
         }
     }
     
-    func audioPlayer(failedWithError error: Error) {
-        
-    }
     
     func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
         isScrubbing = false
+    }
+    
+    func audioPlayer(failedWithError error: Error?) {
+        
     }
     
 }
