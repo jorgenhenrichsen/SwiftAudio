@@ -144,7 +144,6 @@ public class AudioPlayer {
             pause()
         case .paused:
             play()
-        default: break
         }
     }
     
