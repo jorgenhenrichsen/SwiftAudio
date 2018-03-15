@@ -100,6 +100,10 @@ public class AudioPlayer {
         return seconds.isNaN ? 0 : seconds
     }
     
+    public var rate: Float {
+        return avPlayer.rate
+    }
+    
     // MARK: - Public Methods
     
     public init(config: Config) {
