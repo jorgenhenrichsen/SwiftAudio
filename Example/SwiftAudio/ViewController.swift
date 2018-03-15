@@ -44,8 +44,9 @@ class ViewController: UIViewController {
         try? player.load(from: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba")
         
         infoController.set(keyValues: [
-            MediaItemProperty.artist("This is the artis"),
-            MediaItemProperty.title("This is the tile of the item"),
+            MediaItemProperty.artist("Artist"),
+            MediaItemProperty.title("Title"),
+            MediaItemProperty.albumTitle("Album Title"),
             MediaItemProperty.artwork(artwork),
             ])
         

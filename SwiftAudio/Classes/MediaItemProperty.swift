@@ -29,12 +29,20 @@ public enum MediaItemProperty: NowPlayingInfoKeyValue {
      This property is unrelated to the MPMediaItemPropertyAlbumTitle property. Value is an NSString object.
      */
     case title(String)
+    
+    /**
+     The title of an album.
+     
+     This property contains the album title, such as “Live On Mars”, as opposed to the title of an individual song on the album, such as “Crater Dance (radio edit)” (which you specify using the MPMediaItemPropertyTitle property). Value is an NSString object.
+     */
+    case albumTitle(String)
 
     /**
      The playback duration of the media item.
      Value is an NSNumber object representing a duration in seconds as an TimeInterval.
      */
     case duration(TimeInterval)
+        
 
     /**
      The artwork image for the media item.
@@ -50,12 +58,15 @@ public enum MediaItemProperty: NowPlayingInfoKeyValue {
         case .title(_):
             return MPMediaItemPropertyTitle
             
+        case .albumTitle(_):
+            return MPMediaItemPropertyAlbumTitle
+            
         case .duration(_):
             return MPMediaItemPropertyPlaybackDuration
             
         case .artwork(_):
             return MPMediaItemPropertyArtwork
-            
+
         }
     }
 
@@ -66,7 +77,10 @@ public enum MediaItemProperty: NowPlayingInfoKeyValue {
             return NSString(string: artist)
             
         case .title(let title):
-            return title
+            return NSString(string: title)
+            
+        case .albumTitle(let title):
+            return NSString(string: title)
             
         case .duration(let duration):
             return NSNumber(floatLiteral: duration)
