@@ -160,7 +160,8 @@ public class AudioPlayer {
     }
     
     public func seek(to seconds: TimeInterval) {
-        let time = CMTime(seconds: seconds, preferredTimescale: 1)
+        let millis = Int64(seconds * 1000)
+        let time = CMTime(value: millis, timescale: 1000)
         avPlayer.seek(to: time) { (finished) in
             self.delegate?.audioPlayer(seekTo: Int(seconds), didFinish: finished)
         }
