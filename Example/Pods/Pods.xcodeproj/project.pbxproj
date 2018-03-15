@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		074B0C76205B08C70026566E /* MediaItemProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B0C73205B08C60026566E /* MediaItemProperty.swift */; };
+		074B0C77205B08C70026566E /* NowPlayingInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B0C74205B08C70026566E /* NowPlayingInfoController.swift */; };
+		074B0C78205B08C70026566E /* NowPlayingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B0C75205B08C70026566E /* NowPlayingInfo.swift */; };
 		07D88139205902EA00F4E885 /* AVPlayerItemNotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FB54E520568B630049B508 /* AVPlayerItemNotificationObserver.swift */; };
 		07D8813A205905CC00F4E885 /* TimeEventFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FB54E12055B1F40049B508 /* TimeEventFrequency.swift */; };
 		1657E796FB2AF57A70B46B855708E31E /* AVPlayerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A491BDDB69C35E93E865E3184B18E /* AVPlayerObserver.swift */; };
@@ -37,6 +40,9 @@
 
 /* Begin PBXFileReference section */
 		0136A629F86E79FA6B68D9675E08D0AF /* Pods-SwiftAudio_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftAudio_Example-resources.sh"; sourceTree = "<group>"; };
+		074B0C73205B08C60026566E /* MediaItemProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaItemProperty.swift; path = SwiftAudio/Classes/MediaItemProperty.swift; sourceTree = "<group>"; };
+		074B0C74205B08C70026566E /* NowPlayingInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingInfoController.swift; path = SwiftAudio/Classes/NowPlayingInfoController.swift; sourceTree = "<group>"; };
+		074B0C75205B08C70026566E /* NowPlayingInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingInfo.swift; path = SwiftAudio/Classes/NowPlayingInfo.swift; sourceTree = "<group>"; };
 		07FB54E12055B1F40049B508 /* TimeEventFrequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeEventFrequency.swift; path = SwiftAudio/Classes/TimeEventFrequency.swift; sourceTree = "<group>"; };
 		07FB54E520568B630049B508 /* AVPlayerItemNotificationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVPlayerItemNotificationObserver.swift; path = SwiftAudio/Classes/AVPlayerItemNotificationObserver.swift; sourceTree = "<group>"; };
 		0AC83F8F84F3F843896F4907ACFE3394 /* Pods-SwiftAudio_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftAudio_Tests-resources.sh"; sourceTree = "<group>"; };
@@ -156,6 +162,9 @@
 				86E42A45B2D1BA3CD8C0D167C6E5D524 /* AVPlayerTimeObserver.swift */,
 				07FB54E520568B630049B508 /* AVPlayerItemNotificationObserver.swift */,
 				07FB54E12055B1F40049B508 /* TimeEventFrequency.swift */,
+				074B0C73205B08C60026566E /* MediaItemProperty.swift */,
+				074B0C75205B08C70026566E /* NowPlayingInfo.swift */,
+				074B0C74205B08C70026566E /* NowPlayingInfoController.swift */,
 				381AFE73A72D7BE7A5B6138F1111E73B /* Support Files */,
 			);
 			name = SwiftAudio;
@@ -365,9 +374,12 @@
 				548D43589A9E62665BE67E6314F19CB6 /* AudioPlayerConfig.swift in Sources */,
 				95D0E8BC4D28FB95F630865CCAD8CAF5 /* AudioPlayerState.swift in Sources */,
 				1657E796FB2AF57A70B46B855708E31E /* AVPlayerObserver.swift in Sources */,
+				074B0C78205B08C70026566E /* NowPlayingInfo.swift in Sources */,
+				074B0C77205B08C70026566E /* NowPlayingInfoController.swift in Sources */,
 				3FCC154E38BB2A28F3F95B418150C13B /* AVPlayerTimeObserver.swift in Sources */,
 				07D8813A205905CC00F4E885 /* TimeEventFrequency.swift in Sources */,
 				DDF7FC8F9137584FEA0DB0B706EEC040 /* SwiftAudio-dummy.m in Sources */,
+				074B0C76205B08C70026566E /* MediaItemProperty.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

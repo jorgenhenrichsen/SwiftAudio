@@ -217,9 +217,15 @@
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = HPNZWPB9JK;
 						LastSwiftMigration = 0900;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = HPNZWPB9JK;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -551,6 +557,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 521F3AEC1228A2FA2637355F /* Pods-SwiftAudio_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = HPNZWPB9JK;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -572,6 +579,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C4C4423F4BAFCE03507BC386 /* Pods-SwiftAudio_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = HPNZWPB9JK;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
