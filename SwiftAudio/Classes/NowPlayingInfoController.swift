@@ -11,7 +11,7 @@ import MediaPlayer
 
 public protocol NowPlayingInfoKeyValue {
     func getKey() -> String
-    func getValue() -> Any
+    func getValue() -> Any?
 }
 
 /**
@@ -23,7 +23,7 @@ public class NowPlayingInfoController {
     
     var info: [String: Any]
     
-    public init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
+    public init(infoCenter: MPNowPlayingInfoCenter) {
         self.infoCenter = infoCenter
         self.info = [:]
     }
