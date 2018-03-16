@@ -7,6 +7,8 @@ target 'SwiftAudio_Example' do
   target 'SwiftAudio_Tests' do
     inherit! :search_paths
 
+    pod 'Quick'
+    pod 'Nimble'
     
   end
 end
