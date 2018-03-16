@@ -251,9 +251,7 @@ extension AudioManager: AudioPlayerDelegate {
     }
     
     public func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
-        if didFinish {
-            self.updatePlaybackValues()
-        }
+        self.updatePlaybackValues()
         self.delegate?.audioManager(seekTo: seconds, didFinish: didFinish)
     }
     

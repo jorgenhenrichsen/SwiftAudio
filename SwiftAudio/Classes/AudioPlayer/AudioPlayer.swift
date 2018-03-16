@@ -175,8 +175,13 @@ public class AudioPlayer {
         reset()
     }
     
+    /**
+     Seek to a point in the item.
+     
+     - parameter seconds: The point to move the player head, in seconds. If the given value is less than 0, 0 is used. If the value is larger than the duration, the duration is used.
+    */
     public func seek(to seconds: TimeInterval) {
-        let millis = Int64(seconds * 1000)
+        let millis = Int64(max(min(seconds, duration), 0) * 1000)
         let time = CMTime(value: millis, timescale: 1000)
         avPlayer.seek(to: time) { (finished) in
             self.delegate?.audioPlayer(seekTo: Int(seconds), didFinish: finished)
