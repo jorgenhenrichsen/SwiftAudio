@@ -132,7 +132,7 @@ public class AudioManager {
     }
     
     public func seek(to seconds: TimeInterval) {
-        self.audioPlayer.seek(to: seconds)
+        try? self.audioPlayer.seek(to: seconds)
     }
     
     func updatePlaybackValues() {
@@ -224,8 +224,13 @@ public class AudioManager {
     
     func handleChangePlaybackPositionCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let event = event as? MPChangePlaybackPositionCommandEvent {
-            self.seek(to: event.positionTime)
-            return MPRemoteCommandHandlerStatus.success
+            do {
+                try audioPlayer.seek(to: event.positionTime)
+                return MPRemoteCommandHandlerStatus.success
+            }
+            catch let error {
+                return getRemoteCommandHandlerStatus(forError: error)
+            }
         }
         return MPRemoteCommandHandlerStatus.commandFailed
     }

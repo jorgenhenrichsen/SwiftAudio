@@ -179,8 +179,12 @@ public class AudioPlayer {
      Seek to a point in the item.
      
      - parameter seconds: The point to move the player head, in seconds. If the given value is less than 0, 0 is used. If the value is larger than the duration, the duration is used.
+     - throws: `APError.PlaybackError`
     */
-    public func seek(to seconds: TimeInterval) {
+    public func seek(to seconds: TimeInterval) throws {
+        guard currentItem != nil else {
+            throw APError.PlaybackError.noLoadedItem
+        }
         let millis = Int64(max(min(seconds, duration), 0) * 1000)
         let time = CMTime(value: millis, timescale: 1000)
         avPlayer.seek(to: time) { (finished) in
