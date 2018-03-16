@@ -27,6 +27,10 @@ public struct APError {
         case invalidSourceUrl(String)
     }
     
+    enum PlaybackError: Error {
+        case noLoadedItem
+    }
+    
 }
 
 public class AudioPlayer {
@@ -123,31 +127,43 @@ public class AudioPlayer {
     
     /**
      Start playback.
+     
+     - throws: APError.PlaybackError
      */
-    public func play() {
+    public func play() throws {
         if avPlayer.timeControlStatus == .paused {
-            avPlayer.play()
+            if currentItem != nil {
+                avPlayer.play()
+                return
+            }
         }
+        throw APError.PlaybackError.noLoadedItem
     }
     
     /**
      Will pause playback.
+     
+     - throws: APError.PlaybackError
      */
-    public func pause() {
+    public func pause() throws {
         if avPlayer.timeControlStatus == .playing || avPlayer.timeControlStatus == .waitingToPlayAtSpecifiedRate {
-            avPlayer.pause()
+            if currentItem != nil {
+                avPlayer.pause()
+                return
+            }
         }
+        throw APError.PlaybackError.noLoadedItem
     }
     
     /**
      Will toggle playback.
      */
-    public func togglePlaying() {
+    public func togglePlaying() throws {
         switch avPlayer.timeControlStatus {
         case .playing, .waitingToPlayAtSpecifiedRate:
-            pause()
+            try pause()
         case .paused:
-            play()
+            try play()
         }
     }
     
@@ -155,7 +171,7 @@ public class AudioPlayer {
      Stop the player and remove the currently playing item.
      */
     public func stop() {
-        pause()
+        try? pause()
         reset()
     }
     
@@ -240,7 +256,7 @@ extension AudioPlayer: AVPlayerObserverDelegate {
             delegate?.audioPlayer(didChangeState: .ready)
             self._state = .ready
             if _playWhenReady {
-                self.play()
+                try? self.play()
             }
             break
 
@@ -274,26 +290,8 @@ extension AudioPlayer: AVPlayerItemNotificationObserverDelegate {
     // MARK: - AVPlayerItemNotificationObserverDelegate
     
     func itemDidPlayToEndTime() {
+        self.reset()
         delegate?.audioPlayerItemDidComplete()
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

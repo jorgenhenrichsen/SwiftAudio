@@ -59,6 +59,7 @@ public class AudioManager {
     
     let audioPlayer: AudioPlayer
     let nowPlayingInfoController: NowPlayingInfoController
+    let remoteCommandCenter: MPRemoteCommandCenter = MPRemoteCommandCenter.shared()
     
     public weak var delegate: AudioManagerDelegate?
     public var currentItem: AudioItem?
@@ -84,6 +85,8 @@ public class AudioManager {
         self.nowPlayingInfoController = NowPlayingInfoController(infoCenter: infoCenter)
         
         self.audioPlayer.delegate = self
+        
+        connectToCommandCenter()
     }
     
     public func load(item: AudioItem, playWhenReady: Bool = true) {
@@ -98,7 +101,15 @@ public class AudioManager {
     }
     
     public func togglePlaying() {
-        self.audioPlayer.togglePlaying()
+        try? self.audioPlayer.togglePlaying()
+    }
+    
+    public func play() {
+        try? self.audioPlayer.play()
+    }
+    
+    public func pause() {
+        try? self.audioPlayer.pause()
     }
     
     public func seek(to seconds: TimeInterval) {
@@ -111,6 +122,96 @@ public class AudioManager {
         nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.playbackRate(Double(audioPlayer.rate)))
     }
     
+    // MARK: - Remote Commands Handlers
+    
+    func connectToCommandCenter() {
+        self.remoteCommandCenter.playCommand.addTarget(handler: handlePlayCommand(event:))
+        self.remoteCommandCenter.pauseCommand.addTarget(handler: handlePauseCommand(event:))
+        self.remoteCommandCenter.togglePlayPauseCommand.addTarget(handler: handleTogglePlaybackCommand(event:))
+        self.remoteCommandCenter.stopCommand.addTarget(handler: handleStopCommand(event:))
+        self.remoteCommandCenter.skipForwardCommand.addTarget(handler: handleSkipForwardCommand(event:))
+        remoteCommandCenter.skipForwardCommand.preferredIntervals = [15]
+        self.remoteCommandCenter.skipBackwardCommand.addTarget(handler: handleSkipBackwardCommand(event:))
+        remoteCommandCenter.skipBackwardCommand.preferredIntervals = [15]
+        
+        self.remoteCommandCenter.changePlaybackPositionCommand.addTarget(handler: handleChangePlaybackPositionCommand(event:))
+    }
+    
+    func getRemoteCommandHandlerStatus(forError error: Error) -> MPRemoteCommandHandlerStatus {
+        if let error = error as? APError.PlaybackError {
+            switch error {
+            case .noLoadedItem:
+                return MPRemoteCommandHandlerStatus.noActionableNowPlayingItem
+            }
+        }
+        return MPRemoteCommandHandlerStatus.commandFailed
+    }
+    
+    func handlePlayCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        do {
+            try self.audioPlayer.play()
+            return MPRemoteCommandHandlerStatus.success
+        }
+        catch let error {
+            return getRemoteCommandHandlerStatus(forError: error)
+        }
+    }
+    
+    func handlePauseCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        do {
+            try self.audioPlayer.pause()
+            return MPRemoteCommandHandlerStatus.success
+        }
+        catch let error {
+            return getRemoteCommandHandlerStatus(forError: error)
+        }
+    }
+    
+    func handleTogglePlaybackCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        do {
+            try self.audioPlayer.togglePlaying()
+            return MPRemoteCommandHandlerStatus.success
+        }
+        catch let error {
+            return getRemoteCommandHandlerStatus(forError: error)
+        }
+    }
+    
+    func handleStopCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        self.audioPlayer.stop()
+        return MPRemoteCommandHandlerStatus.success
+    }
+    
+    func handleSkipForwardCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        if let command = event.command as? MPSkipIntervalCommand {
+            print(command)
+            if let interval = command.preferredIntervals.first {
+                print(interval)
+                self.seek(to: currentTime + interval.doubleValue)
+                return MPRemoteCommandHandlerStatus.success
+            }
+        }
+        
+        return MPRemoteCommandHandlerStatus.commandFailed
+    }
+    
+    func handleSkipBackwardCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        if let command = event.command as? MPSkipIntervalCommand {
+            if let interval = command.preferredIntervals.first {
+                self.seek(to: currentTime - interval.doubleValue)
+                return MPRemoteCommandHandlerStatus.success
+            }
+        }
+        return MPRemoteCommandHandlerStatus.commandFailed
+    }
+    
+    func handleChangePlaybackPositionCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        if let event = event as? MPChangePlaybackPositionCommandEvent {
+            self.seek(to: event.positionTime)
+            return MPRemoteCommandHandlerStatus.success
+        }
+        return MPRemoteCommandHandlerStatus.commandFailed
+    }
 }
 
 extension AudioManager: AudioPlayerDelegate {
@@ -133,6 +234,9 @@ extension AudioManager: AudioPlayerDelegate {
     }
     
     public func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
+        if didFinish {
+            self.updatePlaybackValues()
+        }
         self.delegate?.audioManager(seekTo: seconds, didFinish: didFinish)
     }
     
