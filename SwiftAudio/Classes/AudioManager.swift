@@ -184,9 +184,7 @@ public class AudioManager {
     
     func handleSkipForwardCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let command = event.command as? MPSkipIntervalCommand {
-            print(command)
             if let interval = command.preferredIntervals.first {
-                print(interval)
                 self.seek(to: currentTime + interval.doubleValue)
                 return MPRemoteCommandHandlerStatus.success
             }
