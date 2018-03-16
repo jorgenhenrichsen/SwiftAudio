@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func playA(_ sender: Any) {
-        let item = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba", artist: "Artist", title: "Title", albumTitle: "Album")
+        let item = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba", artist: "Artist", title: "Title", albumTitle: "Album", artwork: #imageLiteral(resourceName: "cover"))
         audioManager.load(item: item)
     }
     

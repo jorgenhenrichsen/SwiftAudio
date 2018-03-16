@@ -19,6 +19,8 @@ public protocol AudioItem {
     
     var albumTitle: String? { get }
     
+    func getArtwork(_ handler: (UIImage?) -> Void)
+    
 }
 
 public struct DefaultAudioItem: AudioItem {
@@ -31,11 +33,18 @@ public struct DefaultAudioItem: AudioItem {
     
     public var albumTitle: String?
     
-    public init(audioUrl: String, artist: String?, title: String?, albumTitle: String?) {
+    public var artwork: UIImage?
+    
+    public init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, artwork: UIImage?) {
         self.audioUrl = audioUrl
         self.artist = artist
         self.title = title
         self.albumTitle = albumTitle
+        self.artwork = artwork
+    }
+    
+    public func getArtwork(_ handler: (UIImage?) -> Void) {
+        handler(artwork)
     }
 }
 
@@ -98,6 +107,16 @@ public class AudioManager {
             MediaItemProperty.title(item.title),
             MediaItemProperty.albumTitle(item.albumTitle),
             ])
+        
+        item.getArtwork { (image) in
+            if let image = image {
+                let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (size) -> UIImage in
+                    return image
+                })
+                
+                nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
+            }
+        }
     }
     
     public func togglePlaying() {
