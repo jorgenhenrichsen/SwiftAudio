@@ -24,8 +24,8 @@ class AVPlayerTimeObserver {
     /// The time to use as start boundary time. Cannot be zero.
     private static let startBoundaryTime: CMTime = CMTime(value: 1, timescale: 1000)
     
-    private var boundaryTimeStartObserverToken: Any?
-    private var periodicTimeObserverToken: Any?
+    var boundaryTimeStartObserverToken: Any?
+    var periodicTimeObserverToken: Any?
     
     private let player: AVPlayer
     
@@ -64,6 +64,7 @@ class AVPlayerTimeObserver {
     func unregisterForBoundaryTimeEvents() {
         if let boundaryTimeStartObserverToken = boundaryTimeStartObserverToken {
             player.removeTimeObserver(boundaryTimeStartObserverToken)
+            self.boundaryTimeStartObserverToken = nil
         }
     }
     
@@ -84,6 +85,7 @@ class AVPlayerTimeObserver {
     func unregisterForPeriodicEvents() {
         if let periodicTimeObserverToken = periodicTimeObserverToken {
             self.player.removeTimeObserver(periodicTimeObserverToken)
+            self.periodicTimeObserverToken = nil
         }
     }
     

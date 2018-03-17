@@ -21,8 +21,8 @@ protocol AVPlayerItemNotificationObserverDelegate: class {
 class AVPlayerItemNotificationObserver {
     
     private let notificationCenter: NotificationCenter = NotificationCenter.default
-    private weak var observingItem: AVPlayerItem?
     
+    weak var observingItem: AVPlayerItem?
     weak var delegate: AVPlayerItemNotificationObserverDelegate?
     
     /**
@@ -48,7 +48,7 @@ class AVPlayerItemNotificationObserver {
     }
     
     @objc private func itemDidPlayToEndTime() {
-        
+        delegate?.itemDidPlayToEndTime()
     }
     
 }

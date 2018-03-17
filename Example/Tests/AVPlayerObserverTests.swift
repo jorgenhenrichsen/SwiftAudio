@@ -1,4 +1,3 @@
-import XCTest
 import Quick
 import Nimble
 import AVFoundation
@@ -12,26 +11,41 @@ class AVPlayerObserverTests: QuickSpec, AVPlayerObserverDelegate {
     var timeControlStatus: AVPlayerTimeControlStatus?
     
     override func spec() {
-        let player = AVPlayer()
-        let observer = AVPlayerObserver(player: player)
-        observer.delegate = self
-        observer.startObserving()
-        context("When observing is started") {
-            it("should have isObserving set to true", closure: {
-                expect(observer.isObserving).to(equal(true))
-            })
-        }
         
-        player.replaceCurrentItem(with: AVPlayerItem(asset: AVURLAsset(url: URL(string: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba")!)))
-        player.play()
-        
-        context("Player started playing") {
-            it("Should update the delegate", closure: {
-                expect(self.status).toEventuallyNot(beNil())
-                expect(self.timeControlStatus).toEventuallyNot(beNil())
-            })
-        }
+        describe("A player observer") {
+            
+            var player: AVPlayer!
+            var observer: AVPlayerObserver!
+            
+            beforeEach {
+                player = AVPlayer()
+                observer = AVPlayerObserver(player: player)
+                observer.delegate = self
+            }
+            
+            context("when observing has started", {
+                beforeEach {
+                    observer.startObserving()
+                }
                 
+                it("should be observing", closure: {
+                    expect(observer.isObserving).toEventually(beTrue())
+                })
+                
+                context("when player has started", {
+                    beforeEach {
+                        player.replaceCurrentItem(with: AVPlayerItem(asset: AVURLAsset(url: URL(string: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba")!)))
+                        player.play()
+                    }
+                    
+                    it("it should update the delegate", closure: {
+                        expect(self.status).toEventuallyNot(beNil())
+                        expect(self.timeControlStatus).toEventuallyNot(beNil())
+                    })
+                })
+            })
+            
+        }
     }
     
     func player(statusDidChange status: AVPlayerStatus) {

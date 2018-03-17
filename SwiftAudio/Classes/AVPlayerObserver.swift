@@ -36,10 +36,10 @@ class AVPlayerObserver: NSObject {
         static let timeControlStatus = #keyPath(AVPlayer.timeControlStatus)
     }
     
-    private let player: AVPlayer
+    let player: AVPlayer
     private let statusChangeOptions: NSKeyValueObservingOptions = [.new, .initial]
     private let timeControlStatusChangeOptions: NSKeyValueObservingOptions = [.new]
-    private var isObserving: Bool = false
+    var isObserving: Bool = false
     
     weak var delegate: AVPlayerObserverDelegate?
     
