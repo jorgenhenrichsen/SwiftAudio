@@ -20,6 +20,8 @@ class ViewController: UIViewController {
     var isScrubbing: Bool = false
     let audioSession = AVAudioSession.sharedInstance()
     var audioManager: AudioManager = AudioManager()
+    let localSource = DefaultAudioItem(audioUrl: Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!, artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .file, artwork: #imageLiteral(resourceName: "cover"))
+    let streamSource = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba", artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .stream, artwork: #imageLiteral(resourceName: "cover"))
     
     
     var artwork: MPMediaItemArtwork!
@@ -36,8 +38,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func playA(_ sender: Any) {
-        let item = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba", artist: "Artist", title: "Title", albumTitle: "Album", artwork: #imageLiteral(resourceName: "cover"))
-        audioManager.load(item: item)
+        audioManager.load(item: localSource)
     }
     
     
