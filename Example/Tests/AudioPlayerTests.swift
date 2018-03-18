@@ -97,29 +97,6 @@ class AudioPlayerTests: QuickSpec {
 
                 })
                 
-                context("when playing to the end of the track", {
-
-                    var holder: AudioPlayerDelegateHolder!
-                    var receivedIdleUpdate: Bool = false
-
-                    beforeEach {
-                        holder = AudioPlayerDelegateHolder()
-                        audioPlayer.delegate = holder
-                        holder.stateUpdate = { (state) in
-                            if state == .idle {
-                                receivedIdleUpdate = true
-                            }
-                        }
-                        try? audioPlayer.load(fromFilePath: shortSource, playWhenReady: true)
-                    }
-
-                    it("should eventually be idle", closure: {
-                        expect(receivedIdleUpdate).toEventually(beTrue(), timeout: 5.0, pollInterval: 1.0, description: nil)
-                    })
-
-                })
-                
-                
             })
         }
         
