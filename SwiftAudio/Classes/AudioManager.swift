@@ -51,6 +51,11 @@ public class AudioManager {
         return audioPlayer.state
     }
     
+    /**
+     Set this to false to disable automatic updating of now playing info for control center and lock screen.
+     */
+    public var automaticallyUpdateNowPlayingInfo: Bool = true
+    
     public init(config: AudioPlayer.Config = AudioPlayer.Config(), infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
         self.audioPlayer = AudioPlayer(config: config)
         self.nowPlayingInfoController = NowPlayingInfoController(infoCenter: infoCenter)
@@ -71,21 +76,8 @@ public class AudioManager {
         }
         
         self.currentItem = item
-        nowPlayingInfoController.set(keyValues: [
-            MediaItemProperty.artist(item.artist),
-            MediaItemProperty.title(item.title),
-            MediaItemProperty.albumTitle(item.albumTitle),
-            ])
-        
-        item.getArtwork { (image) in
-            if let image = image {
-                let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (size) -> UIImage in
-                    return image
-                })
-                
-                nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
-            }
-        }
+        set(item: item)
+        setArtwork(forItem: item)
     }
     
     public func togglePlaying() {
@@ -104,7 +96,32 @@ public class AudioManager {
         try? self.audioPlayer.seek(to: seconds)
     }
     
+    // MARK: - NowPlayingInfo
+    
+    func set(item: AudioItem) {
+        guard automaticallyUpdateNowPlayingInfo else { return }
+        nowPlayingInfoController.set(keyValues: [
+            MediaItemProperty.artist(item.artist),
+            MediaItemProperty.title(item.title),
+            MediaItemProperty.albumTitle(item.albumTitle),
+            ])
+    }
+    
+    func setArtwork(forItem item: AudioItem) {
+        guard automaticallyUpdateNowPlayingInfo else { return }
+        item.getArtwork { (image) in
+            if let image = image {
+                let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (size) -> UIImage in
+                    return image
+                })
+                
+                nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
+            }
+        }
+    }
+    
     func updatePlaybackValues() {
+        guard automaticallyUpdateNowPlayingInfo else { return }
         nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.elapsedPlaybackTime(audioPlayer.currentTime))
         nowPlayingInfoController.set(keyValue: MediaItemProperty.duration(audioPlayer.duration))
         nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.playbackRate(Double(audioPlayer.rate)))
