@@ -20,10 +20,11 @@ public protocol AudioManagerDelegate: class {
     func audioManager(failedWithError error: Error?)
     
     func audioManager(seekTo seconds: Int, didFinish: Bool)
+    
 }
 
 /**
- The class managing the AudioPlayern and NowPlayingInfoCenter.
+ The class managing the AudioPlayer and NowPlayingInfoCenter.
  */
 public class AudioManager {
     
