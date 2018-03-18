@@ -1,6 +1,6 @@
 //
 //  NowPlayingInfo.swift
-//  Pods-SwiftAudio_Example
+//  SwiftAudio
 //
 //  Created by Jørgen Henrichsen on 15/03/2018.
 //
