@@ -227,6 +227,7 @@ public class AudioPlayer {
      Reset to get ready for playing from a different source.
      */
     private func reset() {
+        _state = .idle
         avPlayer.replaceCurrentItem(with: nil)
         playerTimeObserver.unregisterForBoundaryTimeEvents()
         playerItemNotificationObserver.stopObservingCurrentItem()
@@ -239,6 +240,7 @@ public class AudioPlayer {
     private func configureFromConfig() {
         avPlayer.automaticallyWaitsToMinimizeStalling = config.automaticallyWaitsToMinimizeStalling
         playerTimeObserver.periodicObserverTimeInterval = config.timeEventFrequency.getTime()
+        avPlayer.volume = config.volume
     }
     
 }
@@ -262,7 +264,6 @@ extension AudioPlayer: AVPlayerObserverDelegate {
         switch status {
 
         case .readyToPlay:
-            delegate?.audioPlayer(didChangeState: .ready)
             self._state = .ready
             if _playWhenReady {
                 try? self.play()

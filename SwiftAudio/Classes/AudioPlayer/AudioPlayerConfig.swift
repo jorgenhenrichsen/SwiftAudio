@@ -40,6 +40,11 @@ extension AudioPlayer {
          */
         public var timeEventFrequency: TimeEventFrequency = .everySecond
         
+        /**
+         The audio players volume, from 0.0 to 1.0
+         Default is 1.0
+         */
+        public var volume: Float = 1.0
         
         public init() {}
     }
