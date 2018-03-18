@@ -8,6 +8,10 @@
 import Foundation
 import MediaPlayer
 
+public enum SourceType {
+    case stream
+    case file
+}
 
 public protocol AudioItem {
     
@@ -18,6 +22,8 @@ public protocol AudioItem {
     var title: String? { get }
     
     var albumTitle: String? { get }
+    
+    var sourceType: SourceType { get }
     
     func getArtwork(_ handler: (UIImage?) -> Void)
     
@@ -33,13 +39,16 @@ public struct DefaultAudioItem: AudioItem {
     
     public var albumTitle: String?
     
+    public var sourceType: SourceType
+    
     public var artwork: UIImage?
     
-    public init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, artwork: UIImage?) {
+    public init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, sourceType: SourceType, artwork: UIImage?) {
         self.audioUrl = audioUrl
         self.artist = artist
         self.title = title
         self.albumTitle = albumTitle
+        self.sourceType = sourceType
         self.artwork = artwork
     }
     
@@ -99,7 +108,14 @@ public class AudioManager {
     }
     
     public func load(item: AudioItem, playWhenReady: Bool = true) {
-        try? self.audioPlayer.load(from: item.audioUrl, playWhenReady: playWhenReady)
+        
+        switch item.sourceType {
+        case .stream:
+            try? self.audioPlayer.load(fromUrlString: item.audioUrl, playWhenReady: playWhenReady)
+        case .file:
+            print(item.audioUrl)
+            try? self.audioPlayer.load(fromFilePath: item.audioUrl, playWhenReady: playWhenReady)
+        }
         
         self.currentItem = item
         nowPlayingInfoController.set(keyValues: [

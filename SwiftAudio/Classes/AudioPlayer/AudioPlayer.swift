@@ -193,19 +193,36 @@ public class AudioPlayer {
     }
     
     /**
-     Load an item.
+     Load an item from a URL string. Use this when streaming sound.
      
-     - parameter source: The AudioSource to load the item from.
+     - parameter urlString: The AudioSource to load the item from.
      - parameter playWhenReady: Whether playback should start immediately when the item is ready. Default is `true`
      */
-    public func load(from urlString: String, playWhenReady: Bool = true) throws {
-        
-        reset()
+    public func load(fromUrlString urlString: String, playWhenReady: Bool = true) throws {
         
         guard let url = URL(string: urlString) else {
             throw APError.LoadError.invalidSourceUrl(urlString)
         }
         
+        self.load(from: url, playWhenReady: playWhenReady)
+    }
+    
+    /**
+     Load an item from a file. Use this when playing local.
+     
+     - parameter filePath: The path to the sound file.
+     - parameter playWhenReady: Whether playback should start immediately when the item is ready. Default is `true`
+     */
+    public func load(fromFilePath filePath: String, playWhenReady: Bool = true) throws {
+        let url = URL(fileURLWithPath: filePath)
+        self.load(from: url, playWhenReady: playWhenReady)
+    }
+    
+    // MARK: - Private
+    
+    private func load(from url: URL, playWhenReady: Bool) {
+        
+        reset()
         _playWhenReady = playWhenReady
         
         // Set item
@@ -218,16 +235,12 @@ public class AudioPlayer {
         playerTimeObserver.registerForBoundaryTimeEvents()
         playerObserver.startObserving()
         playerItemNotificationObserver.startObserving(item: currentItem)
-        
     }
-    
-    // MARK: - Private
     
     /**
      Reset to get ready for playing from a different source.
      */
     private func reset() {
-        _state = .idle
         avPlayer.replaceCurrentItem(with: nil)
         playerTimeObserver.unregisterForBoundaryTimeEvents()
         playerItemNotificationObserver.stopObservingCurrentItem()
@@ -252,7 +265,12 @@ extension AudioPlayer: AVPlayerObserverDelegate {
     func player(didChangeTimeControlStatus status: AVPlayerTimeControlStatus) {
         switch status {
         case .paused:
-            self._state = .paused
+            if currentItem == nil {
+                _state = .idle
+            }
+            else {
+                self._state = .paused
+            }
         case .waitingToPlayAtSpecifiedRate:
             self._state = .loading
         case .playing:
