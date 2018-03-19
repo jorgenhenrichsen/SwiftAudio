@@ -5,11 +5,14 @@
 [![License](https://img.shields.io/cocoapods/l/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
 
+SwiftAudio aims to make audio playback easier on iOS. No more boundaryTimeObserver, periodicTimeObserver, KVO and NotificationCenter to get state update from the player. It also updates NowPlayingInfo for you and handles remote events.
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+iOS 10.0+
 
 ## Installation
 
@@ -24,8 +27,7 @@ pod 'SwiftAudio'
 
 Using the AudioManager:
 ```swift
-let config = AudioPlayer.Config()
-let player = AudioManager(config: config)
+let manager = AudioManager()
 player.load(item: DefaultAudioItem(audioUrl: "someUrl",
             artist: "Artist",
             title: "Title",
@@ -33,7 +35,7 @@ player.load(item: DefaultAudioItem(audioUrl: "someUrl",
             sourceType: .stream,
             artwork: UIImage(named: "artwork"))
 ```
-The player will load the track and start playing when ready.
+The manager will load the track and start playing when ready.
 The `AudioManager` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time etc.
 It will also handle remote events received from `MPRemoteCommandCenter`'s shared instance.
 
@@ -74,12 +76,24 @@ public enum AudioPlayerState: String {
 }
 ```
 
+## Configuration
 
+If you need to configure the behaviour of the underlying `AudioPlayer` create your own instance and pass it in to the AudioManager:
+```swift
+let config = AudioPlayer.Config()
+let player = AudioPlayer(config: config)
+let manager = AudioManager(audioPlayer: player)
+```
 
+In the config you can configure paramters for the player. Look in [AudioPlayer.Config](SwiftAudio/Classes/AudioPlayer/AudioPlayerConfig.swift) for details. If you need to configure the player later, just keep a reference to it and change the property in the player's config.
+
+## Plans
+* More configuration on the RemoteHandlerEvents
+* Ability to queue items
 
 ## Author
 
-Jørgen Henrichsen, jh.henrichs@gmail.com
+Jørgen Henrichsen
 
 ## License
 
