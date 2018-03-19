@@ -27,65 +27,45 @@ pod 'SwiftAudio'
 
 Using the AudioManager:
 ```swift
-let manager = AudioManager()
-player.load(item: DefaultAudioItem(audioUrl: "someUrl",
-            artist: "Artist",
-            title: "Title",
-            albumTitle: "Album",
-            sourceType: .stream,
-            artwork: UIImage(named: "artwork"))
+let player = AudioPlayer()
+let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
+player.load(item: audioItem)
 ```
-The manager will load the track and start playing when ready.
-The `AudioManager` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time etc.
-It will also handle remote events received from `MPRemoteCommandCenter`'s shared instance.
-
-To get notified of events during playback and loading, implement `AudioManagerDelegate`.
-The player will notify you with changes:
+The player will load the track and start playing when ready.
+The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time etc.
+To enable this behaviour the AudioItems supplied to the player must supply these values.
+You must also remember to set a AudioSessionCategory that supports this behaviour, and activate the session:
 ```swift
-func audioManager(playerDidChangeState state: AudioPlayerState)
-
-func audioManagerItemDidComplete()
-
-func audioManager(secondsElapsed seconds: Double)
-
-func audioManager(failedWithError error: Error?)
-
-func audioManager(seekTo seconds: Int, didFinish: Bool)
+try? AudioSessionController.set(category: .playback)
+//...
+// You should wait with activating the session until you actually start playback of audio.
+// This is to avoid interrupting other audio without the need to do it.
+try? AudioSessionController.activateSession()
 ```
+If you want audio to continue playing when the app is closed or phone locked remember to activate background audio:
+App Settings -> Capabilities -> Background Modes -> Check 'Audio, AirPlay, and Picture in Picture'
 
-The states of the player:
-```swift
-public enum AudioPlayerState: String {
-    
-    /// The current item is set, and the player is ready to start loading (buffering).
-    /// Call play() to start loading.
-    case ready
-    
-    /// The current item is loading, getting ready to play.
-    case loading
-    
-    /// The player is paused.
-    case paused
-    
-    /// The player is playing.
-    case playing
-    
-    /// No item loaded, the player is stopped.
-    case idle
-    
-}
-```
+The player will also handle remote events received from `MPRemoteCommandCenter`'s shared instance. To enable this, you have to go to App Settings -> Capabilites -> Background Modes -> Check 'Remote notifications'
+
+To get notified of events during playback and loading, implement `AudioPlayerDelegate`
+The player will notify you with changes.
+
+### States
+The `AudioPlayer` has a `state` property, to make it easier to determine appropriate actions. The delegate will be called when the state is updated.
++ **idle**: The player is doing nothing, no item is set as current. This is the default state.
++ **ready**: The player has its current item set and is ready to start loading for playback. This is when you can call `play()` if you supplied `playWhenReady=false` when calling `load(item:playWhenReady)`.
++ **loading**: The player is loading the track and will start playback soon.
++ **playing**: The player is playing.
++ **paused**: The player is paused.
 
 ## Configuration
 
-If you need to configure the behaviour of the underlying `AudioPlayer` create your own instance and pass it in to the AudioManager:
-```swift
-let config = AudioPlayer.Config()
-let player = AudioPlayer(config: config)
-let manager = AudioManager(audioPlayer: player)
-```
-
-In the config you can configure paramters for the player. Look in [AudioPlayer.Config](SwiftAudio/Classes/AudioPlayer/AudioPlayerConfig.swift) for details. If you need to configure the player later, just keep a reference to it and change the property in the player's config.
+Currently some configuration options are supported:
++ `automaticallyWaitsToMinimizeStalling`: Whether the player should delay playback start to minimize stalling. If you are streaming large audio files and playback start is slow, it can help to set this to `false`. Default is `true`.
++ `bufferDuration`: The amount of seconds to be buffered by the player. Does not have any effect if `automaticallyWaitsToMinimizeStalling` is set to `true`.
++ `timeEventFrequency`: This decides how ofen the delegate should be notified that a time unit elapsed in the playback.
++ `volume`: The volume of the player. From 0.0 to 1.0.
++ `automaticallyUpdateNowPlayingInfo`: If you want to handle updating of the `MPNowPlayingInfoCenter` yourself, set this to `false`. Default is `true`.
 
 ## Plans
 * More configuration on the RemoteHandlerEvents
