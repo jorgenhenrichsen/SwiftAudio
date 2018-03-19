@@ -4,50 +4,49 @@ import Nimble
 @testable import SwiftAudio
 
 
-class AudioPlayerTests: QuickSpec {
-    
-    
+class AVPlayerWrapperTests: QuickSpec {
+
+
     override func spec() {
-        
+
         let source = Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!
         let shortSource = Bundle.main.path(forResource: "nasa_throttle_up", ofType: "mp3")!
-        
-        describe("An AudioPlayer") {
-            
-            var audioPlayer: AudioPlayer!
-            
+
+        describe("An AVPlayerWrapper") {
+
+            var wrapper: AVPlayerWrapper!
+
             beforeEach {
-                var config = AudioPlayer.Config()
-                config.automaticallyWaitsToMinimizeStalling = false
-                config.volume = 0.0
-                audioPlayer = AudioPlayer(config: config)
+                wrapper = AVPlayerWrapper()
+                wrapper.automaticallyWaitsToMinimizeStalling = false
+                wrapper.volume = 0.0
             }
-            
+
             describe("its state", {
-                
+
                 context("when doing nothing", {
                     it("should be idle", closure: {
-                        expect(audioPlayer.state).to(equal(AudioPlayerState.idle))
+                        expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
                     })
                 })
-                
+
                 context("when loading a source", {
                     beforeEach {
-                        try? audioPlayer.load(fromFilePath: source, playWhenReady: false)
+                        try? wrapper.load(fromFilePath: source, playWhenReady: false)
                     }
-                    
+
                     it("should eventually be ready", closure: {
-                        expect(audioPlayer.state).toEventually(equal(AudioPlayerState.ready))
+                        expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.ready))
                     })
                 })
-                
+
                 context("when playing a source", {
                     beforeEach {
-                        try? audioPlayer.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
                     }
 
                     it("should eventually be playing", closure: {
-                        expect(audioPlayer.state).toEventually(equal(AudioPlayerState.playing))
+                        expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.playing))
                     })
 
                 })
@@ -57,17 +56,17 @@ class AudioPlayerTests: QuickSpec {
                     let holder = AudioPlayerDelegateHolder()
 
                     beforeEach {
-                        audioPlayer.delegate = holder
+                        wrapper.delegate = holder
                         holder.stateUpdate = { (state) in
                             if state == .playing {
-                                try? audioPlayer.pause()
+                                try? wrapper.pause()
                             }
                         }
-                        try? audioPlayer.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
                     }
 
                     it("should eventually be paused", closure: {
-                        expect(audioPlayer.state).toEventually(equal(AudioPlayerState.paused))
+                        expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.paused))
                     })
 
                 })
@@ -79,16 +78,16 @@ class AudioPlayerTests: QuickSpec {
 
                     beforeEach {
                         holder = AudioPlayerDelegateHolder()
-                        audioPlayer.delegate = holder
+                        wrapper.delegate = holder
                         holder.stateUpdate = { (state) in
                             if state == .playing {
-                                audioPlayer.stop()
+                                wrapper.stop()
                             }
                             if state == .idle {
                                 receivedIdleUpdate = true
                             }
                         }
-                        try? audioPlayer.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
                     }
 
                     it("should eventually be 'idle'", closure: {
@@ -96,17 +95,19 @@ class AudioPlayerTests: QuickSpec {
                     })
 
                 })
-                
+
             })
         }
-        
+
     }
-    
+
 }
 
-class AudioPlayerDelegateHolder: AudioPlayerDelegate {
+class AudioPlayerDelegateHolder: AVPlayerWrapperDelegate {
+
     
-    var state: AudioPlayerState? {
+    
+    var state: AVPlayerWrapperState? {
         didSet {
             if let state = state {
                 self.stateUpdate?(state)
@@ -114,27 +115,27 @@ class AudioPlayerDelegateHolder: AudioPlayerDelegate {
         }
     }
     
-    var stateUpdate: ((_ state: AudioPlayerState) -> Void)?
+    var stateUpdate: ((_ state: AVPlayerWrapperState) -> Void)?
     var itemDidComplete: (() -> Void)?
     
-    func audioPlayer(didChangeState state: AudioPlayerState) {
+    func AVWrapper(didChangeState state: AVPlayerWrapperState) {
         self.state = state
     }
     
-    func audioPlayerItemDidComplete() {
+    func AVWrapperItemDidComplete() {
         
     }
     
-    func audioPlayer(secondsElapsed seconds: Double) {
+    func AVWrapper(secondsElapsed seconds: Double) {
         
     }
     
-    func audioPlayer(failedWithError error: Error?) {
+    func AVWrapper(failedWithError error: Error?) {
         
     }
     
-    func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
-        
+    func AVWrapper(seekTo seconds: Int, didFinish: Bool) {
+         
     }
     
 }

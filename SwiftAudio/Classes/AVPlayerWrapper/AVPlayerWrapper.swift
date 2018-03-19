@@ -1,5 +1,5 @@
 //
-//  AudioPlayer.swift
+//  AVPlayerWrapper.swift
 //  SwiftAudio
 //
 //  Created by Jørgen Henrichsen on 06/03/2018.
@@ -11,13 +11,13 @@ import AVFoundation
 import MediaPlayer
 
 
-protocol AudioPlayerDelegate: class {
+protocol AVPlayerWrapperDelegate: class {
     
-    func audioPlayer(didChangeState state: AudioPlayerState)
-    func audioPlayerItemDidComplete()
-    func audioPlayer(secondsElapsed seconds: Double)
-    func audioPlayer(failedWithError error: Error?)
-    func audioPlayer(seekTo seconds: Int, didFinish: Bool)
+    func AVWrapper(didChangeState state: AVPlayerWrapperState)
+    func AVWrapperItemDidComplete()
+    func AVWrapper(secondsElapsed seconds: Double)
+    func AVWrapper(failedWithError error: Error?)
+    func AVWrapper(seekTo seconds: Int, didFinish: Bool)
     
 }
 
@@ -33,40 +33,18 @@ public struct APError {
     
 }
 
-public class AudioPlayer {
+class AVPlayerWrapper {
     
     struct Constants {
         static let assetPlayableKey = "playable"
     }
     
-    // MARK: - Internal Properties
+    // MARK: - Properties
     
     let avPlayer: AVPlayer
     let playerObserver: AVPlayerObserver
     let playerTimeObserver: AVPlayerTimeObserver
     let playerItemNotificationObserver: AVPlayerItemNotificationObserver
-    var _playWhenReady: Bool = true
-    
-    var currentAsset: AVAsset? {
-        return currentItem?.asset
-    }
-    
-    var currentItem: AVPlayerItem? {
-        return avPlayer.currentItem
-    }
-    
-    var _state: AudioPlayerState = AudioPlayerState.idle {
-        didSet {
-            self.delegate?.audioPlayer(didChangeState: _state)
-        }
-    }
-    
-    // MARK: - Public Properties
-    
-    /**
-     The delegate receiving events.
-     */
-    weak var delegate: AudioPlayerDelegate?
     
     /**
      True if the last call to load(from:playWhenReady) had playWhenReady=true.
@@ -74,17 +52,39 @@ public class AudioPlayer {
      */
     var playWhenReady: Bool { return _playWhenReady }
     
-    /**
-     The current config.
-     */
-    var config: Config {
-        didSet { self.configureFromConfig() }
-    }
+    private var _playWhenReady: Bool = true
     
     /**
      The current `AudioPlayerState` of the player.
      */
-    var state: AudioPlayerState { return _state }
+    var state: AVPlayerWrapperState { return _state }
+    
+    fileprivate var _state: AVPlayerWrapperState = AVPlayerWrapperState.idle {
+        didSet {
+            self.delegate?.AVWrapper(didChangeState: _state)
+        }
+    }
+    
+    /**
+     The delegate receiving events.
+     */
+    weak var delegate: AVPlayerWrapperDelegate?
+    
+    // MARK: - AVPlayer Get Properties
+    
+    /**
+     The AVAsset for the currentItem.
+    */
+    var currentAsset: AVAsset? {
+        return currentItem?.asset
+    }
+    
+    /**
+     The current item of the AVPlayer.
+     */
+    var currentItem: AVPlayerItem? {
+        return avPlayer.currentItem
+    }
     
     /**
      The duration of the current item.
@@ -104,24 +104,70 @@ public class AudioPlayer {
         return seconds.isNaN ? 0 : seconds
     }
     
+    /**
+     The rate of the AVPlayer
+     */
     var rate: Float {
         return avPlayer.rate
     }
     
+    // MARK: - AVPlayer Config Properties
+    
+    /**
+     Indicates wether the player should automatically delay playback in order to minimize stalling.
+     [Read more from Apple Documentation](https://developer.apple.com/documentation/avfoundation/avplayer/1643482-automaticallywaitstominimizestal)
+     */
+    var automaticallyWaitsToMinimizeStalling: Bool {
+        get { return avPlayer.automaticallyWaitsToMinimizeStalling }
+        set { avPlayer.automaticallyWaitsToMinimizeStalling }
+    }
+    
+    /**
+     The amount of seconds to be buffered by the player. Default value is 0 seconds, this means the AVPlayer will choose an appropriate level of buffering.
+     
+     [Read more from Apple Documentation](https://developer.apple.com/documentation/avfoundation/avplayeritem/1643630-preferredforwardbufferduration)
+     
+     - Important: This setting will have no effect if `automaticallyWaitsToMinimizeStalling` is set to `true`
+     */
+    var bufferDuration: TimeInterval
+    
+    /**
+     Set this to decide how often the player should call the delegate with time progress events.
+     */
+    var timeEventFrequency: TimeEventFrequency {
+        didSet {
+            playerTimeObserver.periodicObserverTimeInterval = timeEventFrequency.getTime()
+        }
+    }
+    
+    /**
+     The player volume, from 0.0 to 1.0
+     Default is 1.0
+     */
+    public var volume: Float {
+        didSet {
+            avPlayer.volume = volume
+        }
+    }
+    
     // MARK: - Public Methods
     
-    public init(config: Config) {
+    public init(timeEventFrequency: TimeEventFrequency =  .everySecond) {
+        
         self.avPlayer = AVPlayer()
-        self.config = config
         self.playerObserver = AVPlayerObserver(player: avPlayer)
-        self.playerTimeObserver = AVPlayerTimeObserver(player: avPlayer, periodicObserverTimeInterval: config.timeEventFrequency.getTime())
+        self.playerTimeObserver = AVPlayerTimeObserver(player: avPlayer, periodicObserverTimeInterval: timeEventFrequency.getTime())
         self.playerItemNotificationObserver = AVPlayerItemNotificationObserver()
 
+        self.automaticallyWaitsToMinimizeStalling = true
+        self.bufferDuration = 0
+        self.timeEventFrequency = timeEventFrequency
+        self.volume = 1.0
+        
         self.playerObserver.delegate = self
         self.playerTimeObserver.delegate = self
         self.playerItemNotificationObserver.delegate = self
         
-        configureFromConfig()
         playerTimeObserver.registerForPeriodicTimeEvents()
     }
     
@@ -188,7 +234,7 @@ public class AudioPlayer {
         let millis = Int64(max(min(seconds, duration), 0) * 1000)
         let time = CMTime(value: millis, timescale: 1000)
         avPlayer.seek(to: time) { (finished) in
-            self.delegate?.audioPlayer(seekTo: Int(seconds), didFinish: finished)
+            self.delegate?.AVWrapper(seekTo: Int(seconds), didFinish: finished)
         }
     }
     
@@ -228,7 +274,7 @@ public class AudioPlayer {
         // Set item
         let currentAsset = AVURLAsset(url: url)
         let currentItem = AVPlayerItem(asset: currentAsset, automaticallyLoadedAssetKeys: [Constants.assetPlayableKey])
-        currentItem.preferredForwardBufferDuration = config.bufferDuration
+        currentItem.preferredForwardBufferDuration = bufferDuration
         avPlayer.replaceCurrentItem(with: currentItem)
         
         // Register for events
@@ -246,19 +292,9 @@ public class AudioPlayer {
         playerItemNotificationObserver.stopObservingCurrentItem()
     }
     
-    /**
-     Will configure the player frmo the current config.
-     Called when the config changes.
-     */
-    private func configureFromConfig() {
-        avPlayer.automaticallyWaitsToMinimizeStalling = config.automaticallyWaitsToMinimizeStalling
-        playerTimeObserver.periodicObserverTimeInterval = config.timeEventFrequency.getTime()
-        avPlayer.volume = config.volume
-    }
-    
 }
 
-extension AudioPlayer: AVPlayerObserverDelegate {
+extension AVPlayerWrapper: AVPlayerObserverDelegate {
     
     // MARK: - AVPlayerObserverDelegate
     
@@ -289,7 +325,7 @@ extension AudioPlayer: AVPlayerObserverDelegate {
             break
 
         case .failed:
-            self.delegate?.audioPlayer(failedWithError: avPlayer.error)
+            self.delegate?.AVWrapper(failedWithError: avPlayer.error)
             break
             
         case .unknown:
@@ -299,7 +335,7 @@ extension AudioPlayer: AVPlayerObserverDelegate {
     
 }
 
-extension AudioPlayer: AVPlayerTimeObserverDelegate {
+extension AVPlayerWrapper: AVPlayerTimeObserverDelegate {
     
     // MARK: - AVPlayerTimeObserverDelegate
     
@@ -308,18 +344,18 @@ extension AudioPlayer: AVPlayerTimeObserverDelegate {
     }
     
     func timeEvent(time: CMTime) {
-        self.delegate?.audioPlayer(secondsElapsed: time.seconds)
+        self.delegate?.AVWrapper(secondsElapsed: time.seconds)
     }
     
 }
 
-extension AudioPlayer: AVPlayerItemNotificationObserverDelegate {
+extension AVPlayerWrapper: AVPlayerItemNotificationObserverDelegate {
     
     // MARK: - AVPlayerItemNotificationObserverDelegate
     
     func itemDidPlayToEndTime() {
         self.reset()
-        delegate?.audioPlayerItemDidComplete()
+        delegate?.AVWrapperItemDidComplete()
     }
     
 }

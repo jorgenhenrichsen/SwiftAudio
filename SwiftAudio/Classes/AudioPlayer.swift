@@ -1,5 +1,5 @@
 //
-//  AudioManager.swift
+//  AudioPlayer.swift
 //  SwiftAudio
 //
 //  Created by Jørgen Henrichsen on 15/03/2018.
@@ -8,65 +8,107 @@
 import Foundation
 import MediaPlayer
 
+public typealias AudioPlayerState = AVPlayerWrapperState
 
-public protocol AudioManagerDelegate: class {
+public protocol AudioPlayerDelegate: class {
     
-    func audioManager(playerDidChangeState state: AudioPlayerState)
+    func audioPlayer(playerDidChangeState state: AudioPlayerState)
     
-    func audioManagerItemDidComplete()
+    func audioPlayerItemDidComplete()
     
-    func audioManager(secondsElapsed seconds: Double)
+    func audioPlayer(secondsElapsed seconds: Double)
     
-    func audioManager(failedWithError error: Error?)
+    func audioPlayer(failedWithError error: Error?)
     
-    func audioManager(seekTo seconds: Int, didFinish: Bool)
+    func audioPlayer(seekTo seconds: Int, didFinish: Bool)
     
 }
 
-/**
- The class managing the AudioPlayer and NowPlayingInfoCenter.
- */
-public class AudioManager {
+public class AudioPlayer {
     
-    let audioPlayer: AudioPlayer
+    let wrapper: AVPlayerWrapper
     let nowPlayingInfoController: NowPlayingInfoController
     let remoteCommandCenter: MPRemoteCommandCenter = MPRemoteCommandCenter.shared()
     
-    public weak var delegate: AudioManagerDelegate?
+    public weak var delegate: AudioPlayerDelegate?
     public var currentItem: AudioItem?
+    
+    /**
+     Set this to false to disable automatic updating of now playing info for control center and lock screen.
+     */
+    public var automaticallyUpdateNowPlayingInfo: Bool = true
+    
+    // MARK: - Getters from AVPlayerWrapper
     
     /**
      The elapsed playback time of the current item.
      */
     public var currentTime: Double {
-        return audioPlayer.currentTime
+        return wrapper.currentTime
     }
     
     /**
      The duration of the current AudioItem.
      */
     public var duration: Double {
-        return audioPlayer.duration
+        return wrapper.duration
     }
     
     /**
      The current rate of the underlying `AudioPlayer`.
      */
     public var rate: Float {
-        return audioPlayer.rate
+        return wrapper.rate
     }
     
     /**
      The current state of the underlying `AudioPlayer`.
      */
     public var playerState: AudioPlayerState {
-        return audioPlayer.state
+        return wrapper.state
+    }
+    
+    // MARK: - Setters for AVPlayerWrapper
+    
+    /**
+     Indicates wether the player should automatically delay playback in order to minimize stalling.
+     [Read more from Apple Documentation](https://developer.apple.com/documentation/avfoundation/avplayer/1643482-automaticallywaitstominimizestal)
+     */
+    var automaticallyWaitsToMinimizeStalling: Bool {
+        get { return wrapper.automaticallyWaitsToMinimizeStalling }
+        set { wrapper.automaticallyWaitsToMinimizeStalling = newValue }
     }
     
     /**
-     Set this to false to disable automatic updating of now playing info for control center and lock screen.
+     The amount of seconds to be buffered by the player. Default value is 0 seconds, this means the AVPlayer will choose an appropriate level of buffering.
+     
+     [Read more from Apple Documentation](https://developer.apple.com/documentation/avfoundation/avplayeritem/1643630-preferredforwardbufferduration)
+     
+     - Important: This setting will have no effect if `automaticallyWaitsToMinimizeStalling` is set to `true`
      */
-    public var automaticallyUpdateNowPlayingInfo: Bool = true
+    var bufferDuration: TimeInterval {
+        get { return wrapper.bufferDuration }
+        set { wrapper.bufferDuration = newValue }
+    }
+    
+    /**
+     Set this to decide how often the player should call the delegate with time progress events.
+     */
+    var timeEventFrquency: TimeEventFrequency {
+        get { return wrapper.timeEventFrequency }
+        set { wrapper.timeEventFrequency = newValue }
+    }
+    
+    /**
+     The player volume, from 0.0 to 1.0
+     Default is 1.0
+     */
+    var volume: Float {
+        get { wrapper.volume }
+        set { wrapper.volume = newValue }
+    }
+    
+    // MARK: - Public Methods
     
     /**
      Create a new AudioManager.
@@ -74,11 +116,11 @@ public class AudioManager {
      - parameter audioPlayer: The underlying AudioPlayer instance for the Manager. If you need to configure the behaviour of the player, create an instance, configure it and pass it in here.
      - parameter infoCenter: The InfoCenter to update. Default is `MPNowPlayingInfoCenter.default()`.
      */
-    public init(audioPlayer: AudioPlayer = AudioPlayer(config: AudioPlayer.Config()), infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
-        self.audioPlayer = audioPlayer
+    public init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
+        self.wrapper = AVPlayerWrapper()
         self.nowPlayingInfoController = NowPlayingInfoController(infoCenter: infoCenter)
         
-        self.audioPlayer.delegate = self
+        self.wrapper.delegate = self
         
         connectToCommandCenter()
     }
@@ -93,10 +135,10 @@ public class AudioManager {
         
         switch item.sourceType {
         case .stream:
-            try? self.audioPlayer.load(fromUrlString: item.audioUrl, playWhenReady: playWhenReady)
+            try? self.wrapper.load(fromUrlString: item.audioUrl, playWhenReady: playWhenReady)
         case .file:
             print(item.audioUrl)
-            try? self.audioPlayer.load(fromFilePath: item.audioUrl, playWhenReady: playWhenReady)
+            try? self.wrapper.load(fromFilePath: item.audioUrl, playWhenReady: playWhenReady)
         }
         
         self.currentItem = item
@@ -104,20 +146,32 @@ public class AudioManager {
         setArtwork(forItem: item)
     }
     
+    /**
+     Toggle playback status.
+     */
     public func togglePlaying() {
-        try? self.audioPlayer.togglePlaying()
+        try? self.wrapper.togglePlaying()
     }
     
+    /**
+     Start playback
+     */
     public func play() {
-        try? self.audioPlayer.play()
+        try? self.wrapper.play()
     }
     
+    /**
+     Pause playback
+     */
     public func pause() {
-        try? self.audioPlayer.pause()
+        try? self.wrapper.pause()
     }
     
+    /**
+     Seek to a specific time in the item.
+     */
     public func seek(to seconds: TimeInterval) {
-        try? self.audioPlayer.seek(to: seconds)
+        try? self.wrapper.seek(to: seconds)
     }
     
     // MARK: - NowPlayingInfo
@@ -146,9 +200,9 @@ public class AudioManager {
     
     func updatePlaybackValues() {
         guard automaticallyUpdateNowPlayingInfo else { return }
-        nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.elapsedPlaybackTime(audioPlayer.currentTime))
-        nowPlayingInfoController.set(keyValue: MediaItemProperty.duration(audioPlayer.duration))
-        nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.playbackRate(Double(audioPlayer.rate)))
+        nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.elapsedPlaybackTime(wrapper.currentTime))
+        nowPlayingInfoController.set(keyValue: MediaItemProperty.duration(wrapper.duration))
+        nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.playbackRate(Double(wrapper.rate)))
     }
     
     // MARK: - Remote Commands Handlers
@@ -178,7 +232,7 @@ public class AudioManager {
     
     func handlePlayCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         do {
-            try self.audioPlayer.play()
+            try self.wrapper.play()
             return MPRemoteCommandHandlerStatus.success
         }
         catch let error {
@@ -188,7 +242,7 @@ public class AudioManager {
     
     func handlePauseCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         do {
-            try self.audioPlayer.pause()
+            try self.wrapper.pause()
             return MPRemoteCommandHandlerStatus.success
         }
         catch let error {
@@ -198,7 +252,7 @@ public class AudioManager {
     
     func handleTogglePlaybackCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         do {
-            try self.audioPlayer.togglePlaying()
+            try self.wrapper.togglePlaying()
             return MPRemoteCommandHandlerStatus.success
         }
         catch let error {
@@ -207,7 +261,7 @@ public class AudioManager {
     }
     
     func handleStopCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        self.audioPlayer.stop()
+        self.wrapper.stop()
         return MPRemoteCommandHandlerStatus.success
     }
     
@@ -235,7 +289,7 @@ public class AudioManager {
     func handleChangePlaybackPositionCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let event = event as? MPChangePlaybackPositionCommandEvent {
             do {
-                try audioPlayer.seek(to: event.positionTime)
+                try wrapper.seek(to: event.positionTime)
                 return MPRemoteCommandHandlerStatus.success
             }
             catch let error {
@@ -246,28 +300,28 @@ public class AudioManager {
     }
 }
 
-extension AudioManager: AudioPlayerDelegate {
+extension AudioPlayer: AVPlayerWrapperDelegate {
     
-    func audioPlayer(didChangeState state: AudioPlayerState) {
+    func AVWrapper(didChangeState state: AVPlayerWrapperState) {
         updatePlaybackValues()
-        self.delegate?.audioManager(playerDidChangeState: state)
+        self.delegate?.audioPlayer(playerDidChangeState: state)
     }
     
-    func audioPlayerItemDidComplete() {
-        self.delegate?.audioManagerItemDidComplete()
+    func AVWrapperItemDidComplete() {
+        self.delegate?.audioPlayerItemDidComplete()
     }
     
-    func audioPlayer(secondsElapsed seconds: Double) {
-        self.delegate?.audioManager(secondsElapsed: seconds)
+    func AVWrapper(secondsElapsed seconds: Double) {
+        self.delegate?.audioPlayer(secondsElapsed: seconds)
     }
     
-    func audioPlayer(failedWithError error: Error?) {
-        self.delegate?.audioManager(failedWithError: error)
+    func AVWrapper(failedWithError error: Error?) {
+        self.delegate?.audioPlayer(failedWithError: error)
     }
     
-    func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
+    func AVWrapper(seekTo seconds: Int, didFinish: Bool) {
         self.updatePlaybackValues()
-        self.delegate?.audioManager(seekTo: seconds, didFinish: didFinish)
+        self.delegate?.audioPlayer(seekTo: seconds, didFinish: didFinish)
     }
     
 }

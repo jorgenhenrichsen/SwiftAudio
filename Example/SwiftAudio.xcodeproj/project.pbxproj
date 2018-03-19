@@ -10,7 +10,7 @@
 		02EAB7FA622CF9CCD4F328C7 /* Pods_SwiftAudio_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9CEE0D1B64E6BEF775F214D /* Pods_SwiftAudio_Tests.framework */; };
 		074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */; };
 		074A6485205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */; };
-		074A6487205E59B60083D868 /* AudioPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6486205E59B60083D868 /* AudioPlayerTests.swift */; };
+		074A6487205E59B60083D868 /* AVPlayerWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */; };
 		07732651205EACA300C4D1CD /* WAV-MP3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07732650205EACA300C4D1CD /* WAV-MP3.wav */; };
 		07732653205EB1B500C4D1CD /* nasa_throttle_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */; };
 		07732654205ECA8B00C4D1CD /* WAV-MP3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07732650205EACA300C4D1CD /* WAV-MP3.wav */; };
@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerTimeObserverTests.swift; sourceTree = "<group>"; };
 		074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemNotificationObserverTests.swift; sourceTree = "<group>"; };
-		074A6486205E59B60083D868 /* AudioPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerTests.swift; sourceTree = "<group>"; };
+		074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerWrapperTests.swift; sourceTree = "<group>"; };
 		07732650205EACA300C4D1CD /* WAV-MP3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "WAV-MP3.wav"; sourceTree = "<group>"; };
 		07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nasa_throttle_up.mp3; sourceTree = "<group>"; };
 		521F3AEC1228A2FA2637355F /* Pods-SwiftAudio_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftAudio_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftAudio_Tests/Pods-SwiftAudio_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 				607FACEB1AFB9204008FA782 /* AVPlayerObserverTests.swift */,
 				074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */,
 				074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */,
-				074A6486205E59B60083D868 /* AudioPlayerTests.swift */,
+				074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */,
 				07732650205EACA300C4D1CD /* WAV-MP3.wav */,
 				07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
@@ -415,7 +415,7 @@
 				074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */,
 				074A6485205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* AVPlayerObserverTests.swift in Sources */,
-				074A6487205E59B60083D868 /* AudioPlayerTests.swift in Sources */,
+				074A6487205E59B60083D868 /* AVPlayerWrapperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

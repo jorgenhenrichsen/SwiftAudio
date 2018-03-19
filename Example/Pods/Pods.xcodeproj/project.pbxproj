@@ -64,7 +64,6 @@
 		6CB4890B9BF5F846E980634AFE83917D /* NMBExceptionCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 24FAA89E2AC44E204B5E39B77BD6B921 /* NMBExceptionCapture.m */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		6D762B9DCDA35CEE39155DC751AE5A67 /* World+DSL.h in Headers */ = {isa = PBXBuildFile; fileRef = 467F00CAF06ADEF612F697F068843FB2 /* World+DSL.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		6E0C5034AB99CC7E6B0BF002D488D85D /* NowPlayingInfoProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC13E9D5F4FD604F703ACBF80ECA35E /* NowPlayingInfoProperty.swift */; };
-		6E7D41E6563F86E72B8E9B2179F3BE2C /* AudioPlayerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E92FB2AF7E8AB1442AC8CB8FC50931 /* AudioPlayerConfig.swift */; };
 		73BC5AC2ECDB8722E085F14B53E0D24E /* AssertionRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C2E6D41C88E8547B16FD2C42FEF515 /* AssertionRecorder.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		75538A8B20C7A20AF3D54BBF35D56FFE /* BeLessThanOrEqual.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E8617109E65C3B975FE6AB81F0562 /* BeLessThanOrEqual.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		75ABB48E3C30C2D736C3D05D6FD566A8 /* BeNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EF2A73B22D3E0863B202A2B7CFDEE /* BeNil.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
@@ -85,7 +84,7 @@
 		988EED125395950177DC14AF9BC87D8D /* HaveCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698366519E8DF1484C0AE2845EB47D7F /* HaveCount.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		994E87D6BC3BC99DECAD6D634442A97F /* NSBundle+CurrentTestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B78AC1C0059E66BD95A9F0CD2D24F5 /* NSBundle+CurrentTestBundle.swift */; };
 		9A2F4D68DC79AEE1E65EF4AF4F9CB9FF /* XCTestSuite+QuickTestSuiteBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A924C203A11767BBF4D9C3737DA5D /* XCTestSuite+QuickTestSuiteBuilder.m */; };
-		A1A245A1D2A54FF00AACE521F153D281 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E469FE2F4CBA2182A64C31D9B41A936E /* AudioManager.swift */; };
+		A1A245A1D2A54FF00AACE521F153D281 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E469FE2F4CBA2182A64C31D9B41A936E /* AudioPlayer.swift */; };
 		A272932A4DF9AC2D3B0A21AC70606F6D /* CwlBadInstructionException.swift in Sources */ = {isa = PBXBuildFile; fileRef = B887FE600257A86B38E726B0E1D628AF /* CwlBadInstructionException.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		A3905FA6AC04F5C6CF19DF72EA4A6AA8 /* QCKDSL.h in Headers */ = {isa = PBXBuildFile; fileRef = B9985CC02179403DC54B3460DCE486AC /* QCKDSL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A45D4CA6BC297DB896B20F391DF60D61 /* SwiftAudio-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0AF59BCDDB2AFB726B84EA6A175C61 /* SwiftAudio-dummy.m */; };
@@ -105,9 +104,9 @@
 		BF3B7218901760A6226C7F6346BEF454 /* BeCloseTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD64278700877FA62EC38F4B27A4881 /* BeCloseTo.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		C06FA100C1BBEE34B863BCB8A65359C1 /* MatcherFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9F8B6E78A1CAF1BEE982E163FA968 /* MatcherFunc.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		C1D862177DC2999FAC710AC25F253BD0 /* BeAnInstanceOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C33F4DC31A8120E8743B2A6163585F /* BeAnInstanceOf.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
-		C226CFBDCE851BDA9CD1DA26894BF272 /* AudioPlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40CE662FA0E4FEF97E35CD2DE9C957D /* AudioPlayerState.swift */; };
+		C226CFBDCE851BDA9CD1DA26894BF272 /* AVPlayerWrapperState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40CE662FA0E4FEF97E35CD2DE9C957D /* AVPlayerWrapperState.swift */; };
 		C2467221FCD579800B9CD8FBBDB10B4D /* CwlCatchBadInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE66AEC1DADAB5A835D219A5EC52ABA /* CwlCatchBadInstruction.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
-		C525C159B05D6FEEE0FC3D16910C934B /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA0998AC636AC45A6DAC890820B514 /* AudioPlayer.swift */; };
+		C525C159B05D6FEEE0FC3D16910C934B /* AVPlayerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA0998AC636AC45A6DAC890820B514 /* AVPlayerWrapper.swift */; };
 		C8320A6164C870ADDB8A855ADEBBBDC9 /* Equal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A5A2213F831D11D721E17AA14BFB58 /* Equal.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		CAC32363A3C9D0817F9FCA93540B62B4 /* ExampleHooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301223B3EB74E21CDB1303C459B57231 /* ExampleHooks.swift */; };
 		CBDB583491B7649264C05B6E01A90EC0 /* Quick-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9D7EA20C39A55A1EF0C23094895A75 /* Quick-dummy.m */; };
@@ -238,7 +237,6 @@
 		7041898E7444451C3F2125C7891C6296 /* Pods-SwiftAudio_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SwiftAudio_Tests-dummy.m"; sourceTree = "<group>"; };
 		73C1D1A0D20C667FAF4F01C3BA4AC451 /* Behavior.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Behavior.swift; path = Sources/Quick/Behavior.swift; sourceTree = "<group>"; };
 		747BC4EDBF186DED5F6ECE69B29801A9 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		74E92FB2AF7E8AB1442AC8CB8FC50931 /* AudioPlayerConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AudioPlayerConfig.swift; sourceTree = "<group>"; };
 		75B78AC1C0059E66BD95A9F0CD2D24F5 /* NSBundle+CurrentTestBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSBundle+CurrentTestBundle.swift"; path = "Sources/Quick/NSBundle+CurrentTestBundle.swift"; sourceTree = "<group>"; };
 		77125F245BAE7809A034657A48A40830 /* Errors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = Sources/Nimble/Utils/Errors.swift; sourceTree = "<group>"; };
 		77C2834A0AE71F3E85759885C0557533 /* SatisfyAnyOf.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SatisfyAnyOf.swift; path = Sources/Nimble/Matchers/SatisfyAnyOf.swift; sourceTree = "<group>"; };
@@ -290,7 +288,7 @@
 		C2B0BBB4E51ECD44FCAE4317734F6F27 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C37CAB0A9E983D686943910C94376E2C /* SwiftAudio.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftAudio.modulemap; sourceTree = "<group>"; };
 		C3B6856A831DF73847A3138C38F4E3ED /* Pods-SwiftAudio_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftAudio_Example.release.xcconfig"; sourceTree = "<group>"; };
-		C40CE662FA0E4FEF97E35CD2DE9C957D /* AudioPlayerState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AudioPlayerState.swift; sourceTree = "<group>"; };
+		C40CE662FA0E4FEF97E35CD2DE9C957D /* AVPlayerWrapperState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AVPlayerWrapperState.swift; sourceTree = "<group>"; };
 		C455E233BD4071A35296FEDA8D99CEDE /* MediaItemProperty.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MediaItemProperty.swift; path = SwiftAudio/Classes/MediaItemProperty.swift; sourceTree = "<group>"; };
 		C57921338FECDDCDAAC88A57C2055737 /* CwlCatchException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CwlCatchException.h; path = Carthage/Checkouts/CwlCatchException/Sources/CwlCatchExceptionSupport/include/CwlCatchException.h; sourceTree = "<group>"; };
 		C68BC90909A6E54853E9AE93146EEEA7 /* SwiftAudio-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftAudio-prefix.pch"; sourceTree = "<group>"; };
@@ -298,13 +296,13 @@
 		CAB52415DA15D60348D226639C322706 /* CwlPreconditionTesting.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CwlPreconditionTesting.h; path = Carthage/Checkouts/CwlPreconditionTesting/Sources/CwlPreconditionTesting/Mach/CwlPreconditionTesting.h; sourceTree = "<group>"; };
 		CCE295D4D0ED3F1666C5921320F0E2C6 /* ToSucceed.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToSucceed.swift; path = Sources/Nimble/Matchers/ToSucceed.swift; sourceTree = "<group>"; };
 		CE1C0594000452979B62B1798B1A59E8 /* Contain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Contain.swift; path = Sources/Nimble/Matchers/Contain.swift; sourceTree = "<group>"; };
-		CFAA0998AC636AC45A6DAC890820B514 /* AudioPlayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		CFAA0998AC636AC45A6DAC890820B514 /* AVPlayerWrapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AVPlayerWrapper.swift; sourceTree = "<group>"; };
 		D31FA66A5FC0844A36FC1358ACE2220C /* BeVoid.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeVoid.swift; path = Sources/Nimble/Matchers/BeVoid.swift; sourceTree = "<group>"; };
 		D685C0D509328CD8778F99DD53A49A48 /* Closures.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Closures.swift; path = Sources/Quick/Hooks/Closures.swift; sourceTree = "<group>"; };
 		D954E7E4D336837086313DAE758F7F32 /* Functional.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Functional.swift; path = Sources/Nimble/Utils/Functional.swift; sourceTree = "<group>"; };
 		DE960FDA70783D86C4832257093317D2 /* Predicate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Predicate.swift; path = Sources/Nimble/Matchers/Predicate.swift; sourceTree = "<group>"; };
 		E15D0BD895E38B9512195BFED925B0F7 /* NMBStringify.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NMBStringify.h; path = Sources/NimbleObjectiveC/NMBStringify.h; sourceTree = "<group>"; };
-		E469FE2F4CBA2182A64C31D9B41A936E /* AudioManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudioManager.swift; path = SwiftAudio/Classes/AudioManager.swift; sourceTree = "<group>"; };
+		E469FE2F4CBA2182A64C31D9B41A936E /* AudioPlayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudioPlayer.swift; path = SwiftAudio/Classes/AudioPlayer.swift; sourceTree = "<group>"; };
 		E585A4F6C1434FD922B8371E432B5051 /* QuickSpecBase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QuickSpecBase.m; path = Sources/QuickSpecBase/QuickSpecBase.m; sourceTree = "<group>"; };
 		E5D8173434FE00016739EAFDEFEA9313 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		E8340A91170097A6F18DC4A6AEDD735F /* Pods-SwiftAudio_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftAudio_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -383,29 +381,28 @@
 		1864D83AEDE81AB712A6F9E5D1554A21 /* SwiftAudio */ = {
 			isa = PBXGroup;
 			children = (
-				E469FE2F4CBA2182A64C31D9B41A936E /* AudioManager.swift */,
+				E469FE2F4CBA2182A64C31D9B41A936E /* AudioPlayer.swift */,
 				0773265F205ED7BF00C4D1CD /* AudioItem.swift */,
 				C455E233BD4071A35296FEDA8D99CEDE /* MediaItemProperty.swift */,
 				32A658905B9E84D827AA64605F28E3F9 /* NowPlayingInfoController.swift */,
 				EEC13E9D5F4FD604F703ACBF80ECA35E /* NowPlayingInfoProperty.swift */,
 				2B276281A286DB68E700474617B8AE3B /* TimeEventFrequency.swift */,
 				07732656205ED6C400C4D1CD /* Observer */,
-				25961FA3FF989AFD1E08A55F4E464276 /* AudioPlayer */,
+				25961FA3FF989AFD1E08A55F4E464276 /* AVPlayerWrapper */,
 				853A8C0AF6F0B4902930084E06DEA640 /* Support Files */,
 			);
 			name = SwiftAudio;
 			path = ../..;
 			sourceTree = "<group>";
 		};
-		25961FA3FF989AFD1E08A55F4E464276 /* AudioPlayer */ = {
+		25961FA3FF989AFD1E08A55F4E464276 /* AVPlayerWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				CFAA0998AC636AC45A6DAC890820B514 /* AudioPlayer.swift */,
-				74E92FB2AF7E8AB1442AC8CB8FC50931 /* AudioPlayerConfig.swift */,
-				C40CE662FA0E4FEF97E35CD2DE9C957D /* AudioPlayerState.swift */,
+				CFAA0998AC636AC45A6DAC890820B514 /* AVPlayerWrapper.swift */,
+				C40CE662FA0E4FEF97E35CD2DE9C957D /* AVPlayerWrapperState.swift */,
 			);
-			name = AudioPlayer;
-			path = SwiftAudio/Classes/AudioPlayer;
+			name = AVPlayerWrapper;
+			path = SwiftAudio/Classes/AVPlayerWrapper;
 			sourceTree = "<group>";
 		};
 		2ED664FFD4EAC2F1A037CE62A649D9FD /* Development Pods */ = {
@@ -973,10 +970,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0773265C205ED6C400C4D1CD /* AVPlayerTimeObserver.swift in Sources */,
-				A1A245A1D2A54FF00AACE521F153D281 /* AudioManager.swift in Sources */,
-				C525C159B05D6FEEE0FC3D16910C934B /* AudioPlayer.swift in Sources */,
-				6E7D41E6563F86E72B8E9B2179F3BE2C /* AudioPlayerConfig.swift in Sources */,
-				C226CFBDCE851BDA9CD1DA26894BF272 /* AudioPlayerState.swift in Sources */,
+				A1A245A1D2A54FF00AACE521F153D281 /* AudioPlayer.swift in Sources */,
+				C525C159B05D6FEEE0FC3D16910C934B /* AVPlayerWrapper.swift in Sources */,
+				C226CFBDCE851BDA9CD1DA26894BF272 /* AVPlayerWrapperState.swift in Sources */,
 				5E48B05B2B78E0AD05E2DBA8B1862AE5 /* MediaItemProperty.swift in Sources */,
 				0773265A205ED6C400C4D1CD /* AVPlayerObserver.swift in Sources */,
 				FCE55A287889D68B475EBFBE8AB26E4B /* NowPlayingInfoController.swift in Sources */,

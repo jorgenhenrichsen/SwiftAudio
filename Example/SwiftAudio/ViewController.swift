@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     
     var isScrubbing: Bool = false
     let audioSession = AVAudioSession.sharedInstance()
-    var audioManager: AudioManager = AudioManager()
+    var audioPlayer: AudioPlayer = AudioPlayer()
     let localSource = DefaultAudioItem(audioUrl: Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!, artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .file, artwork: #imageLiteral(resourceName: "cover"))
     let streamSource = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba", artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .stream, artwork: #imageLiteral(resourceName: "cover"))
     
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        audioManager.delegate = self
+        audioPlayer.delegate = self
         audioSessionInit()
         activateAudioSession()
         let image = #imageLiteral(resourceName: "cover")
@@ -38,12 +38,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func playA(_ sender: Any) {
-        audioManager.load(item: localSource)
+        audioPlayer.load(item: localSource)
     }
     
     
     @IBAction func togglePlay(_ sender: Any) {
-        audioManager.togglePlaying()
+        audioPlayer.togglePlaying()
     }
     
     @IBAction func startScrubbing(_ sender: UISlider) {
@@ -51,12 +51,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func scrubbing(_ sender: UISlider) {
-        audioManager.seek(to: Double(slider.value))
+        audioPlayer.seek(to: Double(slider.value))
     }
     
     func update() {
-        slider.maximumValue = Float(audioManager.duration)
-        slider.setValue(Float(audioManager.currentTime), animated: true)
+        slider.maximumValue = Float(audioPlayer.duration)
+        slider.setValue(Float(audioPlayer.currentTime), animated: true)
     }
     
     func audioSessionInit() {
@@ -79,9 +79,9 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: AudioManagerDelegate {
+extension ViewController: AudioPlayerDelegate {
     
-    func audioManager(playerDidChangeState state: AudioPlayerState) {
+    func audioPlayer(playerDidChangeState state: AVPlayerWrapperState) {
         print("AudioPlayer state: ", state.rawValue)
         self.update()
         
@@ -94,21 +94,21 @@ extension ViewController: AudioManagerDelegate {
         }
     }
     
-    func audioManagerItemDidComplete() {
+    func audioPlayerItemDidComplete() {
         
     }
     
-    func audioManager(secondsElapsed seconds: Double) {
+    func audioPlayer(secondsElapsed seconds: Double) {
         if !isScrubbing {
             slider.setValue(Float(seconds), animated: false)
         }
     }
     
-    func audioManager(failedWithError error: Error?) {
+    func audioPlayer(failedWithError error: Error?) {
         
     }
     
-    func audioManager(seekTo seconds: Int, didFinish: Bool) {
+    func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
         isScrubbing = false
     }
     

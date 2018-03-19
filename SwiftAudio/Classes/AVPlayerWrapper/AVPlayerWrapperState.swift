@@ -1,5 +1,5 @@
 //
-//  AudioPlayerState.swift
+//  AVPlayerWrapperState.swift
 //  SwiftAudio
 //
 //  Created by Jørgen Henrichsen on 10/03/2018.
@@ -12,7 +12,7 @@ import Foundation
 /**
  The current state of the AudioPlayer.
  */
-public enum AudioPlayerState: String {
+public enum AVPlayerWrapperState: String {
     
     /// The current item is set, and the player is ready to start loading (buffering).
     case ready
