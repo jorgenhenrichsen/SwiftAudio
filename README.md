@@ -25,7 +25,7 @@ pod 'SwiftAudio'
 
 ## Usage
 
-Using the AudioManager:
+Using the AudioPlayer:
 ```swift
 let player = AudioPlayer()
 let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
@@ -33,7 +33,7 @@ player.load(item: audioItem)
 ```
 The player will load the track and start playing when ready.
 The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time etc.
-To enable this behaviour the AudioItems supplied to the player must supply these values.
+To enable this behaviour the AudioItems supplied to the player must supply these values. You can either use the `DefaultAudioItem` or make your playback objects implement the `AudioItem` protocol.
 You must also remember to set a AudioSessionCategory that supports this behaviour, and activate the session:
 ```swift
 try? AudioSessionController.set(category: .playback)
