@@ -18,19 +18,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var slider: UISlider!
     
     var isScrubbing: Bool = false
-    let audioSession = AVAudioSession.sharedInstance()
     var audioPlayer: AudioPlayer = AudioPlayer()
+    let audioSessionController: AudioSessionController = AudioSessionController()
     let localSource = DefaultAudioItem(audioUrl: Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!, artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .file, artwork: #imageLiteral(resourceName: "cover"))
     let streamSource = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba", artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .stream, artwork: #imageLiteral(resourceName: "cover"))
-    
     
     var artwork: MPMediaItemArtwork!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         audioPlayer.delegate = self
-        audioSessionInit()
-        activateAudioSession()
+        try? audioSessionController.set(category: .playback)
+        try? audioSessionController.activateSession()
         let image = #imageLiteral(resourceName: "cover")
         artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (size) -> UIImage in
             return image
@@ -41,6 +40,9 @@ class ViewController: UIViewController {
         audioPlayer.load(item: localSource)
     }
     
+    @IBAction func playB(_ sender: Any) {
+        audioPlayer.load(item: streamSource)
+    }
     
     @IBAction func togglePlay(_ sender: Any) {
         audioPlayer.togglePlaying()
@@ -57,24 +59,6 @@ class ViewController: UIViewController {
     func update() {
         slider.maximumValue = Float(audioPlayer.duration)
         slider.setValue(Float(audioPlayer.currentTime), animated: true)
-    }
-    
-    func audioSessionInit() {
-        do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayback)
-            try audioSession.overrideOutputAudioPort(AVAudioSessionPortOverride.none)
-            
-        }
-        catch {
-        }
-    }
-    
-    func activateAudioSession() {
-        do{
-            try audioSession.setActive(true)
-        }
-        catch {
-        }
     }
     
 }

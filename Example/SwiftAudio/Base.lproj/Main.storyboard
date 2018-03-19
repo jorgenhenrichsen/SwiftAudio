@@ -50,6 +50,14 @@
                                     <action selector="togglePlay:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oYu-xi-n6T"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TPr-Wm-k0L">
+                                <rect key="frame" x="168" y="58" width="39" height="30"/>
+                                <state key="normal" title="PlayB"/>
+                                <connections>
+                                    <action selector="playA:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="LEW-J0-qbI"/>
+                                    <action selector="playB:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="OhP-ri-ZWx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -57,9 +65,11 @@
                             <constraint firstItem="RWN-If-dGG" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="Ee0-Yx-h5a"/>
                             <constraint firstItem="RWN-If-dGG" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="EzW-Sk-mlN"/>
                             <constraint firstItem="EOo-zV-6l2" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="148" id="OKq-yH-xWk"/>
+                            <constraint firstItem="TPr-Wm-k0L" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="OaA-Nd-ZGX"/>
                             <constraint firstItem="ExO-ir-bnt" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="VtX-IN-h4a"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="EOo-zV-6l2" secondAttribute="bottom" constant="143" id="m8i-yM-pER"/>
                             <constraint firstItem="ExO-ir-bnt" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="mc2-i7-c1f"/>
+                            <constraint firstItem="TPr-Wm-k0L" firstAttribute="top" secondItem="ExO-ir-bnt" secondAttribute="bottom" constant="8" id="voY-Ue-QrT"/>
                         </constraints>
                     </view>
                     <connections>
