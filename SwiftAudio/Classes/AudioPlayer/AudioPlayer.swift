@@ -11,7 +11,7 @@ import AVFoundation
 import MediaPlayer
 
 
-public protocol AudioPlayerDelegate: class {
+protocol AudioPlayerDelegate: class {
     
     func audioPlayer(didChangeState state: AudioPlayerState)
     func audioPlayerItemDidComplete()
@@ -66,30 +66,30 @@ public class AudioPlayer {
     /**
      The delegate receiving events.
      */
-    public weak var delegate: AudioPlayerDelegate?
+    weak var delegate: AudioPlayerDelegate?
     
     /**
      True if the last call to load(from:playWhenReady) had playWhenReady=true.
      Cannot be set directly.
      */
-    public var playWhenReady: Bool { return _playWhenReady }
+    var playWhenReady: Bool { return _playWhenReady }
     
     /**
      The current config.
      */
-    public var config: Config {
+    var config: Config {
         didSet { self.configureFromConfig() }
     }
     
     /**
      The current `AudioPlayerState` of the player.
      */
-    public var state: AudioPlayerState { return _state }
+    var state: AudioPlayerState { return _state }
     
     /**
      The duration of the current item.
      */
-    public var duration: Double {
+    var duration: Double {
         if let seconds = currentItem?.duration.seconds, !seconds.isNaN {
             return seconds
         }
@@ -99,12 +99,12 @@ public class AudioPlayer {
     /**
      The current time of the item in the player.
      */
-    public var currentTime: Double {
+    var currentTime: Double {
         let seconds = avPlayer.currentTime().seconds
         return seconds.isNaN ? 0 : seconds
     }
     
-    public var rate: Float {
+    var rate: Float {
         return avPlayer.rate
     }
     
@@ -130,7 +130,7 @@ public class AudioPlayer {
      
      - throws: APError.PlaybackError
      */
-    public func play() throws {
+    func play() throws {
         if avPlayer.timeControlStatus == .paused {
             if currentItem != nil {
                 avPlayer.play()
@@ -145,7 +145,7 @@ public class AudioPlayer {
      
      - throws: APError.PlaybackError
      */
-    public func pause() throws {
+    func pause() throws {
         if avPlayer.timeControlStatus == .playing || avPlayer.timeControlStatus == .waitingToPlayAtSpecifiedRate {
             if currentItem != nil {
                 avPlayer.pause()
@@ -158,7 +158,7 @@ public class AudioPlayer {
     /**
      Will toggle playback.
      */
-    public func togglePlaying() throws {
+    func togglePlaying() throws {
         switch avPlayer.timeControlStatus {
         case .playing, .waitingToPlayAtSpecifiedRate:
             try pause()
@@ -170,7 +170,7 @@ public class AudioPlayer {
     /**
      Stop the player and remove the currently playing item.
      */
-    public func stop() {
+    func stop() {
         try? pause()
         reset()
     }
@@ -181,7 +181,7 @@ public class AudioPlayer {
      - parameter seconds: The point to move the player head, in seconds. If the given value is less than 0, 0 is used. If the value is larger than the duration, the duration is used.
      - throws: `APError.PlaybackError`
     */
-    public func seek(to seconds: TimeInterval) throws {
+    func seek(to seconds: TimeInterval) throws {
         guard currentItem != nil else {
             throw APError.PlaybackError.noLoadedItem
         }
@@ -198,7 +198,7 @@ public class AudioPlayer {
      - parameter urlString: The AudioSource to load the item from.
      - parameter playWhenReady: Whether playback should start immediately when the item is ready. Default is `true`
      */
-    public func load(fromUrlString urlString: String, playWhenReady: Bool = true) throws {
+    func load(fromUrlString urlString: String, playWhenReady: Bool = true) throws {
         
         guard let url = URL(string: urlString) else {
             throw APError.LoadError.invalidSourceUrl(urlString)
@@ -213,7 +213,7 @@ public class AudioPlayer {
      - parameter filePath: The path to the sound file.
      - parameter playWhenReady: Whether playback should start immediately when the item is ready. Default is `true`
      */
-    public func load(fromFilePath filePath: String, playWhenReady: Bool = true) throws {
+    func load(fromFilePath filePath: String, playWhenReady: Bool = true) throws {
         let url = URL(fileURLWithPath: filePath)
         self.load(from: url, playWhenReady: playWhenReady)
     }

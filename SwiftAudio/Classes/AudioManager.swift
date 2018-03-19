@@ -35,18 +35,30 @@ public class AudioManager {
     public weak var delegate: AudioManagerDelegate?
     public var currentItem: AudioItem?
     
+    /**
+     The elapsed playback time of the current item.
+     */
     public var currentTime: Double {
         return audioPlayer.currentTime
     }
     
+    /**
+     The duration of the current AudioItem.
+     */
     public var duration: Double {
         return audioPlayer.duration
     }
     
+    /**
+     The current rate of the underlying `AudioPlayer`.
+     */
     public var rate: Float {
         return audioPlayer.rate
     }
     
+    /**
+     The current state of the underlying `AudioPlayer`.
+     */
     public var playerState: AudioPlayerState {
         return audioPlayer.state
     }
@@ -56,8 +68,14 @@ public class AudioManager {
      */
     public var automaticallyUpdateNowPlayingInfo: Bool = true
     
-    public init(config: AudioPlayer.Config = AudioPlayer.Config(), infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
-        self.audioPlayer = AudioPlayer(config: config)
+    /**
+     Create a new AudioManager.
+     
+     - parameter audioPlayer: The underlying AudioPlayer instance for the Manager. If you need to configure the behaviour of the player, create an instance, configure it and pass it in here.
+     - parameter infoCenter: The InfoCenter to update. Default is `MPNowPlayingInfoCenter.default()`.
+     */
+    public init(audioPlayer: AudioPlayer = AudioPlayer(config: AudioPlayer.Config()), infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
+        self.audioPlayer = audioPlayer
         self.nowPlayingInfoController = NowPlayingInfoController(infoCenter: infoCenter)
         
         self.audioPlayer.delegate = self
@@ -65,6 +83,12 @@ public class AudioManager {
         connectToCommandCenter()
     }
     
+    /**
+     Load an AudioItem into the manager.
+     
+     - parameter item: The AudioItem to load. The info given in this item is the one used for the InfoCenter.
+     - parameter playWhenReady: Immediately start playback when the item is ready. Default is `true`. If you disable this you have to call play() or togglePlay() when the `state` switches to `ready`.
+     */
     public func load(item: AudioItem, playWhenReady: Bool = true) {
         
         switch item.sourceType {
@@ -224,24 +248,24 @@ public class AudioManager {
 
 extension AudioManager: AudioPlayerDelegate {
     
-    public func audioPlayer(didChangeState state: AudioPlayerState) {
+    func audioPlayer(didChangeState state: AudioPlayerState) {
         updatePlaybackValues()
         self.delegate?.audioManager(playerDidChangeState: state)
     }
     
-    public func audioPlayerItemDidComplete() {
+    func audioPlayerItemDidComplete() {
         self.delegate?.audioManagerItemDidComplete()
     }
     
-    public func audioPlayer(secondsElapsed seconds: Double) {
+    func audioPlayer(secondsElapsed seconds: Double) {
         self.delegate?.audioManager(secondsElapsed: seconds)
     }
     
-    public func audioPlayer(failedWithError error: Error?) {
+    func audioPlayer(failedWithError error: Error?) {
         self.delegate?.audioManager(failedWithError: error)
     }
     
-    public func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
+    func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
         self.updatePlaybackValues()
         self.delegate?.audioManager(seekTo: seconds, didFinish: didFinish)
     }
