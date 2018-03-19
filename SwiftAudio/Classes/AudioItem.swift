@@ -15,22 +15,17 @@ public enum SourceType {
 
 public protocol AudioItem {
     
-    var audioUrl: String { get }
-    
-    var artist: String? { get }
-    
-    var title: String? { get }
-    
-    var albumTitle: String? { get }
-    
-    var sourceType: SourceType { get }
-    
+    func getSourceUrl() -> String
+    func getArtist() -> String?
+    func getTitle() -> String?
+    func getAlbumTitle() -> String?
+    func getSourceType() -> SourceType
     func getArtwork(_ handler: (UIImage?) -> Void)
     
 }
 
 public struct DefaultAudioItem: AudioItem {
-    
+
     public var audioUrl: String
     
     public var artist: String?
@@ -50,6 +45,26 @@ public struct DefaultAudioItem: AudioItem {
         self.albumTitle = albumTitle
         self.sourceType = sourceType
         self.artwork = artwork
+    }
+    
+    public func getSourceUrl() -> String {
+        return audioUrl
+    }
+    
+    public func getArtist() -> String? {
+        return artist
+    }
+    
+    public func getTitle() -> String? {
+        return title
+    }
+    
+    public func getAlbumTitle() -> String? {
+        return albumTitle
+    }
+    
+    public func getSourceType() -> SourceType {
+        return sourceType
     }
     
     public func getArtwork(_ handler: (UIImage?) -> Void) {
