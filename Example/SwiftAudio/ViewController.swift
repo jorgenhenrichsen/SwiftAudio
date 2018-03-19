@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     
     var isScrubbing: Bool = false
     var audioPlayer: AudioPlayer = AudioPlayer()
-    let audioSessionController: AudioSessionController = AudioSessionController()
+    let audioSessionController: AudioSessionController = AudioSessionController.shared
     let localSource = DefaultAudioItem(audioUrl: Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!, artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .file, artwork: #imageLiteral(resourceName: "cover"))
     let streamSource = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba", artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .stream, artwork: #imageLiteral(resourceName: "cover"))
     

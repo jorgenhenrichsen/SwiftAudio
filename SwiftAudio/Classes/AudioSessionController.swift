@@ -58,7 +58,7 @@ public enum AudioSessionCategory {
  */
 public class AudioSessionController {
     
-    public let shared = AudioSessionController()
+    public static let shared = AudioSessionController()
     
     private let audioSession: AVAudioSession = AVAudioSession.sharedInstance()
     
