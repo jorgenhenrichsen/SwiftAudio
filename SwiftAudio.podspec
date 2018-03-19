@@ -18,14 +18,14 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+SwiftAudio aims to make audio playback easier on iOS. No more boundaryTimeObserver, periodicTimeObserver, KVO and NotificationCenter to get state update from the player. It also updates NowPlayingInfo for you and handles remote events.
                        DESC
 
   s.homepage         = 'https://github.com/jorgenhenrichsen/SwiftAudio'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Jørgen Henrichsen' => 'jh.henrichs@gmail.com' }
-  s.source           = { :git => 'https://github.com/Jørgen Henrichsen/SwiftAudio.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/jorgenhenrichsen/SwiftAudio.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '10.0'
