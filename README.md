@@ -1,6 +1,6 @@
 # SwiftAudio
 
-[![Build Status](https://travis-ci.com/jorgenhenrichsen/SwiftAudio.svg?token=vuPZfsuL1yx6emZGn1Qz&branch=master)](https://travis-ci.com/jorgenhenrichsen/SwiftAudio)
+[![Build Status](https://travis-ci.org/jorgenhenrichsen/SwiftAudio.svg?branch=master)](https://travis-ci.org/jorgenhenrichsen/SwiftAudio)
 [![Version](https://img.shields.io/cocoapods/v/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
 [![License](https://img.shields.io/cocoapods/l/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
