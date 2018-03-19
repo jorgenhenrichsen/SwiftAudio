@@ -86,7 +86,7 @@ public class AudioPlayer {
      
      - Important: This setting will have no effect if `automaticallyWaitsToMinimizeStalling` is set to `true`
      */
-    var bufferDuration: TimeInterval {
+    var bufferDuration: TimeInterval {
         get { return wrapper.bufferDuration }
         set { wrapper.bufferDuration = newValue }
     }
@@ -104,7 +104,7 @@ public class AudioPlayer {
      Default is 1.0
      */
     var volume: Float {
-        get { wrapper.volume }
+        get { return wrapper.volume }
         set { wrapper.volume = newValue }
     }
     

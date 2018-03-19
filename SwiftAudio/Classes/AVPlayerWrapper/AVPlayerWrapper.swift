@@ -119,7 +119,7 @@ class AVPlayerWrapper {
      */
     var automaticallyWaitsToMinimizeStalling: Bool {
         get { return avPlayer.automaticallyWaitsToMinimizeStalling }
-        set { avPlayer.automaticallyWaitsToMinimizeStalling }
+        set { avPlayer.automaticallyWaitsToMinimizeStalling = newValue }
     }
     
     /**
@@ -145,9 +145,8 @@ class AVPlayerWrapper {
      Default is 1.0
      */
     public var volume: Float {
-        didSet {
-            avPlayer.volume = volume
-        }
+        get { return avPlayer.volume }
+        set { avPlayer.volume = newValue }
     }
     
     // MARK: - Public Methods
@@ -159,10 +158,8 @@ class AVPlayerWrapper {
         self.playerTimeObserver = AVPlayerTimeObserver(player: avPlayer, periodicObserverTimeInterval: timeEventFrequency.getTime())
         self.playerItemNotificationObserver = AVPlayerItemNotificationObserver()
 
-        self.automaticallyWaitsToMinimizeStalling = true
         self.bufferDuration = 0
         self.timeEventFrequency = timeEventFrequency
-        self.volume = 1.0
         
         self.playerObserver.delegate = self
         self.playerTimeObserver.delegate = self
