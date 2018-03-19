@@ -133,12 +133,11 @@ public class AudioPlayer {
      */
     public func load(item: AudioItem, playWhenReady: Bool = true) {
         
-        switch item.sourceType {
+        switch item.getSourceType() {
         case .stream:
-            try? self.wrapper.load(fromUrlString: item.audioUrl, playWhenReady: playWhenReady)
+            try? self.wrapper.load(fromUrlString: item.getSourceUrl(), playWhenReady: playWhenReady)
         case .file:
-            print(item.audioUrl)
-            try? self.wrapper.load(fromFilePath: item.audioUrl, playWhenReady: playWhenReady)
+            try? self.wrapper.load(fromFilePath: item.getSourceUrl(), playWhenReady: playWhenReady)
         }
         
         self.currentItem = item
@@ -179,9 +178,9 @@ public class AudioPlayer {
     func set(item: AudioItem) {
         guard automaticallyUpdateNowPlayingInfo else { return }
         nowPlayingInfoController.set(keyValues: [
-            MediaItemProperty.artist(item.artist),
-            MediaItemProperty.title(item.title),
-            MediaItemProperty.albumTitle(item.albumTitle),
+            MediaItemProperty.artist(item.getArtist()),
+            MediaItemProperty.title(item.getTitle()),
+            MediaItemProperty.albumTitle(item.getAlbumTitle()),
             ])
     }
     
