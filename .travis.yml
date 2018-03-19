@@ -11,4 +11,4 @@ before_install:
 - pod install --project-directory=Example
 script:
 - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SwiftAudio.xcworkspace -scheme SwiftAudio-Example -sdk iphonesimulator11.2 -destination "OS=11.2,name=iPhone X" | xcpretty
-- pod lib lint --private
+- pod lib lint
