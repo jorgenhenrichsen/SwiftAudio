@@ -43,7 +43,7 @@ public struct DefaultAudioItem: AudioItem {
     
     public var artwork: UIImage?
     
-    public init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, sourceType: SourceType, artwork: UIImage?) {
+    public init(audioUrl: String, artist: String? = nil, title: String? = nil, albumTitle: String? = nil, sourceType: SourceType, artwork: UIImage? = nil) {
         self.audioUrl = audioUrl
         self.artist = artist
         self.title = title
