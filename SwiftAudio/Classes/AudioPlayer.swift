@@ -170,6 +170,7 @@ public class AudioPlayer {
      Stop playback, resetting the player.
      */
     public func stop() {
+        self.reset()
         self.wrapper.stop()
     }
     
@@ -178,6 +179,12 @@ public class AudioPlayer {
      */
     public func seek(to seconds: TimeInterval) {
         try? self.wrapper.seek(to: seconds)
+    }
+    
+    // MARK: - Private
+    
+    private func reset() {
+        self.currentItem = nil
     }
     
     // MARK: - NowPlayingInfo
