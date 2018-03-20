@@ -167,6 +167,13 @@ public class AudioPlayer {
     }
     
     /**
+     Stop playback, resetting the player.
+     */
+    public func stop() {
+        self.wrapper.stop()
+    }
+    
+    /**
      Seek to a specific time in the item.
      */
     public func seek(to seconds: TimeInterval) {
