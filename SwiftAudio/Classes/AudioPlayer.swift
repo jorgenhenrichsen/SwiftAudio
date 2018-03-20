@@ -192,7 +192,7 @@ public class AudioPlayer {
                     return image
                 })
                 
-                nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
+                self.nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
             }
         }
     }
