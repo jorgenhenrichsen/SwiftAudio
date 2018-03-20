@@ -182,6 +182,16 @@ public class AudioPlayer {
     
     // MARK: - NowPlayingInfo
     
+    /**
+     Reloads the NowPlayingInfo from the current AudioItem.
+     */
+    public func reloadNowPlayingInfo() {
+        guard let item = currentItem else { return }
+        set(item: item)
+        setArtwork(forItem: item)
+        updatePlaybackValues()
+    }
+    
     func set(item: AudioItem) {
         guard automaticallyUpdateNowPlayingInfo else { return }
         nowPlayingInfoController.set(keyValues: [
