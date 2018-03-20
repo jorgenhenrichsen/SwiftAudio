@@ -67,7 +67,7 @@ public struct DefaultAudioItem: AudioItem {
         return sourceType
     }
     
-    public func getArtwork(_ @escaping handler: (UIImage?) -> Void) {
+    public func getArtwork(_ handler: @escaping (UIImage?) -> Void) {
         handler(artwork)
     }
 }
