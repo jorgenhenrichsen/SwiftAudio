@@ -74,7 +74,7 @@ public class AudioPlayer {
      Indicates wether the player should automatically delay playback in order to minimize stalling.
      [Read more from Apple Documentation](https://developer.apple.com/documentation/avfoundation/avplayer/1643482-automaticallywaitstominimizestal)
      */
-    var automaticallyWaitsToMinimizeStalling: Bool {
+    public var automaticallyWaitsToMinimizeStalling: Bool {
         get { return wrapper.automaticallyWaitsToMinimizeStalling }
         set { wrapper.automaticallyWaitsToMinimizeStalling = newValue }
     }
@@ -86,7 +86,7 @@ public class AudioPlayer {
      
      - Important: This setting will have no effect if `automaticallyWaitsToMinimizeStalling` is set to `true`
      */
-    var bufferDuration: TimeInterval {
+    public var bufferDuration: TimeInterval {
         get { return wrapper.bufferDuration }
         set { wrapper.bufferDuration = newValue }
     }
@@ -94,7 +94,7 @@ public class AudioPlayer {
     /**
      Set this to decide how often the player should call the delegate with time progress events.
      */
-    var timeEventFrquency: TimeEventFrequency {
+    public var timeEventFrquency: TimeEventFrequency {
         get { return wrapper.timeEventFrequency }
         set { wrapper.timeEventFrequency = newValue }
     }
@@ -103,7 +103,7 @@ public class AudioPlayer {
      The player volume, from 0.0 to 1.0
      Default is 1.0
      */
-    var volume: Float {
+    public var volume: Float {
         get { return wrapper.volume }
         set { wrapper.volume = newValue }
     }
@@ -188,6 +188,7 @@ public class AudioPlayer {
         guard automaticallyUpdateNowPlayingInfo else { return }
         item.getArtwork { (image) in
             if let image = image {
+                
                 let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (size) -> UIImage in
                     return image
                 })
