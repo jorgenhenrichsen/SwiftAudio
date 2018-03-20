@@ -241,20 +241,6 @@ public class AudioPlayer {
         self.currentItem = nil
     }
     
-    
-//    func connectToCommandCenter() {
-//        self.remoteCommandCenter.playCommand.addTarget(handler: handlePlayCommand(event:))
-//        self.remoteCommandCenter.pauseCommand.addTarget(handler: handlePauseCommand(event:))
-//        self.remoteCommandCenter.togglePlayPauseCommand.addTarget(handler: handleTogglePlaybackCommand(event:))
-//        self.remoteCommandCenter.stopCommand.addTarget(handler: handleStopCommand(event:))
-//        self.remoteCommandCenter.skipForwardCommand.addTarget(handler: handleSkipForwardCommand(event:))
-//        remoteCommandCenter.skipForwardCommand.preferredIntervals = [15]
-//        self.remoteCommandCenter.skipBackwardCommand.addTarget(handler: handleSkipBackwardCommand(event:))
-//        remoteCommandCenter.skipBackwardCommand.preferredIntervals = [15]
-//
-//        self.remoteCommandCenter.changePlaybackPositionCommand.addTarget(handler: handleChangePlaybackPositionCommand(event:))
-//    }
-    
 }
 
 extension AudioPlayer: AVPlayerWrapperDelegate {
