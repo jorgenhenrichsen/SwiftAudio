@@ -21,13 +21,20 @@ class ViewController: UIViewController {
     var audioPlayer: AudioPlayer = AudioPlayer()
     let audioSessionController: AudioSessionController = AudioSessionController.shared
     let localSource = DefaultAudioItem(audioUrl: Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!, artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .file, artwork: #imageLiteral(resourceName: "cover"))
-    let streamSource = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba", artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .stream, artwork: #imageLiteral(resourceName: "cover"))
+    let streamSource = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/081447adc23dad4f79ba4f1082615d1c56edf5e1?cid=d8a5ed958d274c2e8ee717e6a4b0971d", artist: "Bon Iver", title: "8 (circle)", albumTitle: "22, A Million", sourceType: .stream, artwork: #imageLiteral(resourceName: "22AMI"))
     
     var artwork: MPMediaItemArtwork!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         audioPlayer.delegate = self
+        audioPlayer.enableRemoteCommands([
+                .stop,
+                .togglePlayPause,
+                .skipForward(preferredIntervals: [30]),
+                .skipBackward(preferredIntervals: [30]),
+                .changePlaybackPosition
+            ])
         try? audioSessionController.set(category: .playback)
         try? audioSessionController.activateSession()
         let image = #imageLiteral(resourceName: "cover")
@@ -37,15 +44,15 @@ class ViewController: UIViewController {
     }
     
     @IBAction func playA(_ sender: Any) {
-        audioPlayer.load(item: localSource)
+        try? audioPlayer.load(item: localSource)
     }
     
     @IBAction func playB(_ sender: Any) {
-        audioPlayer.load(item: streamSource)
+        try? audioPlayer.load(item: streamSource)
     }
     
     @IBAction func togglePlay(_ sender: Any) {
-        audioPlayer.togglePlaying()
+        try? audioPlayer.togglePlaying()
     }
     
     @IBAction func startScrubbing(_ sender: UISlider) {
@@ -53,7 +60,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func scrubbing(_ sender: UISlider) {
-        audioPlayer.seek(to: Double(slider.value))
+        try? audioPlayer.seek(to: Double(slider.value))
     }
     
     func update() {

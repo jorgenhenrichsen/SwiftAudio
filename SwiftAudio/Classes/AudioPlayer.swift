@@ -28,10 +28,10 @@ public class AudioPlayer {
     
     let wrapper: AVPlayerWrapper
     let nowPlayingInfoController: NowPlayingInfoController
-    let remoteCommandCenter: MPRemoteCommandCenter = MPRemoteCommandCenter.shared()
     
     public weak var delegate: AudioPlayerDelegate?
     public var currentItem: AudioItem?
+    public let remoteCommandController: RemoteCommandController
     
     /**
      Set this to false to disable automatic updating of now playing info for control center and lock screen.
@@ -74,7 +74,7 @@ public class AudioPlayer {
      Indicates wether the player should automatically delay playback in order to minimize stalling.
      [Read more from Apple Documentation](https://developer.apple.com/documentation/avfoundation/avplayer/1643482-automaticallywaitstominimizestal)
      */
-    var automaticallyWaitsToMinimizeStalling: Bool {
+    public var automaticallyWaitsToMinimizeStalling: Bool {
         get { return wrapper.automaticallyWaitsToMinimizeStalling }
         set { wrapper.automaticallyWaitsToMinimizeStalling = newValue }
     }
@@ -86,7 +86,7 @@ public class AudioPlayer {
      
      - Important: This setting will have no effect if `automaticallyWaitsToMinimizeStalling` is set to `true`
      */
-    var bufferDuration: TimeInterval {
+    public var bufferDuration: TimeInterval {
         get { return wrapper.bufferDuration }
         set { wrapper.bufferDuration = newValue }
     }
@@ -94,7 +94,7 @@ public class AudioPlayer {
     /**
      Set this to decide how often the player should call the delegate with time progress events.
      */
-    var timeEventFrquency: TimeEventFrequency {
+    public var timeEventFrquency: TimeEventFrequency {
         get { return wrapper.timeEventFrequency }
         set { wrapper.timeEventFrequency = newValue }
     }
@@ -103,12 +103,12 @@ public class AudioPlayer {
      The player volume, from 0.0 to 1.0
      Default is 1.0
      */
-    var volume: Float {
+    public var volume: Float {
         get { return wrapper.volume }
         set { wrapper.volume = newValue }
     }
     
-    // MARK: - Public Methods
+    // MARK: - Init
     
     /**
      Create a new AudioManager.
@@ -119,11 +119,13 @@ public class AudioPlayer {
     public init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
         self.wrapper = AVPlayerWrapper()
         self.nowPlayingInfoController = NowPlayingInfoController(infoCenter: infoCenter)
+        self.remoteCommandController = RemoteCommandController()
         
         self.wrapper.delegate = self
-        
-        connectToCommandCenter()
+        self.remoteCommandController.audioPlayer = self
     }
+    
+    // MARK: - Player Actions
     
     /**
      Load an AudioItem into the manager.
@@ -131,13 +133,13 @@ public class AudioPlayer {
      - parameter item: The AudioItem to load. The info given in this item is the one used for the InfoCenter.
      - parameter playWhenReady: Immediately start playback when the item is ready. Default is `true`. If you disable this you have to call play() or togglePlay() when the `state` switches to `ready`.
      */
-    public func load(item: AudioItem, playWhenReady: Bool = true) {
+    public func load(item: AudioItem, playWhenReady: Bool = true) throws {
         
         switch item.getSourceType() {
         case .stream:
-            try? self.wrapper.load(fromUrlString: item.getSourceUrl(), playWhenReady: playWhenReady)
+            try self.wrapper.load(fromUrlString: item.getSourceUrl(), playWhenReady: playWhenReady)
         case .file:
-            try? self.wrapper.load(fromFilePath: item.getSourceUrl(), playWhenReady: playWhenReady)
+            try self.wrapper.load(fromFilePath: item.getSourceUrl(), playWhenReady: playWhenReady)
         }
         
         self.currentItem = item
@@ -148,32 +150,60 @@ public class AudioPlayer {
     /**
      Toggle playback status.
      */
-    public func togglePlaying() {
-        try? self.wrapper.togglePlaying()
+    public func togglePlaying() throws {
+        try self.wrapper.togglePlaying()
     }
     
     /**
      Start playback
      */
-    public func play() {
-        try? self.wrapper.play()
+    public func play() throws {
+        try self.wrapper.play()
     }
     
     /**
      Pause playback
      */
-    public func pause() {
-        try? self.wrapper.pause()
+    public func pause() throws {
+        try self.wrapper.pause()
+    }
+    
+    /**
+     Stop playback, resetting the player.
+     */
+    public func stop() {
+        self.reset()
+        self.wrapper.stop()
     }
     
     /**
      Seek to a specific time in the item.
      */
-    public func seek(to seconds: TimeInterval) {
-        try? self.wrapper.seek(to: seconds)
+    public func seek(to seconds: TimeInterval) throws {
+        try self.wrapper.seek(to: seconds)
+    }
+    
+    // MARK: - Remote Command Center
+    
+    /**
+     Set the remote commands that should be activated and handled.
+     Calling this will disable all earlier enabled commands, so include all commands you need.
+     */
+    public func enableRemoteCommands(_ commands: [RemoteCommand]) {
+        self.remoteCommandController.enable(commands: commands)
     }
     
     // MARK: - NowPlayingInfo
+    
+    /**
+     Reloads the NowPlayingInfo from the current AudioItem.
+     */
+    public func reloadNowPlayingInfo() {
+        guard let item = currentItem else { return }
+        set(item: item)
+        setArtwork(forItem: item)
+        updatePlaybackValues()
+    }
     
     func set(item: AudioItem) {
         guard automaticallyUpdateNowPlayingInfo else { return }
@@ -188,11 +218,12 @@ public class AudioPlayer {
         guard automaticallyUpdateNowPlayingInfo else { return }
         item.getArtwork { (image) in
             if let image = image {
+                
                 let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (size) -> UIImage in
                     return image
                 })
                 
-                nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
+                self.nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
             }
         }
     }
@@ -204,99 +235,12 @@ public class AudioPlayer {
         nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.playbackRate(Double(wrapper.rate)))
     }
     
-    // MARK: - Remote Commands Handlers
+    // MARK: - Private
     
-    func connectToCommandCenter() {
-        self.remoteCommandCenter.playCommand.addTarget(handler: handlePlayCommand(event:))
-        self.remoteCommandCenter.pauseCommand.addTarget(handler: handlePauseCommand(event:))
-        self.remoteCommandCenter.togglePlayPauseCommand.addTarget(handler: handleTogglePlaybackCommand(event:))
-        self.remoteCommandCenter.stopCommand.addTarget(handler: handleStopCommand(event:))
-        self.remoteCommandCenter.skipForwardCommand.addTarget(handler: handleSkipForwardCommand(event:))
-        remoteCommandCenter.skipForwardCommand.preferredIntervals = [15]
-        self.remoteCommandCenter.skipBackwardCommand.addTarget(handler: handleSkipBackwardCommand(event:))
-        remoteCommandCenter.skipBackwardCommand.preferredIntervals = [15]
-        
-        self.remoteCommandCenter.changePlaybackPositionCommand.addTarget(handler: handleChangePlaybackPositionCommand(event:))
+    private func reset() {
+        self.currentItem = nil
     }
     
-    func getRemoteCommandHandlerStatus(forError error: Error) -> MPRemoteCommandHandlerStatus {
-        if let error = error as? APError.PlaybackError {
-            switch error {
-            case .noLoadedItem:
-                return MPRemoteCommandHandlerStatus.noActionableNowPlayingItem
-            }
-        }
-        return MPRemoteCommandHandlerStatus.commandFailed
-    }
-    
-    func handlePlayCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        do {
-            try self.wrapper.play()
-            return MPRemoteCommandHandlerStatus.success
-        }
-        catch let error {
-            return getRemoteCommandHandlerStatus(forError: error)
-        }
-    }
-    
-    func handlePauseCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        do {
-            try self.wrapper.pause()
-            return MPRemoteCommandHandlerStatus.success
-        }
-        catch let error {
-            return getRemoteCommandHandlerStatus(forError: error)
-        }
-    }
-    
-    func handleTogglePlaybackCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        do {
-            try self.wrapper.togglePlaying()
-            return MPRemoteCommandHandlerStatus.success
-        }
-        catch let error {
-            return getRemoteCommandHandlerStatus(forError: error)
-        }
-    }
-    
-    func handleStopCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        self.wrapper.stop()
-        return MPRemoteCommandHandlerStatus.success
-    }
-    
-    func handleSkipForwardCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        if let command = event.command as? MPSkipIntervalCommand {
-            if let interval = command.preferredIntervals.first {
-                self.seek(to: currentTime + interval.doubleValue)
-                return MPRemoteCommandHandlerStatus.success
-            }
-        }
-        
-        return MPRemoteCommandHandlerStatus.commandFailed
-    }
-    
-    func handleSkipBackwardCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        if let command = event.command as? MPSkipIntervalCommand {
-            if let interval = command.preferredIntervals.first {
-                self.seek(to: currentTime - interval.doubleValue)
-                return MPRemoteCommandHandlerStatus.success
-            }
-        }
-        return MPRemoteCommandHandlerStatus.commandFailed
-    }
-    
-    func handleChangePlaybackPositionCommand(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        if let event = event as? MPChangePlaybackPositionCommandEvent {
-            do {
-                try wrapper.seek(to: event.positionTime)
-                return MPRemoteCommandHandlerStatus.success
-            }
-            catch let error {
-                return getRemoteCommandHandlerStatus(forError: error)
-            }
-        }
-        return MPRemoteCommandHandlerStatus.commandFailed
-    }
 }
 
 extension AudioPlayer: AVPlayerWrapperDelegate {

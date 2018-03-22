@@ -65,7 +65,7 @@ public class AudioSessionController {
     /**
      True if another app is currently playing audio.
      */
-    var isOtherAudioPlaying: Bool {
+    public var isOtherAudioPlaying: Bool {
         return audioSession.isOtherAudioPlaying
     }
     
@@ -74,7 +74,7 @@ public class AudioSessionController {
      
      - warning: This will only be correct if the audiosession is activated through this class!
      */
-    var audioSessionIsActive: Bool = false
+    public var audioSessionIsActive: Bool = false
     
     private init() {}
     

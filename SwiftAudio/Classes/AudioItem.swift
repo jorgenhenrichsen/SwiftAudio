@@ -20,7 +20,7 @@ public protocol AudioItem {
     func getTitle() -> String?
     func getAlbumTitle() -> String?
     func getSourceType() -> SourceType
-    func getArtwork(_ handler: (UIImage?) -> Void)
+    func getArtwork(_ handler: @escaping (UIImage?) -> Void)
     
 }
 
@@ -67,7 +67,7 @@ public struct DefaultAudioItem: AudioItem {
         return sourceType
     }
     
-    public func getArtwork(_ handler: (UIImage?) -> Void) {
+    public func getArtwork(_ handler: @escaping (UIImage?) -> Void) {
         handler(artwork)
     }
 }

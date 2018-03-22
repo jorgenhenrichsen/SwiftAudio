@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
 
-SwiftAudio aims to make audio playback easier on iOS. No more boundaryTimeObserver, periodicTimeObserver, KVO and NotificationCenter to get state update from the player. It also updates NowPlayingInfo for you and handles remote events.
+SwiftAudio is an audio player written in Swift, making it simpler to work with audio playback from streams and files.
 
 ## Example
 
@@ -25,16 +25,25 @@ pod 'SwiftAudio'
 
 ## Usage
 
-Using the AudioPlayer:
+### AudioPlayer
 ```swift
 let player = AudioPlayer()
 let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
 player.load(item: audioItem)
 ```
-The player will load the track and start playing when ready.
-The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time etc.
-To enable this behaviour the AudioItems supplied to the player must supply these values. You can either use the `DefaultAudioItem` or make your playback objects implement the `AudioItem` protocol.
-You must also remember to set a AudioSessionCategory that supports this behaviour, and activate the session:
+
+The player will load the track and start playing when ready. To disable this behaviour use `load(item:playWhenReady:)` and pass in `false`. This is `true` by default. To get notified of events during playback and loading, implement `AudioPlayerDelegate` and the player will notify you with changes.
+
+#### States
+The `AudioPlayer` has a `state` property, to make it easier to determine appropriate actions. The different states:
++ **idle**: The player is doing nothing, no item is set as current. This is the default state.
++ **ready**: The player has its current item set and is ready to start loading for playback. This is when you can call `play()` if you supplied `playWhenReady=false` when calling `load(item:playWhenReady)`.
++ **loading**: The player is loading the track and will start playback soon.
++ **playing**: The player is playing.
++ **paused**: The player is paused.
+
+### Audio Session
+Remember to activate an audio session with an appropriate category for your app. This can be done with `AudioSessionCategory`:
 ```swift
 try? AudioSessionController.set(category: .playback)
 //...
@@ -42,21 +51,28 @@ try? AudioSessionController.set(category: .playback)
 // This is to avoid interrupting other audio without the need to do it.
 try? AudioSessionController.activateSession()
 ```
-If you want audio to continue playing when the app is closed or phone locked remember to activate background audio:
-App Settings -> Capabilities -> Background Modes -> Check 'Audio, AirPlay, and Picture in Picture'
 
-The player will also handle remote events received from `MPRemoteCommandCenter`'s shared instance. To enable this, you have to go to App Settings -> Capabilites -> Background Modes -> Check 'Remote notifications'
+If you want audio to continue playing when the app is inactive, remember to activate background audio:
+App Settings -> Capabilities -> Background Modes -> Check 'Audio, AirPlay, and Picture in Picture'.
 
-To get notified of events during playback and loading, implement `AudioPlayerDelegate`
-The player will notify you with changes.
+### Now Playing Info
+The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time etc. if the passed in `AudioItem` supports this.
 
-### States
-The `AudioPlayer` has a `state` property, to make it easier to determine appropriate actions. The delegate will be called when the state is updated.
-+ **idle**: The player is doing nothing, no item is set as current. This is the default state.
-+ **ready**: The player has its current item set and is ready to start loading for playback. This is when you can call `play()` if you supplied `playWhenReady=false` when calling `load(item:playWhenReady)`.
-+ **loading**: The player is loading the track and will start playback soon.
-+ **playing**: The player is playing.
-+ **paused**: The player is paused.
+### Remote Commands
+
+The player will handle remote commands received from `MPRemoteCommandCenter`'s shared instance, enabled by:
+```swift
+audioPlayer.enable(commands: [
+    .play,
+    .pause,
+    .skipForward(intervals: [30]),
+    .skipBackward(intervals: [30]),
+  ])
+```
+
+
+**Remember** to go to App Settings -> Capabilites -> Background Modes -> Check 'Remote notifications'
+
 
 ## Configuration
 
@@ -68,7 +84,6 @@ Currently some configuration options are supported:
 + `automaticallyUpdateNowPlayingInfo`: If you want to handle updating of the `MPNowPlayingInfoCenter` yourself, set this to `false`. Default is `true`.
 
 ## Plans
-* More configuration on the RemoteHandlerEvents
 * Ability to queue items
 
 ## Author
