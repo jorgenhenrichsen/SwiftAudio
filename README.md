@@ -56,20 +56,22 @@ If you want audio to continue playing when the app is inactive, remember to acti
 App Settings -> Capabilities -> Background Modes -> Check 'Audio, AirPlay, and Picture in Picture'.
 
 ### Now Playing Info
-The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time etc. if the passed in `AudioItem` supports this.
+The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time if the passed in `AudioItem` supports this.
+If you need to set additional properties for some items use `AudioPlayer.add(property:)`. Available properties can be found in `NowPlayingInfoProperty`.
 
 ### Remote Commands
 
 The player will handle remote commands received from `MPRemoteCommandCenter`'s shared instance, enabled by:
 ```swift
-audioPlayer.enableRemoteCommands([
+audioPlayer.remoteCommands = [
     .play,
     .pause,
     .skipForward(intervals: [30]),
     .skipBackward(intervals: [30]),
-  ])
+  ]
 ```
 
+These commands will be activated for each `AudioItem`. If you need some audio items to have different commands, implement `RemoteCommandable`. These commands will override the commands found in `AudioPlayer.remoteCommands` so make sure to supply all commands you need for that particular `AudioItem`.
 
 **Remember** to go to App Settings -> Capabilites -> Background Modes -> Check 'Remote notifications'
 

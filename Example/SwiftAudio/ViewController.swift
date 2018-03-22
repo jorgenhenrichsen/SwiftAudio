@@ -28,13 +28,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         audioPlayer.delegate = self
-        audioPlayer.enableRemoteCommands([
+        audioPlayer.remoteCommands = [
                 .stop,
                 .togglePlayPause,
                 .skipForward(preferredIntervals: [30]),
                 .skipBackward(preferredIntervals: [30]),
                 .changePlaybackPosition
-            ])
+            ]
         try? audioSessionController.set(category: .playback)
         try? audioSessionController.activateSession()
         let image = #imageLiteral(resourceName: "cover")

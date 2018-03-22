@@ -8,6 +8,9 @@
 import Foundation
 import MediaPlayer
 
+public protocol RemoteCommandable {
+    func getCommands() ->  [RemoteCommand]
+}
 
 public class RemoteCommandController {
         
@@ -36,11 +39,13 @@ public class RemoteCommandController {
     }
     
     private func enableCommand<Command: RemoteCommandProtocol>(_ command: Command) {
+        center[keyPath: command.commandKeyPath].isEnabled = true
         center[keyPath: command.commandKeyPath].addTarget(handler: self[keyPath: command.handlerKeyPath])
     }
     
     private func disableCommand<Command: RemoteCommandProtocol>(_ command: Command) {
-        center[keyPath: command.commandKeyPath].removeTarget(self)
+        center[keyPath: command.commandKeyPath].isEnabled = false
+        center[keyPath: command.commandKeyPath].removeTarget(self[keyPath: command.handlerKeyPath])
     }
     
     private func enable(command: RemoteCommand) {
