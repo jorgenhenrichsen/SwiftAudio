@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftAudio'
-  s.version          = '0.1.1'
+  s.version          = '0.2.0'
   s.summary          = 'Easy audio streaming for iOS'
 
 # This description is used to generate tags and improve search results.
@@ -18,8 +18,8 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-SwiftAudio aims to make audio playback easier on iOS. No more boundaryTimeObserver, periodicTimeObserver, KVO and NotificationCenter to get state update from the player. It also updates NowPlayingInfo for you and handles remote events.
-                       DESC
+SwiftAudio is an audio player written in Swift, making it simpler to work with audio playback from streams and files.
+DESC
 
   s.homepage         = 'https://github.com/jorgenhenrichsen/SwiftAudio'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
