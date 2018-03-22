@@ -268,7 +268,10 @@ public class AudioPlayer {
 extension AudioPlayer: AVPlayerWrapperDelegate {
     
     func AVWrapper(didChangeState state: AVPlayerWrapperState) {
-        updatePlaybackValues()
+        switch state {
+        case .playing, .paused: updatePlaybackValues()
+        default: break
+        }
         self.delegate?.audioPlayer(playerDidChangeState: state)
     }
     
