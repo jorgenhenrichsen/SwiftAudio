@@ -62,7 +62,7 @@ The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with ar
 
 The player will handle remote commands received from `MPRemoteCommandCenter`'s shared instance, enabled by:
 ```swift
-audioPlayer.enable(commands: [
+audioPlayer.enableRemoteCommands([
     .play,
     .pause,
     .skipForward(intervals: [30]),
