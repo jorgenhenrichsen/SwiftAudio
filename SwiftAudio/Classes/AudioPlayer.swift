@@ -28,15 +28,21 @@ public class AudioPlayer {
     
     let wrapper: AVPlayerWrapper
     let nowPlayingInfoController: NowPlayingInfoController
+    let remoteCommandController: RemoteCommandController
     
     public weak var delegate: AudioPlayerDelegate?
     public var currentItem: AudioItem?
-    public let remoteCommandController: RemoteCommandController
+    
     
     /**
      Set this to false to disable automatic updating of now playing info for control center and lock screen.
      */
     public var automaticallyUpdateNowPlayingInfo: Bool = true
+    
+    /**
+     Default remote commands to use for each playing item
+     */
+    public var remoteCommands: [RemoteCommand] = []
     
     // MARK: - Getters from AVPlayerWrapper
     
@@ -145,6 +151,7 @@ public class AudioPlayer {
         self.currentItem = item
         set(item: item)
         setArtwork(forItem: item)
+        enableRemoteCommands(forItem: item)
     }
     
     /**
@@ -189,8 +196,18 @@ public class AudioPlayer {
      Set the remote commands that should be activated and handled.
      Calling this will disable all earlier enabled commands, so include all commands you need.
      */
-    public func enableRemoteCommands(_ commands: [RemoteCommand]) {
+    func enableRemoteCommands(_ commands: [RemoteCommand]) {
         self.remoteCommandController.enable(commands: commands)
+    }
+    
+    func enableRemoteCommands(forItem item: AudioItem) {
+        if let item = item as? RemoteCommandable {
+            print("Enabling remote commands for item")
+            self.enableRemoteCommands(item.getCommands())
+        }
+        else {
+            self.enableRemoteCommands(remoteCommands)
+        }
     }
     
     // MARK: - NowPlayingInfo
@@ -205,8 +222,13 @@ public class AudioPlayer {
         updatePlaybackValues()
     }
     
+    public func add(property: NowPlayingInfoKeyValue) {
+        self.nowPlayingInfoController.set(keyValue: property)
+    }
+    
     func set(item: AudioItem) {
         guard automaticallyUpdateNowPlayingInfo else { return }
+
         nowPlayingInfoController.set(keyValues: [
             MediaItemProperty.artist(item.getArtist()),
             MediaItemProperty.title(item.getTitle()),
