@@ -18,13 +18,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var slider: UISlider!
     
     var isScrubbing: Bool = false
-    var audioPlayer: AudioPlayer = AudioPlayer()
+    var audioPlayer: QueuedAudioPlayer = QueuedAudioPlayer()
     let audioSessionController: AudioSessionController = AudioSessionController.shared
     let localSource = DefaultAudioItem(audioUrl: Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!, artist: "Artist", title: "Title", albumTitle: "Album", sourceType: .file, artwork: #imageLiteral(resourceName: "cover"))
     let streamSource = DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/081447adc23dad4f79ba4f1082615d1c56edf5e1?cid=d8a5ed958d274c2e8ee717e6a4b0971d", artist: "Bon Iver", title: "8 (circle)", albumTitle: "22, A Million", sourceType: .stream, artwork: #imageLiteral(resourceName: "22AMI"))
     
-    var artwork: MPMediaItemArtwork!
-    
+    let sources: [AudioItem] = [
+        DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/67b51d90ffddd6bb3f095059997021b589845f81?cid=d8a5ed958d274c2e8ee717e6a4b0971d", artist: "Bon Iver", title: "33 \"GOD\"", albumTitle: "22, A Million", sourceType: .stream, artwork: #imageLiteral(resourceName: "22AMI")),
+        DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/081447adc23dad4f79ba4f1082615d1c56edf5e1?cid=d8a5ed958d274c2e8ee717e6a4b0971d", artist: "Bon Iver", title: "8 (circle)", albumTitle: "22, A Million", sourceType: .stream, artwork: #imageLiteral(resourceName: "22AMI")),
+        DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/6f9999d909b017eabef97234dd7a206355720d9d?cid=d8a5ed958d274c2e8ee717e6a4b0971d", artist: "Bon Iver", title: "715 - CRΣΣKS", albumTitle: "22, A Million", sourceType: .stream, artwork: #imageLiteral(resourceName: "22AMI")),
+        DefaultAudioItem(audioUrl: "https://p.scdn.co/mp3-preview/bf9bdd403c67fdbe06a582e7b292487c8cfd1f7e?cid=d8a5ed958d274c2e8ee717e6a4b0971d", artist: "Bon Iver", title: "____45_____", albumTitle: "22, A Million", sourceType: .stream, artwork: #imageLiteral(resourceName: "22AMI"))
+    ]
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         audioPlayer.delegate = self
@@ -37,18 +42,14 @@ class ViewController: UIViewController {
             ]
         try? audioSessionController.set(category: .playback)
         try? audioSessionController.activateSession()
-        let image = #imageLiteral(resourceName: "cover")
-        artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (size) -> UIImage in
-            return image
-        })
     }
     
     @IBAction func playA(_ sender: Any) {
-        try? audioPlayer.load(item: localSource)
+        //try? audioPlayer.load(item: localSource)
     }
     
     @IBAction func playB(_ sender: Any) {
-        try? audioPlayer.load(item: streamSource)
+        try? audioPlayer.add(items: sources)
     }
     
     @IBAction func togglePlay(_ sender: Any) {

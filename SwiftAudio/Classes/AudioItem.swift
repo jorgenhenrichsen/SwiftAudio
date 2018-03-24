@@ -24,6 +24,7 @@ public protocol AudioItem {
 }
 
 public struct DefaultAudioItem: AudioItem {
+    
 
     public var audioUrl: String
     
@@ -69,4 +70,6 @@ public struct DefaultAudioItem: AudioItem {
     public func getArtwork(_ handler: @escaping (UIImage?) -> Void) {
         handler(artwork)
     }
+    
+    
 }

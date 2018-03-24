@@ -54,7 +54,6 @@
                                 <rect key="frame" x="168" y="58" width="39" height="30"/>
                                 <state key="normal" title="PlayB"/>
                                 <connections>
-                                    <action selector="playA:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="LEW-J0-qbI"/>
                                     <action selector="playB:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="OhP-ri-ZWx"/>
                                 </connections>
                             </button>
