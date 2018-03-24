@@ -25,6 +25,8 @@ public struct APError {
     
     enum LoadError: Error {
         case invalidSourceUrl(String)
+        case noPreviousItem
+        case noNextItem
     }
     
     enum PlaybackError: Error {
@@ -215,7 +217,7 @@ class AVPlayerWrapper {
      */
     func stop() {
         try? pause()
-        reset()
+        reset(soft: false)
     }
     
     /**
@@ -265,7 +267,7 @@ class AVPlayerWrapper {
     
     private func load(from url: URL, playWhenReady: Bool) {
         
-        reset()
+        reset(soft: true)
         _playWhenReady = playWhenReady
         
         // Set item
@@ -283,8 +285,10 @@ class AVPlayerWrapper {
     /**
      Reset to get ready for playing from a different source.
      */
-    private func reset() {
-        avPlayer.replaceCurrentItem(with: nil)
+    private func reset(soft: Bool) {
+        if !soft {
+            avPlayer.replaceCurrentItem(with: nil)
+        }
         playerTimeObserver.unregisterForBoundaryTimeEvents()
         playerItemNotificationObserver.stopObservingCurrentItem()
     }
@@ -351,7 +355,6 @@ extension AVPlayerWrapper: AVPlayerItemNotificationObserverDelegate {
     // MARK: - AVPlayerItemNotificationObserverDelegate
     
     func itemDidPlayToEndTime() {
-        self.reset()
         delegate?.AVWrapperItemDidComplete()
     }
     
