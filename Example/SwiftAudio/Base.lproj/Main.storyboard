@@ -57,15 +57,35 @@
                                     <action selector="playB:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="OhP-ri-ZWx"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Q1-U9-TUC">
+                                <rect key="frame" x="60" y="494" width="46" height="30"/>
+                                <state key="normal" title="Prev"/>
+                                <connections>
+                                    <action selector="previous:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="fFb-iW-sFr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nhf-qB-91A">
+                                <rect key="frame" x="269" y="494" width="46" height="30"/>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="next:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Tha-3J-gVM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Nhf-qB-91A" firstAttribute="leading" secondItem="EOo-zV-6l2" secondAttribute="trailing" constant="59" id="1Me-8S-tpK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EOo-zV-6l2" secondAttribute="trailing" constant="149" id="71L-Hv-1br"/>
+                            <constraint firstItem="9Q1-U9-TUC" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="44" id="9Df-Hu-85D"/>
+                            <constraint firstItem="Nhf-qB-91A" firstAttribute="centerY" secondItem="EOo-zV-6l2" secondAttribute="centerY" id="CHu-bv-3HF"/>
                             <constraint firstItem="RWN-If-dGG" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="Ee0-Yx-h5a"/>
                             <constraint firstItem="RWN-If-dGG" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="EzW-Sk-mlN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Nhf-qB-91A" secondAttribute="trailing" constant="44" id="MUt-p4-vMR"/>
                             <constraint firstItem="EOo-zV-6l2" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="148" id="OKq-yH-xWk"/>
                             <constraint firstItem="TPr-Wm-k0L" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="OaA-Nd-ZGX"/>
+                            <constraint firstItem="EOo-zV-6l2" firstAttribute="leading" secondItem="9Q1-U9-TUC" secondAttribute="trailing" constant="58" id="Onm-Lh-dTS"/>
                             <constraint firstItem="ExO-ir-bnt" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="VtX-IN-h4a"/>
+                            <constraint firstItem="9Q1-U9-TUC" firstAttribute="centerY" secondItem="EOo-zV-6l2" secondAttribute="centerY" id="fjm-x5-UtY"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="EOo-zV-6l2" secondAttribute="bottom" constant="143" id="m8i-yM-pER"/>
                             <constraint firstItem="ExO-ir-bnt" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="mc2-i7-c1f"/>
                             <constraint firstItem="TPr-Wm-k0L" firstAttribute="top" secondItem="ExO-ir-bnt" secondAttribute="bottom" constant="8" id="voY-Ue-QrT"/>

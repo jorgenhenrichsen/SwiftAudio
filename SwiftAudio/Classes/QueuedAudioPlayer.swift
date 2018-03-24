@@ -8,9 +8,18 @@
 import Foundation
 
 
+/**
+ An audio player that can keep track of a queue of AudioItems.
+ */
 public class QueuedAudioPlayer: AudioPlayer {
     
     let queueManager: QueueManager = QueueManager()
+    
+    /**
+     Set wether the player should automatically play the next song when a song is finished.
+     Default is `true`.
+     */
+    public var automaticallyPlayNextSong: Bool = true
     
     public override var currentItem: AudioItem? {
         return queueManager.current
@@ -33,6 +42,33 @@ public class QueuedAudioPlayer: AudioPlayer {
         }
         else {
             queueManager.addItems(items)
+        }
+    }
+    
+    public func next() throws {
+        if let nextItem = queueManager.next() {
+            try self.loadItem(nextItem, playWhenReady: true)
+        }
+        else {
+            throw APError.LoadError.noNextItem
+        }
+    }
+    
+    public func previous() throws {
+        if let previousItem = queueManager.previous() {
+            try self.loadItem(previousItem, playWhenReady: true)
+        }
+        else {
+            throw APError.LoadError.noPreviousItem
+        }
+    }
+    
+    // MARK: - AVPlayerWrapperDelegate
+    
+    override func AVWrapperItemDidComplete() {
+        super.AVWrapperItemDidComplete()
+        if automaticallyPlayNextSong {
+            try? self.next()
         }
     }
     

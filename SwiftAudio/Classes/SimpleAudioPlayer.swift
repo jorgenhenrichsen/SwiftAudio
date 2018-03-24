@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ A simple audio player that keeps on item at a time.
+ */
 public class SimpleAudioPlayer: AudioPlayer {
     
     /**

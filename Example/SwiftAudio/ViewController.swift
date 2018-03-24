@@ -56,6 +56,14 @@ class ViewController: UIViewController {
         try? audioPlayer.togglePlaying()
     }
     
+    @IBAction func previous(_ sender: Any) {
+        try? audioPlayer.previous()
+    }
+    
+    @IBAction func next(_ sender: Any) {
+        try? audioPlayer.next()
+    }
+    
     @IBAction func startScrubbing(_ sender: UISlider) {
         isScrubbing = true
     }

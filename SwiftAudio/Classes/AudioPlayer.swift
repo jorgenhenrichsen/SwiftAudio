@@ -28,7 +28,7 @@ public protocol AudioPlayerDelegate: class {
  The main AudioPlayer.
  - warning: DO NOT USE THIS CLASS, use `SimpleAudioPlayer` or `QueuedAudioPlayer`
  */
-public class AudioPlayer {
+public class AudioPlayer: AVPlayerWrapperDelegate {
     
     let wrapper: AVPlayerWrapper
     let nowPlayingInfoController: NowPlayingInfoController
@@ -270,9 +270,7 @@ public class AudioPlayer {
         self._currentItem = nil
     }
     
-}
-
-extension AudioPlayer: AVPlayerWrapperDelegate {
+    // MARK: - AVPlayerWrapperDelegate
     
     func AVWrapper(didChangeState state: AVPlayerWrapperState) {
         updatePlaybackValues()
