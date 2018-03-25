@@ -25,12 +25,16 @@ public struct APError {
     
     enum LoadError: Error {
         case invalidSourceUrl(String)
-        case noPreviousItem
-        case noNextItem
     }
     
     enum PlaybackError: Error {
         case noLoadedItem
+    }
+    
+    enum QueueError: Error {
+        case noPreviousItem
+        case noNextItem
+        case invalidIndex(index: Int, message: String)
     }
     
 }

@@ -13,7 +13,7 @@ import Foundation
  */
 public class QueuedAudioPlayer: AudioPlayer {
     
-    let queueManager: QueueManager = QueueManager()
+    let queueManager: QueueManager = QueueManager<AudioItem>()
     
     /**
      Set wether the player should automatically play the next song when a song is finished.
@@ -46,21 +46,26 @@ public class QueuedAudioPlayer: AudioPlayer {
     }
     
     public func next() throws {
-        if let nextItem = queueManager.next() {
-            try self.loadItem(nextItem, playWhenReady: true)
-        }
-        else {
-            throw APError.LoadError.noNextItem
-        }
+        let nextItem = try queueManager.next()
+        try self.loadItem(nextItem, playWhenReady: true)
     }
     
     public func previous() throws {
-        if let previousItem = queueManager.previous() {
-            try self.loadItem(previousItem, playWhenReady: true)
-        }
-        else {
-            throw APError.LoadError.noPreviousItem
-        }
+        let previousItem = try queueManager.previous()
+        try self.loadItem(previousItem, playWhenReady: true)
+    }
+    
+    public func removeItem(atIndex index: Int) throws {
+        try queueManager.remove(atIndex: index)
+    }
+    
+    public func jumpToItem(atIndex index: Int, playWhenReady: Bool = true) throws {
+        let item = try queueManager.jump(to: index)
+        try self.loadItem(item, playWhenReady: playWhenReady)
+    }
+    
+    func moveItem(fromIndex: Int, toIndex: Int) throws {
+        try queueManager.moveItem(fromIndex: fromIndex, toIndex: toIndex)
     }
     
     // MARK: - AVPlayerWrapperDelegate
