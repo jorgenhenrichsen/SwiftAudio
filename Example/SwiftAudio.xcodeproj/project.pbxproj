@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		02EAB7FA622CF9CCD4F328C7 /* Pods_SwiftAudio_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9CEE0D1B64E6BEF775F214D /* Pods_SwiftAudio_Tests.framework */; };
+		070713072067EB4F00F789B3 /* Double + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070713062067EB4F00F789B3 /* Double + Extensions.swift */; };
+		070713092067EFFB00F789B3 /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070713082067EFFB00F789B3 /* AudioController.swift */; };
+		0707130B2067F2E000F789B3 /* QueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0707130A2067F2E000F789B3 /* QueueViewController.swift */; };
+		0707130F2067F40A00F789B3 /* QueueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0707130D2067F40A00F789B3 /* QueueTableViewCell.swift */; };
+		070713102067F40A00F789B3 /* QueueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0707130E2067F40A00F789B3 /* QueueTableViewCell.xib */; };
 		074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */; };
 		074A6485205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */; };
 		074A6487205E59B60083D868 /* AVPlayerWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */; };
@@ -36,6 +41,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		070713062067EB4F00F789B3 /* Double + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + Extensions.swift"; sourceTree = "<group>"; };
+		070713082067EFFB00F789B3 /* AudioController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
+		0707130A2067F2E000F789B3 /* QueueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueViewController.swift; sourceTree = "<group>"; };
+		0707130D2067F40A00F789B3 /* QueueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTableViewCell.swift; sourceTree = "<group>"; };
+		0707130E2067F40A00F789B3 /* QueueTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueueTableViewCell.xib; sourceTree = "<group>"; };
 		074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerTimeObserverTests.swift; sourceTree = "<group>"; };
 		074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemNotificationObserverTests.swift; sourceTree = "<group>"; };
 		074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerWrapperTests.swift; sourceTree = "<group>"; };
@@ -108,7 +118,12 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
+				070713082067EFFB00F789B3 /* AudioController.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				0707130A2067F2E000F789B3 /* QueueViewController.swift */,
+				070713062067EB4F00F789B3 /* Double + Extensions.swift */,
+				0707130D2067F40A00F789B3 /* QueueTableViewCell.swift */,
+				0707130E2067F40A00F789B3 /* QueueTableViewCell.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -278,6 +293,7 @@
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				07732655205ECE1C00C4D1CD /* nasa_throttle_up.mp3 in Resources */,
+				070713102067F40A00F789B3 /* QueueTableViewCell.xib in Resources */,
 				07732654205ECA8B00C4D1CD /* WAV-MP3.wav in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
@@ -406,7 +422,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0707130B2067F2E000F789B3 /* QueueViewController.swift in Sources */,
+				070713072067EB4F00F789B3 /* Double + Extensions.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				0707130F2067F40A00F789B3 /* QueueTableViewCell.swift in Sources */,
+				070713092067EFFB00F789B3 /* AudioController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
