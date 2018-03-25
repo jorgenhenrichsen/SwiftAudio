@@ -9,6 +9,7 @@ SwiftAudio is an audio player written in Swift, making it simpler to work with a
 
 ## Example
 
+To see the audio player in action clone the repo and run the example project!
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
@@ -27,12 +28,21 @@ pod 'SwiftAudio'
 
 ### AudioPlayer
 ```swift
-let player = AudioPlayer()
+let player = QueuedAudioPlayer()
+let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
+player.add(item: audioItem)
+```
+
+The player will load the track and start playing when ready. To disable this behaviour use `add(item:playWhenReady:)` and pass in `false`. This is `true` by default. To get notified of events during playback and loading, implement `AudioPlayerDelegate` and the player will notify you with changes.
+
+If you want a simpler audio player without queue functionality, use:
+```swift
+let player = SimpleAudioPlayer()
 let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
 player.load(item: audioItem)
 ```
 
-The player will load the track and start playing when ready. To disable this behaviour use `load(item:playWhenReady:)` and pass in `false`. This is `true` by default. To get notified of events during playback and loading, implement `AudioPlayerDelegate` and the player will notify you with changes.
+**NOTE**: Do not use `AudioPlayer` directly. Use one of the above types.
 
 #### States
 The `AudioPlayer` has a `state` property, to make it easier to determine appropriate actions. The different states:
@@ -41,6 +51,17 @@ The `AudioPlayer` has a `state` property, to make it easier to determine appropr
 + **loading**: The player is loading the track and will start playback soon.
 + **playing**: The player is playing.
 + **paused**: The player is paused.
+
+#### Queue
+The `QueuedAudioPlayer` maintains a queue of audio tracks.
+The arrangement of the tracks are: [Previous]-[Current]-[Next].
+
+When a track is done playing, the player will load the next track and update the queue, as long as `automaticallyPlayNextSong` is `true` (This is by default).
+
+Items can be added to the queue by calling `player.add(item:)` or `player.add(items:)`.
+Use `removeItem(atIndex:)` and `moveItem(fromIndex:toIndex:)` to manipulate the queue.
+
+The queue can be navigated by using `next()`, `previous()` and `jumpToItem(atIndex:)`
 
 ### Audio Session
 Remember to activate an audio session with an appropriate category for your app. This can be done with `AudioSessionCategory`:
@@ -84,9 +105,6 @@ Currently some configuration options are supported:
 + `timeEventFrequency`: This decides how ofen the delegate should be notified that a time unit elapsed in the playback.
 + `volume`: The volume of the player. From 0.0 to 1.0.
 + `automaticallyUpdateNowPlayingInfo`: If you want to handle updating of the `MPNowPlayingInfoCenter` yourself, set this to `false`. Default is `true`.
-
-## Plans
-* Ability to queue items
 
 ## Author
 

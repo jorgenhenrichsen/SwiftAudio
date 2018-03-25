@@ -24,15 +24,22 @@ public protocol AudioPlayerDelegate: class {
     
 }
 
-public class AudioPlayer {
+/**
+ The main AudioPlayer.
+ - warning: DO NOT USE THIS CLASS, use `SimpleAudioPlayer` or `QueuedAudioPlayer`
+ */
+public class AudioPlayer: AVPlayerWrapperDelegate {
     
     let wrapper: AVPlayerWrapper
     let nowPlayingInfoController: NowPlayingInfoController
     let remoteCommandController: RemoteCommandController
     
-    public weak var delegate: AudioPlayerDelegate?
-    public var currentItem: AudioItem?
+    var _currentItem: AudioItem?
     
+    public weak var delegate: AudioPlayerDelegate?
+    public var currentItem: AudioItem? {
+        return _currentItem
+    }
     
     /**
      Set this to false to disable automatic updating of now playing info for control center and lock screen.
@@ -139,8 +146,8 @@ public class AudioPlayer {
      - parameter item: The AudioItem to load. The info given in this item is the one used for the InfoCenter.
      - parameter playWhenReady: Immediately start playback when the item is ready. Default is `true`. If you disable this you have to call play() or togglePlay() when the `state` switches to `ready`.
      */
-    public func load(item: AudioItem, playWhenReady: Bool = true) throws {
-        
+    func loadItem(_ item: AudioItem, playWhenReady: Bool = true) throws {
+        print("Loading: \(item)")
         switch item.getSourceType() {
         case .stream:
             try self.wrapper.load(fromUrlString: item.getSourceUrl(), playWhenReady: playWhenReady)
@@ -148,7 +155,7 @@ public class AudioPlayer {
             try self.wrapper.load(fromFilePath: item.getSourceUrl(), playWhenReady: playWhenReady)
         }
         
-        self.currentItem = item
+        self._currentItem = item
         set(item: item)
         setArtwork(forItem: item)
         enableRemoteCommands(forItem: item)
@@ -260,12 +267,10 @@ public class AudioPlayer {
     // MARK: - Private
     
     private func reset() {
-        self.currentItem = nil
+        self._currentItem = nil
     }
     
-}
-
-extension AudioPlayer: AVPlayerWrapperDelegate {
+    // MARK: - AVPlayerWrapperDelegate
     
     func AVWrapper(didChangeState state: AVPlayerWrapperState) {
         updatePlaybackValues()
