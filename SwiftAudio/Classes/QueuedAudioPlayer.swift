@@ -25,6 +25,14 @@ public class QueuedAudioPlayer: AudioPlayer {
         return queueManager.current
     }
     
+    public var previousItems: [AudioItem]? {
+        return queueManager.previousItems
+    }
+    
+    public var nextItems: [AudioItem]? {
+        return queueManager.nextItems
+    }
+    
     public func add(item: AudioItem, playWhenReady: Bool = true) throws {
         if currentItem == nil {
             queueManager.addItem(item)
