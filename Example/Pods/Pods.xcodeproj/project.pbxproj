@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070713052067E3EA00F789B3 /* APError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070713042067E3EA00F789B3 /* APError.swift */; };
 		0773265A205ED6C400C4D1CD /* AVPlayerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07732657205ED6C400C4D1CD /* AVPlayerObserver.swift */; };
 		0773265B205ED6C400C4D1CD /* AVPlayerItemNotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07732658205ED6C400C4D1CD /* AVPlayerItemNotificationObserver.swift */; };
 		0773265C205ED6C400C4D1CD /* AVPlayerTimeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07732659205ED6C400C4D1CD /* AVPlayerTimeObserver.swift */; };
 		07732660205ED7BF00C4D1CD /* AudioItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0773265F205ED7BF00C4D1CD /* AudioItem.swift */; };
 		0775574B2061C1820002C6A1 /* RemoteCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775574A2061C1820002C6A1 /* RemoteCommand.swift */; };
+		077557572066867F0002C6A1 /* QueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077557562066867F0002C6A1 /* QueueManager.swift */; };
+		0775575D2066A7DB0002C6A1 /* SimpleAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775575C2066A7DB0002C6A1 /* SimpleAudioPlayer.swift */; };
+		077557612066ABAD0002C6A1 /* QueuedAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077557602066ABAD0002C6A1 /* QueuedAudioPlayer.swift */; };
 		07F41B1A205FC0B100E25749 /* AudioSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F41B19205FC0B100E25749 /* AudioSessionController.swift */; };
 		07F41B2220614BDC00E25749 /* RemoteCommandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F41B2120614BDC00E25749 /* RemoteCommandController.swift */; };
 		0A2CA8B0DD7E300ABFCF1956E6B58248 /* Nimble.h in Headers */ = {isa = PBXBuildFile; fileRef = 2727DBDF3F41A52F002F6B1992165881 /* Nimble.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -168,11 +172,15 @@
 		0136A629F86E79FA6B68D9675E08D0AF /* Pods-SwiftAudio_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftAudio_Example-resources.sh"; sourceTree = "<group>"; };
 		014CC71E572C5CC14ADFA82A8B7B97DC /* Expression.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Expression.swift; path = Sources/Nimble/Expression.swift; sourceTree = "<group>"; };
 		057B1682EF92E71137867F0C259AF2CC /* NSString+C99ExtendedIdentifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSString+C99ExtendedIdentifier.swift"; path = "Sources/Quick/NSString+C99ExtendedIdentifier.swift"; sourceTree = "<group>"; };
+		070713042067E3EA00F789B3 /* APError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = APError.swift; path = SwiftAudio/Classes/APError.swift; sourceTree = "<group>"; };
 		07732657205ED6C400C4D1CD /* AVPlayerObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVPlayerObserver.swift; sourceTree = "<group>"; };
 		07732658205ED6C400C4D1CD /* AVPlayerItemNotificationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVPlayerItemNotificationObserver.swift; sourceTree = "<group>"; };
 		07732659205ED6C400C4D1CD /* AVPlayerTimeObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVPlayerTimeObserver.swift; sourceTree = "<group>"; };
 		0773265F205ED7BF00C4D1CD /* AudioItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioItem.swift; path = SwiftAudio/Classes/AudioItem.swift; sourceTree = "<group>"; };
 		0775574A2061C1820002C6A1 /* RemoteCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RemoteCommand.swift; path = SwiftAudio/Classes/RemoteCommand.swift; sourceTree = "<group>"; };
+		077557562066867F0002C6A1 /* QueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QueueManager.swift; path = SwiftAudio/Classes/QueueManager.swift; sourceTree = "<group>"; };
+		0775575C2066A7DB0002C6A1 /* SimpleAudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SimpleAudioPlayer.swift; path = SwiftAudio/Classes/SimpleAudioPlayer.swift; sourceTree = "<group>"; };
+		077557602066ABAD0002C6A1 /* QueuedAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QueuedAudioPlayer.swift; path = SwiftAudio/Classes/QueuedAudioPlayer.swift; sourceTree = "<group>"; };
 		07F41B19205FC0B100E25749 /* AudioSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioSessionController.swift; path = SwiftAudio/Classes/AudioSessionController.swift; sourceTree = "<group>"; };
 		07F41B2120614BDC00E25749 /* RemoteCommandController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RemoteCommandController.swift; path = SwiftAudio/Classes/RemoteCommandController.swift; sourceTree = "<group>"; };
 		0A9D7EA20C39A55A1EF0C23094895A75 /* Quick-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Quick-dummy.m"; sourceTree = "<group>"; };
@@ -388,6 +396,8 @@
 			isa = PBXGroup;
 			children = (
 				E469FE2F4CBA2182A64C31D9B41A936E /* AudioPlayer.swift */,
+				0775575C2066A7DB0002C6A1 /* SimpleAudioPlayer.swift */,
+				077557602066ABAD0002C6A1 /* QueuedAudioPlayer.swift */,
 				0773265F205ED7BF00C4D1CD /* AudioItem.swift */,
 				C455E233BD4071A35296FEDA8D99CEDE /* MediaItemProperty.swift */,
 				32A658905B9E84D827AA64605F28E3F9 /* NowPlayingInfoController.swift */,
@@ -396,6 +406,8 @@
 				07F41B19205FC0B100E25749 /* AudioSessionController.swift */,
 				07F41B2120614BDC00E25749 /* RemoteCommandController.swift */,
 				0775574A2061C1820002C6A1 /* RemoteCommand.swift */,
+				077557562066867F0002C6A1 /* QueueManager.swift */,
+				070713042067E3EA00F789B3 /* APError.swift */,
 				07732656205ED6C400C4D1CD /* Observer */,
 				25961FA3FF989AFD1E08A55F4E464276 /* AVPlayerWrapper */,
 				853A8C0AF6F0B4902930084E06DEA640 /* Support Files */,
@@ -981,6 +993,8 @@
 				0773265C205ED6C400C4D1CD /* AVPlayerTimeObserver.swift in Sources */,
 				07F41B1A205FC0B100E25749 /* AudioSessionController.swift in Sources */,
 				A1A245A1D2A54FF00AACE521F153D281 /* AudioPlayer.swift in Sources */,
+				0775575D2066A7DB0002C6A1 /* SimpleAudioPlayer.swift in Sources */,
+				077557572066867F0002C6A1 /* QueueManager.swift in Sources */,
 				C525C159B05D6FEEE0FC3D16910C934B /* AVPlayerWrapper.swift in Sources */,
 				C226CFBDCE851BDA9CD1DA26894BF272 /* AVPlayerWrapperState.swift in Sources */,
 				5E48B05B2B78E0AD05E2DBA8B1862AE5 /* MediaItemProperty.swift in Sources */,
@@ -988,10 +1002,12 @@
 				FCE55A287889D68B475EBFBE8AB26E4B /* NowPlayingInfoController.swift in Sources */,
 				0775574B2061C1820002C6A1 /* RemoteCommand.swift in Sources */,
 				07732660205ED7BF00C4D1CD /* AudioItem.swift in Sources */,
+				070713052067E3EA00F789B3 /* APError.swift in Sources */,
 				07F41B2220614BDC00E25749 /* RemoteCommandController.swift in Sources */,
 				6E0C5034AB99CC7E6B0BF002D488D85D /* NowPlayingInfoProperty.swift in Sources */,
 				A45D4CA6BC297DB896B20F391DF60D61 /* SwiftAudio-dummy.m in Sources */,
 				0773265B205ED6C400C4D1CD /* AVPlayerItemNotificationObserver.swift in Sources */,
+				077557612066ABAD0002C6A1 /* QueuedAudioPlayer.swift in Sources */,
 				8577EFB55077C469A41CFFBB5C749995 /* TimeEventFrequency.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
