@@ -257,6 +257,7 @@ class AVPlayerWrapper {
         
         reset(soft: true)
         _playWhenReady = playWhenReady
+        _state = .loading
         
         // Set item
         let currentAsset = AVURLAsset(url: url)
