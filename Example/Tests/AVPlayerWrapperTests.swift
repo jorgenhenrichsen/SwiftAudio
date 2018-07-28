@@ -22,21 +22,31 @@ class AVPlayerWrapperTests: QuickSpec {
                 wrapper.volume = 0.0
             }
 
-            describe("its state", {
-
-                context("when doing nothing", {
-                    it("should be idle", closure: {
-                        expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
-                    })
+            describe("state", {
+                it("should be idle", closure: {
+                    expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
                 })
 
                 context("when loading a source", {
                     beforeEach {
                         try? wrapper.load(fromFilePath: source, playWhenReady: false)
                     }
+                    
+                    it("should be loading", closure: {
+                        expect(wrapper.state).to(equal(AVPlayerWrapperState.loading))
+                    })
 
                     it("should eventually be ready", closure: {
                         expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.ready))
+                    })
+                })
+                
+                context("when playing with no source", {
+                    beforeEach {
+                        try? wrapper.play()
+                    }
+                    it("should be idle", closure: {
+                        expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
                     })
                 })
 
@@ -68,7 +78,22 @@ class AVPlayerWrapperTests: QuickSpec {
                     it("should eventually be paused", closure: {
                         expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.paused))
                     })
-
+                })
+                
+                context("when toggling the source from play", {
+                    let holder = AudioPlayerDelegateHolder()
+                    beforeEach {
+                        wrapper.delegate = holder
+                        holder.stateUpdate = { (state) in
+                            if state == .playing {
+                                try? wrapper.togglePlaying()
+                            }
+                        }
+                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
+                    }
+                    it("should eventually be playing", closure: {
+                        expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.paused))
+                    })
                 })
 
                 context("when stopping the source", {
@@ -95,7 +120,30 @@ class AVPlayerWrapperTests: QuickSpec {
                     })
 
                 })
-
+                
+                context("when seeking before loading", {
+                    beforeEach {
+                        try? wrapper.seek(to: 10)
+                    }
+                    it("should be idle", closure: {
+                        expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
+                    })
+                })
+            })
+            
+            describe("its duration", {
+                it("should be 0", closure: {
+                    expect(wrapper.duration).to(equal(0))
+                })
+                
+                context("when loading source", {
+                    beforeEach {
+                        try? wrapper.load(fromFilePath: source, playWhenReady: false)
+                    }
+                    it("should eventually not be 0", closure: {
+                        expect(wrapper.duration).toEventuallyNot(equal(0))
+                    })
+                })
             })
         }
 
@@ -109,6 +157,7 @@ class AudioPlayerDelegateHolder: AVPlayerWrapperDelegate {
     
     var state: AVPlayerWrapperState? {
         didSet {
+            print(state)
             if let state = state {
                 self.stateUpdate?(state)
             }
@@ -136,6 +185,10 @@ class AudioPlayerDelegateHolder: AVPlayerWrapperDelegate {
     
     func AVWrapper(seekTo seconds: Int, didFinish: Bool) {
          
+    }
+    
+    func AVWrapper(didUpdateDuration duration: Double) {
+        
     }
     
 }

@@ -78,6 +78,11 @@ class QueueManagerTests: QuickSpec {
                     expect(manager.current).to(equal(self.dummyItems.first))
                 })
                 
+                it("should have next items", closure: {
+                    expect(manager.nextItems).toNot(beNil())
+                    expect(manager.nextItems?.count).to(equal(self.dummyItems.count - 1))
+                })
+                
                 context("then calling next", {
                     var nextItem: Int?
                     beforeEach {
@@ -91,6 +96,10 @@ class QueueManagerTests: QuickSpec {
                     
                     it("should have next current item", closure: {
                         expect(manager.current).to(equal(self.dummyItems[1]))
+                    })
+                    
+                    it("should have previous items", closure: {
+                        expect(manager.previousItems.count).to(equal(1))
                     })
                     
                     context("then calling previous", {
@@ -171,6 +180,27 @@ class QueueManagerTests: QuickSpec {
                 
                 // MARK: - Jumping
                 
+                context("then jumping to the current item", {
+                    var error: Error?
+                    var item: Int?
+                    beforeEach {
+                        do {
+                            item = try manager.jump(to: manager.currentIndex)
+                        }
+                        catch let err {
+                            error = err
+                        }
+                    }
+                    
+                    it("should not return an item", closure: {
+                        expect(item).to(beNil())
+                    })
+                    
+                    it("should throw an error", closure: {
+                        expect(error).toNot(beNil())
+                    })
+                })
+                
                 context("then jumping to the second item", {
                     var jumped: Int?
                     beforeEach {
@@ -233,6 +263,76 @@ class QueueManagerTests: QuickSpec {
                 
                 // MARK: - Moving
                 
+                context("moving from current index", {
+                    var error: Error?
+                    beforeEach {
+                        do {
+                            try manager.moveItem(fromIndex: manager.currentIndex, toIndex: manager.currentIndex + 1)
+                        }
+                        catch let err { error = err }
+                    }
+                    
+                    it("throw an error", closure: {
+                        expect(error).toNot(beNil())
+                    })
+                })
+                
+                context("moving from a negative index", {
+                    var error: Error?
+                    beforeEach {
+                        do {
+                            try manager.moveItem(fromIndex: -1, toIndex: manager.currentIndex + 1)
+                        }
+                        catch let err { error = err }
+                    }
+                    
+                    it("should throw an error", closure: {
+                        expect(error).toNot(beNil())
+                    })
+                })
+                
+                context("moving from a too large index", {
+                    var error: Error?
+                    beforeEach {
+                        do {
+                            try manager.moveItem(fromIndex: manager.items.count, toIndex: manager.currentIndex + 1)
+                        }
+                        catch let err { error = err }
+                    }
+                    
+                    it("should throw an error", closure: {
+                        expect(error).toNot(beNil())
+                    })
+                })
+                
+                context("moving to a negative index", {
+                    var error: Error?
+                    beforeEach {
+                        do {
+                            try manager.moveItem(fromIndex: manager.currentIndex + 1, toIndex: -1)
+                        }
+                        catch let err { error = err }
+                    }
+                    
+                    it("should throw an error", closure: {
+                        expect(error).toNot(beNil())
+                    })
+                })
+                
+                context("moving to a too large index", {
+                    var error: Error?
+                    beforeEach {
+                        do {
+                            try manager.moveItem(fromIndex: manager.currentIndex + 1, toIndex: manager.items.count)
+                        }
+                        catch let err { error = err }
+                    }
+                    
+                    it("should throw an error", closure: {
+                        expect(error).toNot(beNil())
+                    })
+                })
+                
                 context("then moving 2nd to 4th", closure: {
                     let afterMoving: [Int] = [0, 2, 3, 1, 4, 5, 6]
                     beforeEach {
@@ -244,11 +344,6 @@ class QueueManagerTests: QuickSpec {
                     })
                 })
             })
-            
-            
-            
         }
-        
     }
-    
 }

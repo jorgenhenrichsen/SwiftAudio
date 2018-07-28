@@ -21,6 +21,7 @@
 		07732654205ECA8B00C4D1CD /* WAV-MP3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07732650205EACA300C4D1CD /* WAV-MP3.wav */; };
 		07732655205ECE1C00C4D1CD /* nasa_throttle_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */; };
 		0775575920668B020002C6A1 /* QueueManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775575820668B020002C6A1 /* QueueManagerTests.swift */; };
+		078C908F210D263200555E80 /* AVPlayerItemObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -52,6 +53,7 @@
 		07732650205EACA300C4D1CD /* WAV-MP3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "WAV-MP3.wav"; sourceTree = "<group>"; };
 		07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nasa_throttle_up.mp3; sourceTree = "<group>"; };
 		0775575820668B020002C6A1 /* QueueManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueManagerTests.swift; sourceTree = "<group>"; };
+		078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemObserverTests.swift; sourceTree = "<group>"; };
 		521F3AEC1228A2FA2637355F /* Pods-SwiftAudio_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftAudio_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftAudio_Tests/Pods-SwiftAudio_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SwiftAudio_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftAudio_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */,
 				074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */,
 				0775575820668B020002C6A1 /* QueueManagerTests.swift */,
+				078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */,
 				07732650205EACA300C4D1CD /* WAV-MP3.wav */,
 				07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
@@ -437,6 +440,7 @@
 			files = (
 				0775575920668B020002C6A1 /* QueueManagerTests.swift in Sources */,
 				074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */,
+				078C908F210D263200555E80 /* AVPlayerItemObserverTests.swift in Sources */,
 				074A6485205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* AVPlayerObserverTests.swift in Sources */,
 				074A6487205E59B60083D868 /* AVPlayerWrapperTests.swift in Sources */,
