@@ -18,6 +18,7 @@ protocol AVPlayerWrapperDelegate: class {
     func AVWrapper(secondsElapsed seconds: Double)
     func AVWrapper(failedWithError error: Error?)
     func AVWrapper(seekTo seconds: Int, didFinish: Bool)
+    func AVWrapper(didUpdateDuration duration: Double)
     
 }
 
@@ -33,6 +34,7 @@ class AVPlayerWrapper {
     let playerObserver: AVPlayerObserver
     let playerTimeObserver: AVPlayerTimeObserver
     let playerItemNotificationObserver: AVPlayerItemNotificationObserver
+    let playerItemObserver: AVPlayerItemObserver
     
     /**
      True if the last call to load(from:playWhenReady) had playWhenReady=true.
@@ -147,6 +149,7 @@ class AVPlayerWrapper {
         self.playerObserver = AVPlayerObserver(player: avPlayer)
         self.playerTimeObserver = AVPlayerTimeObserver(player: avPlayer, periodicObserverTimeInterval: timeEventFrequency.getTime())
         self.playerItemNotificationObserver = AVPlayerItemNotificationObserver()
+        self.playerItemObserver = AVPlayerItemObserver()
 
         self.bufferDuration = 0
         self.timeEventFrequency = timeEventFrequency
@@ -154,6 +157,7 @@ class AVPlayerWrapper {
         self.playerObserver.delegate = self
         self.playerTimeObserver.delegate = self
         self.playerItemNotificationObserver.delegate = self
+        self.playerItemObserver.delegate = self
         
         playerTimeObserver.registerForPeriodicTimeEvents()
     }
@@ -269,6 +273,7 @@ class AVPlayerWrapper {
         playerTimeObserver.registerForBoundaryTimeEvents()
         playerObserver.startObserving()
         playerItemNotificationObserver.startObserving(item: currentItem)
+        playerItemObserver.startObserving(item: currentItem)
     }
     
     /**
@@ -345,6 +350,16 @@ extension AVPlayerWrapper: AVPlayerItemNotificationObserverDelegate {
     
     func itemDidPlayToEndTime() {
         delegate?.AVWrapperItemDidComplete()
+    }
+    
+}
+
+extension AVPlayerWrapper: AVPlayerItemObserverDelegate {
+    
+    // MARK: - AVPlayerItemObserverDelegate
+    
+    func item(didUpdateDuration duration: Double) {
+        self.delegate?.AVWrapper(didUpdateDuration: duration)
     }
     
 }

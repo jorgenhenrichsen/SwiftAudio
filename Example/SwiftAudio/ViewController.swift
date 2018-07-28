@@ -60,7 +60,6 @@ class ViewController: UIViewController {
 extension ViewController: AudioPlayerDelegate {
     
     func audioPlayer(playerDidChangeState state: AVPlayerWrapperState) {
-        
         playButton.setTitle(state == .playing ? "Pause" : "Play", for: .normal)
         
         switch state {
@@ -76,6 +75,9 @@ extension ViewController: AudioPlayerDelegate {
             
             slider.maximumValue = Float(controller.player.duration)
             slider.setValue(Float(controller.player.currentTime), animated: true)
+            
+            elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
+            remainingTimeLabel.text = (controller.player.duration - controller.player.currentTime).secondsToString()
             
         case .loading, .playing, .paused, .idle:
             slider.maximumValue = Float(controller.player.duration)
@@ -102,6 +104,14 @@ extension ViewController: AudioPlayerDelegate {
     
     func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
         isScrubbing = false
+    }
+    
+    func audioPlayer(didUpdateDuration duration: Double) {
+        slider.maximumValue = Float(controller.player.duration)
+        slider.setValue(Float(controller.player.currentTime), animated: true)
+        
+        elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
+        remainingTimeLabel.text = (controller.player.duration - controller.player.currentTime).secondsToString()
     }
     
 }

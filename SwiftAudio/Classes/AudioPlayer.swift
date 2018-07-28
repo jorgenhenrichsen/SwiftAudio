@@ -22,6 +22,8 @@ public protocol AudioPlayerDelegate: class {
     
     func audioPlayer(seekTo seconds: Int, didFinish: Bool)
     
+    func audioPlayer(didUpdateDuration duration: Double)
+    
 }
 
 /**
@@ -295,6 +297,10 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     func AVWrapper(seekTo seconds: Int, didFinish: Bool) {
         self.updatePlaybackValues()
         self.delegate?.audioPlayer(seekTo: seconds, didFinish: didFinish)
+    }
+    
+    func AVWrapper(didUpdateDuration duration: Double) {
+        self.delegate?.audioPlayer(didUpdateDuration: duration)
     }
     
 }
