@@ -43,6 +43,16 @@ class AVPlayerObserverTests: QuickSpec, AVPlayerObserverDelegate {
                         expect(self.timeControlStatus).toEventuallyNot(beNil())
                     })
                 })
+                
+                context("when observing again", {
+                    beforeEach {
+                        observer.startObserving()
+                    }
+                    
+                    it("should be observing", closure: {
+                        expect(observer.isObserving).toEventually(beTrue())
+                    })
+                })
             })
             
         }
