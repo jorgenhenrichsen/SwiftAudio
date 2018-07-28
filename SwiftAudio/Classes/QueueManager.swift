@@ -75,13 +75,11 @@ class QueueManager<T> {
     @discardableResult
     public func next() throws -> T {
         let nextIndex = _currentIndex + 1
-        if _items.count > nextIndex {
-            _currentIndex = nextIndex
-            return _items[nextIndex]
-        }
-        else {
+        guard _items.count > nextIndex else {
             throw APError.QueueError.noNextItem
         }
+        _currentIndex = nextIndex
+        return _items[nextIndex]
     }
     
     /**
@@ -94,13 +92,11 @@ class QueueManager<T> {
     @discardableResult
     public func previous() throws -> T {
         let previousIndex = _currentIndex - 1
-        if previousIndex >= 0 {
-            _currentIndex = previousIndex
-            return _items[previousIndex]
-        }
-        else {
+        guard previousIndex >= 0 else {
             throw APError.QueueError.noPreviousItem
         }
+        _currentIndex = previousIndex
+        return _items[previousIndex]
     }
     
     /**
