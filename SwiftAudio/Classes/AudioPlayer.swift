@@ -126,12 +126,11 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     // MARK: - Init
     
     /**
-     Create a new AudioManager.
+     Create a new AudioPlayer.
      
-     - parameter audioPlayer: The underlying AudioPlayer instance for the Manager. If you need to configure the behaviour of the player, create an instance, configure it and pass it in here.
      - parameter infoCenter: The InfoCenter to update. Default is `MPNowPlayingInfoCenter.default()`.
      */
-    public init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
+    init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
         self.wrapper = AVPlayerWrapper()
         self.nowPlayingInfoController = NowPlayingInfoController(infoCenter: infoCenter)
         self.remoteCommandController = RemoteCommandController()

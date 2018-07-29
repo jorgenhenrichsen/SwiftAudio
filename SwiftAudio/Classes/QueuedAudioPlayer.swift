@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import MediaPlayer
 
 /**
  An audio player that can keep track of a queue of AudioItems.
@@ -20,6 +20,10 @@ public class QueuedAudioPlayer: AudioPlayer {
      Default is `true`.
      */
     public var automaticallyPlayNextSong: Bool = true
+    
+    public override init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
+        super.init(infoCenter: infoCenter)
+    }
     
     public override var currentItem: AudioItem? {
         return queueManager.current

@@ -6,11 +6,16 @@
 //
 
 import Foundation
+import MediaPlayer
 
 /**
  A simple audio player that keeps on item at a time.
  */
 public class SimpleAudioPlayer: AudioPlayer {
+    
+    public override init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
+        super.init(infoCenter: infoCenter)
+    }
     
     /**
      Load an AudioItem into the manager.
