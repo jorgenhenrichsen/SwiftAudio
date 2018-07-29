@@ -18,6 +18,8 @@ public class RemoteCommandController {
     
     weak var audioPlayer: AudioPlayer?
     
+    var commandTargetPointers: [String: Any] = [:]
+    
     init() {}
     
     /**
@@ -40,12 +42,13 @@ public class RemoteCommandController {
     
     private func enableCommand<Command: RemoteCommandProtocol>(_ command: Command) {
         center[keyPath: command.commandKeyPath].isEnabled = true
-        center[keyPath: command.commandKeyPath].addTarget(handler: self[keyPath: command.handlerKeyPath])
+        commandTargetPointers[command.id] = center[keyPath: command.commandKeyPath].addTarget(handler: self[keyPath: command.handlerKeyPath])
     }
     
     private func disableCommand<Command: RemoteCommandProtocol>(_ command: Command) {
         center[keyPath: command.commandKeyPath].isEnabled = false
-        center[keyPath: command.commandKeyPath].removeTarget(self[keyPath: command.handlerKeyPath])
+        center[keyPath: command.commandKeyPath].removeTarget(commandTargetPointers[command.id])
+        commandTargetPointers.removeValue(forKey: command.id)
     }
     
     private func enable(command: RemoteCommand) {
