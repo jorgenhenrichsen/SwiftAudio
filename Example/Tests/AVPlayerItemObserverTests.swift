@@ -44,27 +44,6 @@ class AVPlayerItemObserverTests: QuickSpec {
                     })
                 })
             })
-            
-            describe("it's delegate", {
-                context("when observing", {
-                    var holder: AVPlayerItemObserverDelegateHolder!
-                    var item: AVPlayerItem!
-                    var duration: Double = 0
-                    beforeEach {
-                        holder = AVPlayerItemObserverDelegateHolder()
-                        holder.updateDuration = {(value) in
-                            duration = value
-                        }
-                        observer.delegate = holder
-                        item = AVPlayerItem(url: URL(fileURLWithPath: source))
-                        observer.startObserving(item: item)
-                    }
-                    
-                    it("should update delegate with duration", closure: {
-                        expect(duration).toEventually(beTruthy())
-                    })
-                })
-            })
         }
     }
 }
