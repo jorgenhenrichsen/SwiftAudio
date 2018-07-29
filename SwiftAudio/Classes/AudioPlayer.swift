@@ -22,6 +22,8 @@ public protocol AudioPlayerDelegate: class {
     
     func audioPlayer(seekTo seconds: Int, didFinish: Bool)
     
+    func audioPlayer(didUpdateDuration duration: Double)
+    
 }
 
 /**
@@ -124,12 +126,11 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     // MARK: - Init
     
     /**
-     Create a new AudioManager.
+     Create a new AudioPlayer.
      
-     - parameter audioPlayer: The underlying AudioPlayer instance for the Manager. If you need to configure the behaviour of the player, create an instance, configure it and pass it in here.
      - parameter infoCenter: The InfoCenter to update. Default is `MPNowPlayingInfoCenter.default()`.
      */
-    public init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
+    init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
         self.wrapper = AVPlayerWrapper()
         self.nowPlayingInfoController = NowPlayingInfoController(infoCenter: infoCenter)
         self.remoteCommandController = RemoteCommandController()
@@ -273,7 +274,10 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     // MARK: - AVPlayerWrapperDelegate
     
     func AVWrapper(didChangeState state: AVPlayerWrapperState) {
-        updatePlaybackValues()
+        switch state {
+        case .playing, .paused: updatePlaybackValues()
+        default: break
+        }
         self.delegate?.audioPlayer(playerDidChangeState: state)
     }
     
@@ -292,6 +296,10 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     func AVWrapper(seekTo seconds: Int, didFinish: Bool) {
         self.updatePlaybackValues()
         self.delegate?.audioPlayer(seekTo: seconds, didFinish: didFinish)
+    }
+    
+    func AVWrapper(didUpdateDuration duration: Double) {
+        self.delegate?.audioPlayer(didUpdateDuration: duration)
     }
     
 }
