@@ -27,8 +27,8 @@ class AudioController {
         player.remoteCommands = [
             .stop,
             .togglePlayPause,
-            .skipForward(preferredIntervals: [30]),
-            .skipBackward(preferredIntervals: [30]),
+            .next,
+            .previous,
             .changePlaybackPosition
         ]
         try? audioSessionController.set(category: .playback)

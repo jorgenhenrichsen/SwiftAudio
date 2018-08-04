@@ -19,15 +19,19 @@ public protocol RemoteCommandProtocol {
     var handlerKeyPath: KeyPath<RemoteCommandController, RemoteCommandHandler> { get }
 }
 
-public struct BaseRemoteCommand: RemoteCommandProtocol {
+public struct PlayBackCommand: RemoteCommandProtocol {
     
-    public static let play = BaseRemoteCommand(id: "Play", commandKeyPath: \MPRemoteCommandCenter.playCommand, handlerKeyPath: \RemoteCommandController.handlePlayCommand)
+    public static let play = PlayBackCommand(id: "Play", commandKeyPath: \MPRemoteCommandCenter.playCommand, handlerKeyPath: \RemoteCommandController.handlePlayCommand)
     
-    public static let pause = BaseRemoteCommand(id: "Pause", commandKeyPath: \MPRemoteCommandCenter.pauseCommand, handlerKeyPath: \RemoteCommandController.handlePauseCommand)
+    public static let pause = PlayBackCommand(id: "Pause", commandKeyPath: \MPRemoteCommandCenter.pauseCommand, handlerKeyPath: \RemoteCommandController.handlePauseCommand)
     
-    public static let stop = BaseRemoteCommand(id: "Stop", commandKeyPath: \MPRemoteCommandCenter.stopCommand, handlerKeyPath: \RemoteCommandController.handleStopCommand)
+    public static let stop = PlayBackCommand(id: "Stop", commandKeyPath: \MPRemoteCommandCenter.stopCommand, handlerKeyPath: \RemoteCommandController.handleStopCommand)
     
-    public static let togglePlayPause = BaseRemoteCommand(id: "TogglePlayPause", commandKeyPath: \MPRemoteCommandCenter.togglePlayPauseCommand, handlerKeyPath: \RemoteCommandController.handleTogglePlayPauseCommand)
+    public static let togglePlayPause = PlayBackCommand(id: "TogglePlayPause", commandKeyPath: \MPRemoteCommandCenter.togglePlayPauseCommand, handlerKeyPath: \RemoteCommandController.handleTogglePlayPauseCommand)
+    
+    public static let nextTrack = PlayBackCommand(id: "NextTrackCommand", commandKeyPath: \MPRemoteCommandCenter.nextTrackCommand, handlerKeyPath: \RemoteCommandController.handleNextTrackCommand)
+    
+    public static let previousTrack = PlayBackCommand(id: "PreviousTrack", commandKeyPath: \MPRemoteCommandCenter.previousTrackCommand, handlerKeyPath: \RemoteCommandController.handlePreviousTrackCommand)
     
     
     public typealias Command = MPRemoteCommand
@@ -85,6 +89,10 @@ public enum RemoteCommand {
     
     case togglePlayPause
     
+    case next
+    
+    case previous
+    
     case changePlaybackPosition
     
     case skipForward(preferredIntervals: [NSNumber])
@@ -101,6 +109,8 @@ public enum RemoteCommand {
             .pause,
             .stop,
             .togglePlayPause,
+            .next,
+            .previous,
             .changePlaybackPosition,
             .skipForward(preferredIntervals: []),
             .skipBackward(preferredIntervals: []),
