@@ -150,7 +150,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 
                 context("when seeking to a time", {
                     let holder = AVPlayerWrapperDelegateHolder()
-                    let seekTime: TimeInterval = 5
+                    let seekTime: TimeInterval = 0.5
                     beforeEach {
                         wrapper.delegate = holder
                         holder.stateUpdate = { (state) in

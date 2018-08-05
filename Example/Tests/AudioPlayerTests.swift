@@ -50,7 +50,6 @@ class AudioPlayerTests: QuickSpec {
                         holder.stateUpdate = { state in
                             print(state.rawValue)
                             if state == .ready {
-                                print("State is ready, calling play")
                                 try? audioPlayer.play()
                             }
                         }

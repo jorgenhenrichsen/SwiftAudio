@@ -10,7 +10,7 @@ import Foundation
 import SwiftAudio
 
 struct Source {
-    static let path: String = Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!
+    static let path: String = Bundle.main.path(forResource: "TestSound", ofType: "m4a")!
     
     static func getAudioItem() -> AudioItem {
         return DefaultAudioItem(audioUrl: Source.path, sourceType: .file)
