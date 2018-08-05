@@ -16,6 +16,7 @@
 		0708ED6C2116DA4C00EB29BD /* AudioSessionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708ED6B2116DA4B00EB29BD /* AudioSessionControllerTests.swift */; };
 		0708ED702116E89900EB29BD /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708ED6F2116E89900EB29BD /* Source.swift */; };
 		0708ED722116E91D00EB29BD /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708ED6F2116E89900EB29BD /* Source.swift */; };
+		0708ED742116EE0100EB29BD /* AudioPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708ED732116EE0100EB29BD /* AudioPlayerTests.swift */; };
 		074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */; };
 		074A6485205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */; };
 		074A6487205E59B60083D868 /* AVPlayerWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */; };
@@ -52,6 +53,7 @@
 		0707130E2067F40A00F789B3 /* QueueTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueueTableViewCell.xib; sourceTree = "<group>"; };
 		0708ED6B2116DA4B00EB29BD /* AudioSessionControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionControllerTests.swift; sourceTree = "<group>"; };
 		0708ED6F2116E89900EB29BD /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
+		0708ED732116EE0100EB29BD /* AudioPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerTests.swift; sourceTree = "<group>"; };
 		074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerTimeObserverTests.swift; sourceTree = "<group>"; };
 		074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemNotificationObserverTests.swift; sourceTree = "<group>"; };
 		074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerWrapperTests.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				0708ED732116EE0100EB29BD /* AudioPlayerTests.swift */,
 				607FACEB1AFB9204008FA782 /* AVPlayerObserverTests.swift */,
 				074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */,
 				074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */,
@@ -455,6 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0708ED702116E89900EB29BD /* Source.swift in Sources */,
+				0708ED742116EE0100EB29BD /* AudioPlayerTests.swift in Sources */,
 				0775575920668B020002C6A1 /* QueueManagerTests.swift in Sources */,
 				074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */,
 				078C908F210D263200555E80 /* AVPlayerItemObserverTests.swift in Sources */,
