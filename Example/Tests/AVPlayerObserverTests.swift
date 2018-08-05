@@ -34,7 +34,7 @@ class AVPlayerObserverTests: QuickSpec, AVPlayerObserverDelegate {
                 
                 context("when player has started", {
                     beforeEach {
-                        player.replaceCurrentItem(with: AVPlayerItem(asset: AVURLAsset(url: URL(string: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba")!)))
+                        player.replaceCurrentItem(with: AVPlayerItem(url: URL(fileURLWithPath: Source.path)))
                         player.play()
                     }
                     

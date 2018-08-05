@@ -14,6 +14,8 @@
 		0707130F2067F40A00F789B3 /* QueueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0707130D2067F40A00F789B3 /* QueueTableViewCell.swift */; };
 		070713102067F40A00F789B3 /* QueueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0707130E2067F40A00F789B3 /* QueueTableViewCell.xib */; };
 		0708ED6C2116DA4C00EB29BD /* AudioSessionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708ED6B2116DA4B00EB29BD /* AudioSessionControllerTests.swift */; };
+		0708ED702116E89900EB29BD /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708ED6F2116E89900EB29BD /* Source.swift */; };
+		0708ED722116E91D00EB29BD /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708ED6F2116E89900EB29BD /* Source.swift */; };
 		074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */; };
 		074A6485205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */; };
 		074A6487205E59B60083D868 /* AVPlayerWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */; };
@@ -49,6 +51,7 @@
 		0707130D2067F40A00F789B3 /* QueueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTableViewCell.swift; sourceTree = "<group>"; };
 		0707130E2067F40A00F789B3 /* QueueTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueueTableViewCell.xib; sourceTree = "<group>"; };
 		0708ED6B2116DA4B00EB29BD /* AudioSessionControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionControllerTests.swift; sourceTree = "<group>"; };
+		0708ED6F2116E89900EB29BD /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerTimeObserverTests.swift; sourceTree = "<group>"; };
 		074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemNotificationObserverTests.swift; sourceTree = "<group>"; };
 		074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerWrapperTests.swift; sourceTree = "<group>"; };
@@ -97,6 +100,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0708ED712116E91300EB29BD /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				0708ED6F2116E89900EB29BD /* Source.swift */,
+				07732650205EACA300C4D1CD /* WAV-MP3.wav */,
+				07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -155,8 +168,7 @@
 				0775575820668B020002C6A1 /* QueueManagerTests.swift */,
 				078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */,
 				0708ED6B2116DA4B00EB29BD /* AudioSessionControllerTests.swift */,
-				07732650205EACA300C4D1CD /* WAV-MP3.wav */,
-				07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */,
+				0708ED712116E91300EB29BD /* Source */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -431,6 +443,7 @@
 				0707130B2067F2E000F789B3 /* QueueViewController.swift in Sources */,
 				070713072067EB4F00F789B3 /* Double + Extensions.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				0708ED722116E91D00EB29BD /* Source.swift in Sources */,
 				0707130F2067F40A00F789B3 /* QueueTableViewCell.swift in Sources */,
 				070713092067EFFB00F789B3 /* AudioController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
@@ -441,6 +454,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0708ED702116E89900EB29BD /* Source.swift in Sources */,
 				0775575920668B020002C6A1 /* QueueManagerTests.swift in Sources */,
 				074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */,
 				078C908F210D263200555E80 /* AVPlayerItemObserverTests.swift in Sources */,

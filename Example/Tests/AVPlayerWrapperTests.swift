@@ -6,11 +6,7 @@ import Nimble
 
 class AVPlayerWrapperTests: QuickSpec {
 
-
     override func spec() {
-
-        let source = Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!
-        let shortSource = Bundle.main.path(forResource: "nasa_throttle_up", ofType: "mp3")!
 
         describe("An AVPlayerWrapper") {
 
@@ -29,7 +25,7 @@ class AVPlayerWrapperTests: QuickSpec {
 
                 context("when loading a source", {
                     beforeEach {
-                        try? wrapper.load(fromFilePath: source, playWhenReady: false)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
                     }
                     
                     it("should be loading", closure: {
@@ -52,7 +48,7 @@ class AVPlayerWrapperTests: QuickSpec {
 
                 context("when playing a source", {
                     beforeEach {
-                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
                     }
 
                     it("should eventually be playing", closure: {
@@ -72,7 +68,7 @@ class AVPlayerWrapperTests: QuickSpec {
                                 try? wrapper.pause()
                             }
                         }
-                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
                     }
 
                     it("should eventually be paused", closure: {
@@ -89,7 +85,7 @@ class AVPlayerWrapperTests: QuickSpec {
                                 try? wrapper.togglePlaying()
                             }
                         }
-                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
                     }
                     it("should eventually be paused", closure: {
                         expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.paused))
@@ -112,7 +108,7 @@ class AVPlayerWrapperTests: QuickSpec {
                                 receivedIdleUpdate = true
                             }
                         }
-                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
                     }
 
                     it("should eventually be 'idle'", closure: {
@@ -138,7 +134,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 
                 context("when loading source", {
                     beforeEach {
-                        try? wrapper.load(fromFilePath: source, playWhenReady: false)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
                     }
                     it("should eventually not be 0", closure: {
                         expect(wrapper.duration).toEventuallyNot(equal(0))
@@ -161,7 +157,7 @@ class AVPlayerWrapperTests: QuickSpec {
                                 try? wrapper.seek(to: seekTime)
                             }
                         }
-                        try? wrapper.load(fromFilePath: source, playWhenReady: false)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
                     }
                     
                     it("should eventually be equal to the seeked time", closure: {
