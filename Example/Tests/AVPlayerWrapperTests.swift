@@ -18,7 +18,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 wrapper.volume = 0.0
             }
 
-            describe("it's state", {
+            describe("its state", {
                 it("should be idle", closure: {
                     expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
                 })
@@ -59,7 +59,7 @@ class AVPlayerWrapperTests: QuickSpec {
 
                 context("when pausing the source", {
 
-                    let holder = AudioPlayerDelegateHolder()
+                    let holder = AVPlayerWrapperDelegateHolder()
 
                     beforeEach {
                         wrapper.delegate = holder
@@ -77,7 +77,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 })
                 
                 context("when toggling the source from play", {
-                    let holder = AudioPlayerDelegateHolder()
+                    let holder = AVPlayerWrapperDelegateHolder()
                     beforeEach {
                         wrapper.delegate = holder
                         holder.stateUpdate = { (state) in
@@ -94,11 +94,11 @@ class AVPlayerWrapperTests: QuickSpec {
 
                 context("when stopping the source", {
 
-                    var holder: AudioPlayerDelegateHolder!
+                    var holder: AVPlayerWrapperDelegateHolder!
                     var receivedIdleUpdate: Bool = false
 
                     beforeEach {
-                        holder = AudioPlayerDelegateHolder()
+                        holder = AVPlayerWrapperDelegateHolder()
                         wrapper.delegate = holder
                         holder.stateUpdate = { (state) in
                             if state == .playing {
@@ -127,7 +127,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 })
             })
             
-            describe("it's duration", {
+            describe("its duration", {
                 it("should be 0", closure: {
                     expect(wrapper.duration).to(equal(0))
                 })
@@ -142,13 +142,13 @@ class AVPlayerWrapperTests: QuickSpec {
                 })
             })
             
-            describe("it's current time", {
+            describe("its current time", {
                 it("should be 0", closure: {
                     expect(wrapper.currentTime).to(equal(0))
                 })
                 
                 context("when seeking to a time", {
-                    let holder = AudioPlayerDelegateHolder()
+                    let holder = AVPlayerWrapperDelegateHolder()
                     let seekTime: TimeInterval = 5
                     beforeEach {
                         wrapper.delegate = holder
@@ -172,7 +172,7 @@ class AVPlayerWrapperTests: QuickSpec {
 
 }
 
-class AudioPlayerDelegateHolder: AVPlayerWrapperDelegate {
+class AVPlayerWrapperDelegateHolder: AVPlayerWrapperDelegate {
 
     
     
