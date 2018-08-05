@@ -11,6 +11,7 @@ class AudioPlayerTests: QuickSpec {
             
             beforeEach {
                 audioPlayer = AudioPlayer()
+                audioPlayer.automaticallyWaitsToMinimizeStalling = false
                 audioPlayer.volume = 0
             }
             
@@ -46,7 +47,9 @@ class AudioPlayerTests: QuickSpec {
                         holder = AudioPlayerDelegateHolder()
                         audioPlayer.delegate = holder
                         holder.stateUpdate = { state in
+                            print(state.rawValue)
                             if state == .ready {
+                                print("State is ready, calling play")
                                 try? audioPlayer.play()
                             }
                         }
