@@ -12,3 +12,6 @@ before_install:
 script:
 - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SwiftAudio.xcworkspace -scheme SwiftAudio-Example -sdk iphonesimulator11.2 -destination "OS=11.2,name=iPhone X" | xcpretty
 - pod lib lint
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
