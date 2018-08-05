@@ -31,6 +31,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func togglePlay(_ sender: Any) {
+        if (!controller.audioSessionController.audioSessionIsActive) {
+            try? controller.audioSessionController.activateSession()
+        }
         try? controller.player.togglePlaying()
     }
     
