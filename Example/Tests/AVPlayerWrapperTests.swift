@@ -15,6 +15,7 @@ class AVPlayerWrapperTests: QuickSpec {
             beforeEach {
                 wrapper = AVPlayerWrapper()
                 wrapper.automaticallyWaitsToMinimizeStalling = false
+                wrapper.bufferDuration = 0.0001
                 wrapper.volume = 0.0
             }
 
