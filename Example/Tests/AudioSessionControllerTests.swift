@@ -1,6 +1,5 @@
 import Quick
 import Nimble
-import AVFoundation
 
 @testable import SwiftAudio
 
@@ -22,6 +21,16 @@ class AudioSessionControllerTests: QuickSpec {
                 
                 it("should be active", closure: {
                     expect(audioSessionController.audioSessionIsActive).to(beTrue())
+                })
+                
+                context("when deactivating session", {
+                    beforeEach {
+                        try? audioSessionController.deactivateSession()
+                    }
+                    
+                    it("should be inactive", closure: {
+                        expect(audioSessionController.audioSessionIsActive).to(beFalse())
+                    })
                 })
             })
             
