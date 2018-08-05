@@ -22,7 +22,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 wrapper.volume = 0.0
             }
 
-            describe("state", {
+            describe("it's state", {
                 it("should be idle", closure: {
                     expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
                 })
@@ -91,7 +91,7 @@ class AVPlayerWrapperTests: QuickSpec {
                         }
                         try? wrapper.load(fromFilePath: source, playWhenReady: true)
                     }
-                    it("should eventually be playing", closure: {
+                    it("should eventually be paused", closure: {
                         expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.paused))
                     })
                 })
@@ -131,7 +131,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 })
             })
             
-            describe("its duration", {
+            describe("it's duration", {
                 it("should be 0", closure: {
                     expect(wrapper.duration).to(equal(0))
                 })
@@ -145,6 +145,31 @@ class AVPlayerWrapperTests: QuickSpec {
                     })
                 })
             })
+            
+            describe("it's current time", {
+                it("should be 0", closure: {
+                    expect(wrapper.currentTime).to(equal(0))
+                })
+                
+                context("when seeking to a time", {
+                    let holder = AudioPlayerDelegateHolder()
+                    let seekTime: TimeInterval = 5
+                    beforeEach {
+                        wrapper.delegate = holder
+                        holder.stateUpdate = { (state) in
+                            if state == .ready && wrapper.duration != 0 {
+                                try? wrapper.seek(to: seekTime)
+                            }
+                        }
+                        try? wrapper.load(fromFilePath: source, playWhenReady: false)
+                    }
+                    
+                    it("should eventually be equal to the seeked time", closure: {
+                        expect(wrapper.currentTime).toEventually(equal(seekTime))
+                    })
+                })
+            })
+            
         }
 
     }
@@ -188,7 +213,10 @@ class AudioPlayerDelegateHolder: AVPlayerWrapperDelegate {
     }
     
     func AVWrapper(didUpdateDuration duration: Double) {
-        
+        if let state = self.state {
+            self.stateUpdate?(state)
+
+        }
     }
     
 }
