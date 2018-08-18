@@ -16,3 +16,11 @@ struct Source {
         return DefaultAudioItem(audioUrl: Source.path, sourceType: .file)
     }
 }
+
+struct ShortSource {
+    static let path: String = Bundle.main.path(forResource: "ShortTestSound", ofType: "m4a")!
+    
+    static func getAudioItem() -> AudioItem {
+        return DefaultAudioItem(audioUrl: ShortSource.path, sourceType: .file)
+    }
+}

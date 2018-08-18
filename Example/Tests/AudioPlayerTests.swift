@@ -61,6 +61,16 @@ class AudioPlayerTests: QuickSpec {
                     })
                 })
                 
+                context("when playing a source to the end", {
+                    beforeEach {
+                        try? audioPlayer.loadItem(ShortSource.getAudioItem(), playWhenReady: true)
+                    }
+                    
+                    it("should eventually be paused", closure: {
+                        expect(audioPlayer.playerState).toEventually(equal(AudioPlayerState.paused))
+                    })
+                })
+                
                 context("when pausing an item", {
                     var holder: AudioPlayerDelegateHolder!
                     beforeEach {
@@ -97,6 +107,30 @@ class AudioPlayerTests: QuickSpec {
                     })
                 })
                 
+            })
+            
+            describe("its current time", {
+                it("should be 0", closure: {
+                    expect(audioPlayer.currentTime).to(equal(0))
+                })
+                
+                context("when seeking to a time", {
+                    let holder = AudioPlayerDelegateHolder()
+                    let seekTime: TimeInterval = 0.5
+                    beforeEach {
+                        audioPlayer.delegate = holder
+                        holder.stateUpdate = { (state) in
+                            if state == .ready && audioPlayer.duration != 0 {
+                                try? audioPlayer.seek(to: seekTime)
+                            }
+                        }
+                        try? audioPlayer.loadItem(Source.getAudioItem(), playWhenReady: false)
+                    }
+                    
+                    it("should eventually be equal to the seeked time", closure: {
+                        expect(audioPlayer.currentTime).toEventually(equal(seekTime))
+                    })
+                })
             })
         }
     }
@@ -135,7 +169,9 @@ class AudioPlayerDelegateHolder: AudioPlayerDelegate {
     }
     
     func audioPlayer(didUpdateDuration duration: Double) {
-        
+        if let state = self.state {
+            self.stateUpdate?(state)
+        }
     }
     
 }

@@ -57,6 +57,16 @@ class AVPlayerWrapperTests: QuickSpec {
                     })
 
                 })
+                
+                context("when playing a source to the end", {
+                    beforeEach {
+                        try? wrapper.load(fromFilePath: ShortSource.path, playWhenReady: true)
+                    }
+                    
+                    it("should eventually be paused", closure: {
+                        expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.paused))
+                    })
+                })
 
                 context("when pausing the source", {
 
