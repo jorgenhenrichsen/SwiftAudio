@@ -61,16 +61,6 @@ class AudioPlayerTests: QuickSpec {
                     })
                 })
                 
-                context("when playing a source to the end", {
-                    beforeEach {
-                        try? audioPlayer.loadItem(ShortSource.getAudioItem(), playWhenReady: true)
-                    }
-                    
-                    it("should eventually be paused", closure: {
-                        expect(audioPlayer.playerState).toEventually(equal(AudioPlayerState.paused))
-                    })
-                })
-                
                 context("when pausing an item", {
                     var holder: AudioPlayerDelegateHolder!
                     beforeEach {
