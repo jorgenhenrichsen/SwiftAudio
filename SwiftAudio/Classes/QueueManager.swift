@@ -19,11 +19,17 @@ class QueueManager<T> {
         return _items
     }
     
-    public var nextItems: [T]? {
+    public var nextItems: [T] {
+        guard _currentIndex < _items.count else {
+            return []
+        }
         return Array(_items[_currentIndex + 1..<items.count])
     }
     
     public var previousItems: [T] {
+        if (_currentIndex == 0) {
+            return []
+        }
         return Array(_items[0..<_currentIndex])
     }
     

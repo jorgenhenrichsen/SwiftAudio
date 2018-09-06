@@ -122,6 +122,22 @@ class AudioPlayerTests: QuickSpec {
                     })
                 })
             })
+            
+            describe("its rate", {
+                it("should be 0", closure: {
+                    expect(audioPlayer.rate).to(equal(0))
+                })
+                
+                context("when playing an item", {
+                    beforeEach {
+                        try? audioPlayer.loadItem(Source.getAudioItem(), playWhenReady: true)
+                    }
+                    
+                    it("should eventually be 1.0", closure: {
+                        expect(audioPlayer.rate).toEventually(equal(1.0))
+                    })
+                })
+            })
         }
     }
     

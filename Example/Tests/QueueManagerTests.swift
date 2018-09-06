@@ -80,7 +80,7 @@ class QueueManagerTests: QuickSpec {
                 
                 it("should have next items", closure: {
                     expect(manager.nextItems).toNot(beNil())
-                    expect(manager.nextItems?.count).to(equal(self.dummyItems.count - 1))
+                    expect(manager.nextItems.count).to(equal(self.dummyItems.count - 1))
                 })
                 
                 context("then calling next", {
@@ -99,7 +99,7 @@ class QueueManagerTests: QuickSpec {
                     })
                     
                     it("should have previous items", closure: {
-                        expect(manager.previousItems.count).to(equal(1))
+                        expect(manager.previousItems).toNot(beNil())
                     })
                     
                     context("then calling previous", {
