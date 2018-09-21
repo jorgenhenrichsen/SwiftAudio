@@ -9,6 +9,9 @@ class QueuedAudioPlayerTests: QuickSpec {
             var audioPlayer: QueuedAudioPlayer!
             beforeEach {
                 audioPlayer = QueuedAudioPlayer()
+                audioPlayer.automaticallyWaitsToMinimizeStalling = false
+                audioPlayer.bufferDuration = 0.0001
+                audioPlayer.volume = 0
             }
             describe("its current item", {
                 it("should be nil", closure: {

@@ -10,6 +10,9 @@ class SimpleAudioPlayerTests: QuickSpec {
             var player: SimpleAudioPlayer!
             beforeEach {
                 player = SimpleAudioPlayer()
+                player.automaticallyWaitsToMinimizeStalling = false
+                player.bufferDuration = 0.0001
+                player.volume = 0
             }
             
             describe("its state", {
