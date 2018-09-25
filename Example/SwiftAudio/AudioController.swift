@@ -32,7 +32,6 @@ class AudioController {
             .changePlaybackPosition
         ]
         try? audioSessionController.set(category: .playback)
-        try? audioSessionController.activateSession()
         try? player.add(items: sources, playWhenReady: false)
     }
     

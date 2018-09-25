@@ -2,13 +2,16 @@
 # * http://www.objc.io/issue-6/travis-ci.html
 # * https://github.com/supermarin/xcpretty#usage
 
-osx_image: xcode9.2
-language: objective-c
+osx_image: xcode9.4
+language: swift
 cache: cocoapods
 podfile: Example/Podfile
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
 - pod install --project-directory=Example
 script:
-- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SwiftAudio.xcworkspace -scheme SwiftAudio-Example -sdk iphonesimulator11.2 -destination "OS=11.2,name=iPhone X" | xcpretty
+- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SwiftAudio.xcworkspace -scheme SwiftAudio-Example -sdk iphonesimulator11.4 -destination "OS=11.4,name=iPhone X" | xcpretty
 - pod lib lint
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -J 'SwiftAudio'

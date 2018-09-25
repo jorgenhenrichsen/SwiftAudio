@@ -32,14 +32,14 @@ public class QueuedAudioPlayer: AudioPlayer {
     /**
      The previous items held by the queue.
      */
-    public var previousItems: [AudioItem]? {
+    public var previousItems: [AudioItem] {
         return queueManager.previousItems
     }
     
     /**
      The upcoming items in the queue.
      */
-    public var nextItems: [AudioItem]? {
+    public var nextItems: [AudioItem] {
         return queueManager.nextItems
     }
     

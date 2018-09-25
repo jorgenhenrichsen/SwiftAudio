@@ -4,8 +4,6 @@ import AVFoundation
 
 @testable import SwiftAudio
 
-let source = Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!
-
 class AVPlayerItemObserverTests: QuickSpec {
     
     override func spec() {
@@ -19,7 +17,7 @@ class AVPlayerItemObserverTests: QuickSpec {
                 context("when observing", {
                     var item: AVPlayerItem!
                     beforeEach {
-                        item = AVPlayerItem(url: URL(fileURLWithPath: source))
+                        item = AVPlayerItem(url: URL(fileURLWithPath: Source.path))
                         observer.startObserving(item: item)
                     }
                     
@@ -36,7 +34,7 @@ class AVPlayerItemObserverTests: QuickSpec {
                 context("when observing", {
                     var item: AVPlayerItem!
                     beforeEach {
-                        item = AVPlayerItem(url: URL(fileURLWithPath: source))
+                        item = AVPlayerItem(url: URL(fileURLWithPath: Source.path))
                         observer.startObserving(item: item)
                     }
                     it("should be observing", closure: {
