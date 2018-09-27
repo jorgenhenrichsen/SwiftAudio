@@ -65,6 +65,8 @@ public class AudioSessionController {
     public static let shared = AudioSessionController()
     
     private let audioSession: AVAudioSession = AVAudioSession.sharedInstance()
+    private let notificationCenter: NotificationCenter = NotificationCenter.default
+    private var _isObservingForInterruptions: Bool = false
     
     /**
      True if another app is currently playing audio.
@@ -80,10 +82,33 @@ public class AudioSessionController {
      */
     public var audioSessionIsActive: Bool = false
     
+    /**
+     Wheter notifications for interruptions are being observed or not.
+     This is enabled by default.
+     Set this to false to disable the behaviour.
+     */
+    public var isObservingForInterruptions: Bool {
+        get {
+            return _isObservingForInterruptions
+        }
+        set {
+            if newValue == _isObservingForInterruptions {
+                return
+            }
+            
+            if newValue {
+                registerForInterruptionNotification()
+            }
+            else {
+                unregisterForInterruptionNotification()
+            }
+        }
+    }
+    
     public weak var delegate: AudioSessionControllerDelegate?
     
     private init() {
-        setupInterruptionNotification()
+        registerForInterruptionNotification()
     }
     
     public func activateSession() throws {
@@ -111,12 +136,17 @@ public class AudioSessionController {
     
     // MARK: - Interruptions
     
-    func setupInterruptionNotification() {
-        let notificationCenter = NotificationCenter.default
+    private func registerForInterruptionNotification() {
         notificationCenter.addObserver(self,
                                        selector: #selector(handleInterruption),
                                        name: .AVAudioSessionInterruption,
                                        object: nil)
+        _isObservingForInterruptions = true
+    }
+    
+    private func unregisterForInterruptionNotification() {
+        notificationCenter.removeObserver(self, name: .AVAudioSessionInterruption, object: nil)
+        _isObservingForInterruptions = false
     }
     
     @objc func handleInterruption(notification: Notification) {
