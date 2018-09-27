@@ -210,7 +210,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     func enableRemoteCommands(forItem item: AudioItem) {
         if let item = item as? RemoteCommandable {
-            print("Enabling remote commands for item")
             self.enableRemoteCommands(item.getCommands())
         }
         else {

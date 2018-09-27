@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jorgenhenrichsen/SwiftAudio.svg?branch=master)](https://travis-ci.org/jorgenhenrichsen/SwiftAudio)
 [![Version](https://img.shields.io/cocoapods/v/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
+[![codecov](https://codecov.io/gh/jorgenhenrichsen/SwiftAudio/branch/master/graph/badge.svg)](https://codecov.io/gh/jorgenhenrichsen/SwiftAudio)
 [![License](https://img.shields.io/cocoapods/l/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftAudio.svg?style=flat)](http://cocoapods.org/pods/SwiftAudio)
 
@@ -75,6 +76,12 @@ try? AudioSessionController.activateSession()
 
 If you want audio to continue playing when the app is inactive, remember to activate background audio:
 App Settings -> Capabilities -> Background Modes -> Check 'Audio, AirPlay, and Picture in Picture'.
+
+#### Interruptions
+If you are using the AudioSessionController for setting up the audio session, you can use it to handle interruptions too.
+Implement `AudioSessionControllerDelegate` and you will be notified by `handleInterruption(type: AVAudioSessionInterruptionType)`.
+If you are storing progress for playback time on items when the app quits, it can be a good idea to do it on interruptions as well.
+To disable interruption notifcations set `isObservingForInterruptions` to `false`.
 
 ### Now Playing Info
 The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time if the passed in `AudioItem` supports this.

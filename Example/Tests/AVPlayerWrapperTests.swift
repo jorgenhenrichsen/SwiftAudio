@@ -6,11 +6,7 @@ import Nimble
 
 class AVPlayerWrapperTests: QuickSpec {
 
-
     override func spec() {
-
-        let source = Bundle.main.path(forResource: "WAV-MP3", ofType: "wav")!
-        let shortSource = Bundle.main.path(forResource: "nasa_throttle_up", ofType: "mp3")!
 
         describe("An AVPlayerWrapper") {
 
@@ -19,17 +15,18 @@ class AVPlayerWrapperTests: QuickSpec {
             beforeEach {
                 wrapper = AVPlayerWrapper()
                 wrapper.automaticallyWaitsToMinimizeStalling = false
+                wrapper.bufferDuration = 0.0001
                 wrapper.volume = 0.0
             }
 
-            describe("state", {
+            describe("its state", {
                 it("should be idle", closure: {
                     expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
                 })
 
                 context("when loading a source", {
                     beforeEach {
-                        try? wrapper.load(fromFilePath: source, playWhenReady: false)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
                     }
                     
                     it("should be loading", closure: {
@@ -52,7 +49,7 @@ class AVPlayerWrapperTests: QuickSpec {
 
                 context("when playing a source", {
                     beforeEach {
-                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
                     }
 
                     it("should eventually be playing", closure: {
@@ -63,7 +60,7 @@ class AVPlayerWrapperTests: QuickSpec {
 
                 context("when pausing the source", {
 
-                    let holder = AudioPlayerDelegateHolder()
+                    let holder = AVPlayerWrapperDelegateHolder()
 
                     beforeEach {
                         wrapper.delegate = holder
@@ -72,7 +69,7 @@ class AVPlayerWrapperTests: QuickSpec {
                                 try? wrapper.pause()
                             }
                         }
-                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
                     }
 
                     it("should eventually be paused", closure: {
@@ -81,7 +78,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 })
                 
                 context("when toggling the source from play", {
-                    let holder = AudioPlayerDelegateHolder()
+                    let holder = AVPlayerWrapperDelegateHolder()
                     beforeEach {
                         wrapper.delegate = holder
                         holder.stateUpdate = { (state) in
@@ -89,20 +86,20 @@ class AVPlayerWrapperTests: QuickSpec {
                                 try? wrapper.togglePlaying()
                             }
                         }
-                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
                     }
-                    it("should eventually be playing", closure: {
+                    it("should eventually be paused", closure: {
                         expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.paused))
                     })
                 })
 
                 context("when stopping the source", {
 
-                    var holder: AudioPlayerDelegateHolder!
+                    var holder: AVPlayerWrapperDelegateHolder!
                     var receivedIdleUpdate: Bool = false
 
                     beforeEach {
-                        holder = AudioPlayerDelegateHolder()
+                        holder = AVPlayerWrapperDelegateHolder()
                         wrapper.delegate = holder
                         holder.stateUpdate = { (state) in
                             if state == .playing {
@@ -112,7 +109,7 @@ class AVPlayerWrapperTests: QuickSpec {
                                 receivedIdleUpdate = true
                             }
                         }
-                        try? wrapper.load(fromFilePath: source, playWhenReady: true)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
                     }
 
                     it("should eventually be 'idle'", closure: {
@@ -138,20 +135,45 @@ class AVPlayerWrapperTests: QuickSpec {
                 
                 context("when loading source", {
                     beforeEach {
-                        try? wrapper.load(fromFilePath: source, playWhenReady: false)
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
                     }
                     it("should eventually not be 0", closure: {
                         expect(wrapper.duration).toEventuallyNot(equal(0))
                     })
                 })
             })
+            
+            describe("its current time", {
+                it("should be 0", closure: {
+                    expect(wrapper.currentTime).to(equal(0))
+                })
+                
+                context("when seeking to a time", {
+                    let holder = AVPlayerWrapperDelegateHolder()
+                    let seekTime: TimeInterval = 0.5
+                    beforeEach {
+                        wrapper.delegate = holder
+                        holder.stateUpdate = { (state) in
+                            if state == .ready && wrapper.duration != 0 {
+                                try? wrapper.seek(to: seekTime)
+                            }
+                        }
+                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
+                    }
+                    
+                    it("should eventually be equal to the seeked time", closure: {
+                        expect(wrapper.currentTime).toEventually(equal(seekTime))
+                    })
+                })
+            })
+            
         }
 
     }
 
 }
 
-class AudioPlayerDelegateHolder: AVPlayerWrapperDelegate {
+class AVPlayerWrapperDelegateHolder: AVPlayerWrapperDelegate {
 
     
     
@@ -188,7 +210,10 @@ class AudioPlayerDelegateHolder: AVPlayerWrapperDelegate {
     }
     
     func AVWrapper(didUpdateDuration duration: Double) {
-        
+        if let state = self.state {
+            self.stateUpdate?(state)
+
+        }
     }
     
 }

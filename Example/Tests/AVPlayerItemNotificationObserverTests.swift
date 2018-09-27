@@ -15,7 +15,7 @@ class AVPlayerItemNotificationObserverTests: QuickSpec {
             var observer: AVPlayerItemNotificationObserver!
         
             beforeEach {
-                item = AVPlayerItem(asset: AVURLAsset(url: URL(string: "https://p.scdn.co/mp3-preview/4839b070015ab7d6de9fec1756e1f3096d908fba")!))
+                item = AVPlayerItem(url: URL(fileURLWithPath: Source.path))
                 observer = AVPlayerItemNotificationObserver()
             }
             
