@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import AVFoundation
 
 @testable import SwiftAudio
 
@@ -34,8 +35,52 @@ class AudioSessionControllerTests: QuickSpec {
                 })
             })
             
+            describe("its isObservingForInterruptions", {
+                it("should be true", closure: {
+                    expect(audioSessionController.isObservingForInterruptions).to(beTrue())
+                })
+                
+                context("when isObservingForInterruptions is set to false", {
+                    beforeEach {
+                        audioSessionController.isObservingForInterruptions = false
+                    }
+                    
+                    it("should be false", closure: {
+                        expect(audioSessionController.isObservingForInterruptions).to(beFalse())
+                    })
+                })
+            })
+            
+            describe("its delegate", {
+                context("when a interruption arrives", {
+                    var delegate: AudioSessionControllerDelegateImplementation!
+                    beforeEach {
+                        let notification = Notification(name: .AVAudioSessionInterruption, object: nil, userInfo: [
+                            AVAudioSessionInterruptionTypeKey: UInt(0)
+                            ])
+                        delegate = AudioSessionControllerDelegateImplementation()
+                        audioSessionController.delegate = delegate
+                        audioSessionController.handleInterruption(notification: notification)
+                    }
+                    
+                    it("should eventually be updated with the interruption type", closure: {
+                        expect(delegate.interruptionType).toEventuallyNot(beNil())
+                    })
+                    
+                })
+            })
+            
         }
         
     }
     
+}
+
+class AudioSessionControllerDelegateImplementation: AudioSessionControllerDelegate {
+    
+    var interruptionType: AVAudioSessionInterruptionType? = nil
+    
+    func handleInterruption(type: AVAudioSessionInterruptionType) {
+        self.interruptionType = type
+    }
 }
