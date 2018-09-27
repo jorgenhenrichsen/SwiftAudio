@@ -77,6 +77,11 @@ try? AudioSessionController.activateSession()
 If you want audio to continue playing when the app is inactive, remember to activate background audio:
 App Settings -> Capabilities -> Background Modes -> Check 'Audio, AirPlay, and Picture in Picture'.
 
+#### Interruptions
+If you are using the AudioSessionController for setting up the audio session, you can use it to handle interruptions too.
+Implement `AudioSessionControllerDelegate` and you will be notified by `handleInterruption(type: AVAudioSessionInterruptionType)`.
+If you are storing progress for playback time on items when the app quits, it can be a good idea to do it on interruptions as well.
+
 ### Now Playing Info
 The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork, time if the passed in `AudioItem` supports this.
 If you need to set additional properties for some items use `AudioPlayer.add(property:)`. Available properties can be found in `NowPlayingInfoProperty`.
