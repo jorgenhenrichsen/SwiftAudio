@@ -52,6 +52,10 @@ public enum AudioSessionCategory {
     
 }
 
+public protocol AudioSessionControllerDelegate: class {
+    func handleInterruption(type: AVAudioSessionInterruptionType)
+}
+
 /**
  Simple controller for the `AVAudioSession`. If you need more advanced options, just use the `AVAudioSession` directly.
  - warning: Do not combine usage of this and `AVAudioSession` directly, chose one.
@@ -76,7 +80,11 @@ public class AudioSessionController {
      */
     public var audioSessionIsActive: Bool = false
     
-    private init() {}
+    public weak var delegate: AudioSessionControllerDelegate?
+    
+    private init() {
+        setupInterruptionNotification()
+    }
     
     public func activateSession() throws {
         do {
@@ -99,6 +107,26 @@ public class AudioSessionController {
      */
     public func set(category: AudioSessionCategory) throws {
         try audioSession.setCategory(category.getValue())
+    }
+    
+    // MARK: - Interruptions
+    
+    func setupInterruptionNotification() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self,
+                                       selector: #selector(handleInterruption),
+                                       name: .AVAudioSessionInterruption,
+                                       object: nil)
+    }
+    
+    @objc func handleInterruption(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+            let type = AVAudioSessionInterruptionType(rawValue: typeValue) else {
+                return
+        }
+        
+        self.delegate?.handleInterruption(type: type)
     }
     
 }
