@@ -173,8 +173,10 @@ class AVPlayerWrapper {
                 avPlayer.play()
                 return
             }
+            else {
+                throw APError.PlaybackError.noLoadedItem
+            }
         }
-        throw APError.PlaybackError.noLoadedItem
     }
     
     /**
@@ -188,8 +190,10 @@ class AVPlayerWrapper {
                 avPlayer.pause()
                 return
             }
+            else {
+                throw APError.PlaybackError.noLoadedItem
+            }
         }
-        throw APError.PlaybackError.noLoadedItem
     }
     
     /**
