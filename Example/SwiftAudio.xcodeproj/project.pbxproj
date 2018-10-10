@@ -241,7 +241,6 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				92F611A7E298DE7BCA0B0B61 /* [CP] Embed Pods Frameworks */,
-				D90D8AB1C4A6EFC8D653227D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -261,7 +260,6 @@
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
 				D41B1A785DE273F72BD47633 /* [CP] Embed Pods Frameworks */,
-				EF21C94415B1482F4674E093 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -404,36 +402,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftAudio_Tests/Pods-SwiftAudio_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D90D8AB1C4A6EFC8D653227D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftAudio_Example/Pods-SwiftAudio_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EF21C94415B1482F4674E093 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftAudio_Tests/Pods-SwiftAudio_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F22DFA58013500305552C406 /* [CP] Check Pods Manifest.lock */ = {
