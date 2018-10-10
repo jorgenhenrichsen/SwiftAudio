@@ -168,13 +168,15 @@ class AVPlayerWrapper {
      - throws: APError.PlaybackError
      */
     func play() throws {
-        if avPlayer.timeControlStatus == .paused {
-            if currentItem != nil {
-                avPlayer.play()
-                return
-            }
+        guard currentItem != nil else {
+            throw APError.PlaybackError.noLoadedItem
         }
-        throw APError.PlaybackError.noLoadedItem
+        
+        guard avPlayer.timeControlStatus == .paused else {
+            return
+        }
+        
+        avPlayer.play()
     }
     
     /**
@@ -183,13 +185,15 @@ class AVPlayerWrapper {
      - throws: APError.PlaybackError
      */
     func pause() throws {
-        if avPlayer.timeControlStatus == .playing || avPlayer.timeControlStatus == .waitingToPlayAtSpecifiedRate {
-            if currentItem != nil {
-                avPlayer.pause()
-                return
-            }
+        guard currentItem != nil else {
+            throw APError.PlaybackError.noLoadedItem
         }
-        throw APError.PlaybackError.noLoadedItem
+        
+        guard avPlayer.timeControlStatus == .playing || avPlayer.timeControlStatus == .waitingToPlayAtSpecifiedRate else {
+            return
+        }
+        
+        avPlayer.pause()
     }
     
     /**

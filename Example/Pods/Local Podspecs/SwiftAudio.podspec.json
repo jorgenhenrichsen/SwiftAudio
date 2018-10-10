@@ -1,9 +1,9 @@
 {
   "name": "SwiftAudio",
-  "version": "0.1.0",
-  "summary": "A short description of SwiftAudio.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/Jørgen Henrichsen/SwiftAudio",
+  "version": "0.3.3",
+  "summary": "Easy audio streaming for iOS",
+  "description": "SwiftAudio is an audio player written in Swift, making it simpler to work with audio playback from streams and files.",
+  "homepage": "https://github.com/jorgenhenrichsen/SwiftAudio",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,8 +12,8 @@
     "Jørgen Henrichsen": "jh.henrichs@gmail.com"
   },
   "source": {
-    "git": "https://github.com/Jørgen Henrichsen/SwiftAudio.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/jorgenhenrichsen/SwiftAudio.git",
+    "tag": "0.3.3"
   },
   "platforms": {
     "ios": "10.0"

@@ -18,6 +18,46 @@ class AVPlayerWrapperTests: QuickSpec {
                 wrapper.bufferDuration = 0.0001
                 wrapper.volume = 0.0
             }
+            
+            context("when calling play() with no item", {
+                var err: APError.PlaybackError?
+                
+                beforeEach {
+                    do {
+                        try wrapper.play()
+                    }
+                    catch {
+                        if let error = error as? APError.PlaybackError {
+                            err = error
+                        }
+                    }
+                }
+                
+                it("should throw a noItemLoaded error", closure: {
+                    expect(err).toNot(beNil())
+                    expect(err).to(equal(APError.PlaybackError.noLoadedItem))
+                })
+            })
+            
+            context("when calling pause() with no item", {
+                var err: APError.PlaybackError?
+                
+                beforeEach {
+                    do {
+                        try wrapper.pause()
+                    }
+                    catch {
+                        if let error = error as? APError.PlaybackError {
+                            err = error
+                        }
+                    }
+                }
+                
+                it("should throw a noItemLoaded error", closure: {
+                    expect(err).toNot(beNil())
+                    expect(err).to(equal(APError.PlaybackError.noLoadedItem))
+                })
+            })
 
             describe("its state", {
                 it("should be idle", closure: {

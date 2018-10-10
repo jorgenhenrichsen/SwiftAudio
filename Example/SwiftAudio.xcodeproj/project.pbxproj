@@ -84,7 +84,7 @@
 		607FACEB1AFB9204008FA782 /* AVPlayerObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerObserverTests.swift; sourceTree = "<group>"; };
 		768DA07BCD292FA8C3F43CF5 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		928EC55949C3B1093DA7BC4C /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		B88D29AD5BC56C1834C04294 /* SwiftAudio.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftAudio.podspec; path = ../SwiftAudio.podspec; sourceTree = "<group>"; };
+		B88D29AD5BC56C1834C04294 /* SwiftAudio.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftAudio.podspec; path = ../SwiftAudio.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C344B34C66182CD1C5AD6DD2 /* Pods-SwiftAudio_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftAudio_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftAudio_Example/Pods-SwiftAudio_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		C4C4423F4BAFCE03507BC386 /* Pods-SwiftAudio_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftAudio_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftAudio_Tests/Pods-SwiftAudio_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		C8489AD5161CEA9C48D7DF42 /* Pods_SwiftAudio_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftAudio_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,7 +241,6 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				92F611A7E298DE7BCA0B0B61 /* [CP] Embed Pods Frameworks */,
-				D90D8AB1C4A6EFC8D653227D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -261,7 +260,6 @@
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
 				D41B1A785DE273F72BD47633 /* [CP] Embed Pods Frameworks */,
-				EF21C94415B1482F4674E093 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -404,36 +402,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftAudio_Tests/Pods-SwiftAudio_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D90D8AB1C4A6EFC8D653227D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftAudio_Example/Pods-SwiftAudio_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EF21C94415B1482F4674E093 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftAudio_Tests/Pods-SwiftAudio_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F22DFA58013500305552C406 /* [CP] Check Pods Manifest.lock */ = {
