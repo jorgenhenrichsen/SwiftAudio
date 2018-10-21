@@ -34,7 +34,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     let wrapper: AVPlayerWrapper
     let nowPlayingInfoController: NowPlayingInfoController
-    let remoteCommandController: RemoteCommandController
+    public let remoteCommandController: RemoteCommandController
     
     var _currentItem: AudioItem?
     
