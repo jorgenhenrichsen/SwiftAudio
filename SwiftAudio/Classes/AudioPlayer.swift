@@ -130,10 +130,10 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      
      - parameter infoCenter: The InfoCenter to update. Default is `MPNowPlayingInfoCenter.default()`.
      */
-    init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
+    init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default(), remoteCommandController: RemoteCommandController? = nil) {
         self.wrapper = AVPlayerWrapper()
         self.nowPlayingInfoController = NowPlayingInfoController(infoCenter: infoCenter)
-        self.remoteCommandController = RemoteCommandController()
+        self.remoteCommandController = remoteCommandController ?? RemoteCommandController()
         
         self.wrapper.delegate = self
         self.remoteCommandController.audioPlayer = self
