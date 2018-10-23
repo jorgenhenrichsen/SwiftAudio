@@ -103,6 +103,16 @@ These commands will be activated for each `AudioItem`. If you need some audio it
 
 **Remember** to go to App Settings -> Capabilites -> Background Modes -> Check 'Remote notifications'
 
+#### Custom handlers for remote commands
+To supply custom handlers for your remote commands, just override the handlers contained in the player's `RemoteCommandController`:
+```swift
+let player = QueuedAudioPlayer()
+player.remoteCommandController.handlePlayCommand = { (event) in 
+    // Handle remote command here.
+}
+```
+All available overrides can be found by looking at `RemoteCommandController`.
+
 
 ## Configuration
 

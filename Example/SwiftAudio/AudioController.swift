@@ -13,7 +13,7 @@ import SwiftAudio
 class AudioController {
     
     static let shared = AudioController()
-    let player = QueuedAudioPlayer()
+    let player: QueuedAudioPlayer
     let audioSessionController = AudioSessionController.shared
     
     let sources: [AudioItem] = [
@@ -24,8 +24,12 @@ class AudioController {
     ]
     
     init() {
+        let controller = RemoteCommandController()
+        player = QueuedAudioPlayer(remoteCommandController: controller)
         player.remoteCommands = [
             .stop,
+            .play,
+            .pause,
             .togglePlayPause,
             .next,
             .previous,

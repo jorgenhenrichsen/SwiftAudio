@@ -20,7 +20,7 @@ public class RemoteCommandController {
     
     var commandTargetPointers: [String: Any] = [:]
     
-    init() {}
+    public init() {}
     
     /**
      Enable a set of RemoteCommands. Calling this will disable all earlier set commands, so include all commands that needs to be active.
@@ -62,7 +62,6 @@ public class RemoteCommandController {
         case .changePlaybackPosition: self.enableCommand(ChangePlaybackPositionCommand.changePlaybackPosition)
         case .skipForward(let preferredIntervals): self.enableCommand(SkipIntervalCommand.skipForward.set(preferredIntervals: preferredIntervals))
         case .skipBackward(let preferredIntervals): self.enableCommand(SkipIntervalCommand.skipBackward.set(preferredIntervals: preferredIntervals))
-        
         }
     }
     
@@ -82,7 +81,17 @@ public class RemoteCommandController {
     
     // MARK: - Handlers
     
-    lazy var handlePlayCommand: RemoteCommandHandler = { (event) in
+    public lazy var handlePlayCommand: RemoteCommandHandler = self.handlePlayCommandDefault
+    public lazy var handlePauseCommand: RemoteCommandHandler = self.handlePauseCommandDefault
+    public lazy var handleStopCommand: RemoteCommandHandler = self.handleStopCommandDefault
+    public lazy var handleTogglePlayPauseCommand: RemoteCommandHandler = self.handleTogglePlayPauseCommandDefault
+    public lazy var handleSkipForwardCommand: RemoteCommandHandler  = self.handleSkipForwardCommandDefault
+    public lazy var handleSkipBackwardCommand: RemoteCommandHandler = self.handleSkipBackwardDefault
+    public lazy var handleChangePlaybackPositionCommand: RemoteCommandHandler  = self.handleChangePlaybackPositionCommandDefault
+    public lazy var handleNextTrackCommand: RemoteCommandHandler = self.handleNextTrackCommandDefault
+    public lazy var handlePreviousTrackCommand: RemoteCommandHandler = self.handlePreviousTrackCommandDefault
+    
+    private func handlePlayCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let audioPlayer = self.audioPlayer {
             do {
                 try audioPlayer.play()
@@ -95,7 +104,7 @@ public class RemoteCommandController {
         return MPRemoteCommandHandlerStatus.commandFailed
     }
     
-    lazy var handlePauseCommand: RemoteCommandHandler = { (event) in
+    private func handlePauseCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let audioPlayer = self.audioPlayer {
             do {
                 try audioPlayer.pause()
@@ -108,7 +117,7 @@ public class RemoteCommandController {
         return MPRemoteCommandHandlerStatus.commandFailed
     }
     
-    lazy var handleStopCommand: RemoteCommandHandler = { (event) in
+    private func handleStopCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let audioPlayer = self.audioPlayer {
             audioPlayer.stop()
             return .success
@@ -116,7 +125,7 @@ public class RemoteCommandController {
         return MPRemoteCommandHandlerStatus.commandFailed
     }
     
-    lazy var handleTogglePlayPauseCommand: RemoteCommandHandler = { (event) in
+    private func handleTogglePlayPauseCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let audioPlayer = self.audioPlayer {
             do {
                 try audioPlayer.togglePlaying()
@@ -129,7 +138,7 @@ public class RemoteCommandController {
         return MPRemoteCommandHandlerStatus.commandFailed
     }
     
-    lazy var handleSkipForwardCommand: RemoteCommandHandler  = { (event) in
+    private func handleSkipForwardCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let command = event.command as? MPSkipIntervalCommand,
             let interval = command.preferredIntervals.first,
             let audioPlayer = self.audioPlayer {
@@ -144,7 +153,7 @@ public class RemoteCommandController {
         return MPRemoteCommandHandlerStatus.commandFailed
     }
     
-    lazy var handleSkipBackwardCommand: RemoteCommandHandler = { (event) in
+    private func handleSkipBackwardDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let command = event.command as? MPSkipIntervalCommand,
             let interval = command.preferredIntervals.first,
             let audioPlayer = self.audioPlayer {
@@ -159,7 +168,7 @@ public class RemoteCommandController {
         return MPRemoteCommandHandlerStatus.commandFailed
     }
     
-    lazy var handleChangePlaybackPositionCommand: RemoteCommandHandler  = { (event) in
+    private func handleChangePlaybackPositionCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let event = event as? MPChangePlaybackPositionCommandEvent,
             let audioPlayer = self.audioPlayer {
             do {
@@ -173,7 +182,7 @@ public class RemoteCommandController {
         return MPRemoteCommandHandlerStatus.commandFailed
     }
     
-    lazy var handleNextTrackCommand: RemoteCommandHandler = { (event) in
+    private func handleNextTrackCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let player = self.audioPlayer as? QueuedAudioPlayer {
             do {
                 try player.next()
@@ -186,7 +195,7 @@ public class RemoteCommandController {
         return MPRemoteCommandHandlerStatus.commandFailed
     }
     
-    lazy var handlePreviousTrackCommand: RemoteCommandHandler = { (event) in
+    private func handlePreviousTrackCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let player = self.audioPlayer as? QueuedAudioPlayer {
             do {
                 try player.previous()

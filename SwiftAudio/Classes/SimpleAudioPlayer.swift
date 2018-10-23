@@ -13,8 +13,8 @@ import MediaPlayer
  */
 public class SimpleAudioPlayer: AudioPlayer {
     
-    public override init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
-        super.init(infoCenter: infoCenter)
+    public override init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default(), remoteCommandController: RemoteCommandController? = nil) {
+        super.init(infoCenter: infoCenter, remoteCommandController: remoteCommandController)
     }
     
     /**
