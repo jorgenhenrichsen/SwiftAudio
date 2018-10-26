@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import AVFoundation
 
 @testable import SwiftAudio
 
@@ -8,10 +9,11 @@ class QueuedAudioPlayerTests: QuickSpec {
         describe("A QueuedAudioPlayer") {
             var audioPlayer: QueuedAudioPlayer!
             beforeEach {
+                let player = AVPlayer()
+                player.automaticallyWaitsToMinimizeStalling = false
+                player.volume = 0.0
                 audioPlayer = QueuedAudioPlayer()
-                //audioPlayer.automaticallyWaitsToMinimizeStalling = false
                 audioPlayer.bufferDuration = 0.0001
-                //audioPlayer.volume = 0
             }
             describe("its current item", {
                 it("should be nil", closure: {
