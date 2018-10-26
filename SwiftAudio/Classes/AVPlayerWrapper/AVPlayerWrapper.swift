@@ -11,17 +11,6 @@ import AVFoundation
 import MediaPlayer
 
 
-protocol AVPlayerWrapperDelegate: class {
-    
-    func AVWrapper(didChangeState state: AVPlayerWrapperState)
-    func AVWrapperItemDidComplete()
-    func AVWrapper(secondsElapsed seconds: Double)
-    func AVWrapper(failedWithError error: Error?)
-    func AVWrapper(seekTo seconds: Int, didFinish: Bool)
-    func AVWrapper(didUpdateDuration duration: Double)
-    
-}
-
 class AVPlayerWrapper: AVPlayerWrapperProtocol {
     
     struct Constants {
