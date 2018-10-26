@@ -151,22 +151,22 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     /**
      Toggle playback status.
      */
-    public func togglePlaying() throws {
-        try self.wrapper.togglePlaying()
+    public func togglePlaying() {
+        self.wrapper.togglePlaying()
     }
     
     /**
      Start playback
      */
-    public func play() throws {
-        try self.wrapper.play()
+    public func play() {
+        self.wrapper.play()
     }
     
     /**
      Pause playback
      */
-    public func pause() throws {
-        try self.wrapper.pause()
+    public func pause() {
+        self.wrapper.pause()
     }
     
     /**
@@ -180,8 +180,8 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     /**
      Seek to a specific time in the item.
      */
-    public func seek(to seconds: TimeInterval) throws {
-        try self.wrapper.seek(to: seconds)
+    public func seek(to seconds: TimeInterval) {
+        self.wrapper.seek(to: seconds)
     }
     
     // MARK: - Remote Command Center
