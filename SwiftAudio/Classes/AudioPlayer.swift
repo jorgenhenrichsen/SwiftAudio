@@ -32,7 +32,7 @@ public protocol AudioPlayerDelegate: class {
  */
 public class AudioPlayer: AVPlayerWrapperDelegate {
     
-    let wrapper: AVPlayerWrapper
+    var wrapper: AVPlayerWrapperProtocol
     let nowPlayingInfoController: NowPlayingInfoController
     public let remoteCommandController: RemoteCommandController
     
@@ -86,15 +86,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     // MARK: - Setters for AVPlayerWrapper
     
     /**
-     Indicates wether the player should automatically delay playback in order to minimize stalling.
-     [Read more from Apple Documentation](https://developer.apple.com/documentation/avfoundation/avplayer/1643482-automaticallywaitstominimizestal)
-     */
-    public var automaticallyWaitsToMinimizeStalling: Bool {
-        get { return wrapper.automaticallyWaitsToMinimizeStalling }
-        set { wrapper.automaticallyWaitsToMinimizeStalling = newValue }
-    }
-    
-    /**
      The amount of seconds to be buffered by the player. Default value is 0 seconds, this means the AVPlayer will choose an appropriate level of buffering.
      
      [Read more from Apple Documentation](https://developer.apple.com/documentation/avfoundation/avplayeritem/1643630-preferredforwardbufferduration)
@@ -112,15 +103,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     public var timeEventFrquency: TimeEventFrequency {
         get { return wrapper.timeEventFrequency }
         set { wrapper.timeEventFrequency = newValue }
-    }
-    
-    /**
-     The player volume, from 0.0 to 1.0
-     Default is 1.0
-     */
-    public var volume: Float {
-        get { return wrapper.volume }
-        set { wrapper.volume = newValue }
     }
     
     // MARK: - Init
@@ -151,9 +133,14 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         print("Loading: \(item)")
         switch item.getSourceType() {
         case .stream:
-            try self.wrapper.load(fromUrlString: item.getSourceUrl(), playWhenReady: playWhenReady)
+            if let url = URL(string: item.getSourceUrl()) {
+                wrapper.load(from: url, playWhenReady: playWhenReady)
+            }
+            else {
+                throw APError.LoadError.invalidSourceUrl(item.getSourceUrl())
+            }
         case .file:
-            try self.wrapper.load(fromFilePath: item.getSourceUrl(), playWhenReady: playWhenReady)
+            wrapper.load(from: URL(fileURLWithPath: item.getSourceUrl()), playWhenReady: playWhenReady)
         }
         
         self._currentItem = item

@@ -11,9 +11,9 @@ class AudioPlayerTests: QuickSpec {
             
             beforeEach {
                 audioPlayer = AudioPlayer()
-                audioPlayer.automaticallyWaitsToMinimizeStalling = false
+                //audioPlayer.automaticallyWaitsToMinimizeStalling = false
                 audioPlayer.bufferDuration = 0.0001
-                audioPlayer.volume = 0
+                //audioPlayer.volume = 0
             }
             
             describe("its state", {
