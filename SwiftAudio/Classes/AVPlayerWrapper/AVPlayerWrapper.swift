@@ -66,13 +66,6 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     }
     
     var duration: TimeInterval {
-        
-        if let timeRange = self.avPlayer.currentItem?.loadedTimeRanges[0].timeRangeValue {
-            let duration = CMTimeGetSeconds(timeRange.duration)
-            print(duration)
-        }
-        
-        
         if let seconds = currentItem?.duration.seconds, !seconds.isNaN {
             return seconds
         }
