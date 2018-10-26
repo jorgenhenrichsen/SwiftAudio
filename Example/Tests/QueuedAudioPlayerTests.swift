@@ -21,11 +21,23 @@ class QueuedAudioPlayerTests: QuickSpec {
                 })
                 
                 context("when adding one item", {
+                    var item: AudioItem!
                     beforeEach {
-                        try? audioPlayer.add(item: ShortSource.getAudioItem(), playWhenReady: false)
+                        item = ShortSource.getAudioItem()
+                        try? audioPlayer.add(item: item, playWhenReady: false)
                     }
                     it("should not be nil", closure: {
                         expect(audioPlayer.currentItem).toNot(beNil())
+                    })
+                    
+                    context("then loading a new item", closure: {
+                        beforeEach {
+                            try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
+                        }
+                        
+                        it("should have replaced the item", closure: {
+                            expect(audioPlayer.currentItem?.getSourceUrl()).toNot(equal(item.getSourceUrl()))
+                        })
                     })
                 })
                 

@@ -20,6 +20,47 @@ class QueueManagerTests: QuickSpec {
                 manager = QueueManager()
             }
             
+            describe("its current item", {
+                
+                it("should be nil", closure: {
+                    expect(manager.current).to(beNil())
+                })
+                
+                context("when one item is added", closure: {
+                    beforeEach {
+                        manager.addItem(self.dummyItem)
+                    }
+                    
+                    it("should not be nil", closure: {
+                        expect(manager.current).toNot(beNil())
+                    })
+                    
+                    it("should be the added item", closure: {
+                        expect(manager.current).to(equal(self.dummyItem))
+                    })
+                    
+                    context("then replaced", closure: {
+                        beforeEach {
+                            manager.replaceCurrentItem(with: 1)
+                        }
+                        it("should be the new item", closure: {
+                            expect(manager.current).to(equal(1))
+                        })
+                    })
+                })
+                
+                context("when replaced", closure: {
+                    beforeEach {
+                        manager.replaceCurrentItem(with: 1)
+                    }
+                    
+                    it("should not be nil", closure: {
+                        expect(manager.current).toNot(beNil())
+                    })
+                })
+                
+            })
+            
             context("when adding one item", {
                 
                 beforeEach {
@@ -30,9 +71,13 @@ class QueueManagerTests: QuickSpec {
                     expect(manager.items).notTo(beEmpty())
                 })
                 
-                it("should set it as the current item", closure: {
-                    expect(manager.current).toNot(beNil())
-                    expect(manager.current).to(equal(self.dummyItem))
+                context("then replacing the item", closure: {
+                    beforeEach {
+                        try? manager.replaceCurrentItem(with: 1)
+                    }
+                    it("should have replaced the current item", closure: {
+                        expect(manager.current).to(equal(1))
+                    })
                 })
                 
                 context("then calling next", {

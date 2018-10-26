@@ -40,6 +40,17 @@ public class QueuedAudioPlayer: AudioPlayer {
     }
     
     /**
+     Will replace the current item with a new one and load it into the player.
+     
+     - parameter item: The AudioItem to replace the current item.
+     - throws: APError.LoadError
+     */
+    public override func load(item: AudioItem, playWhenReady: Bool) throws {
+        try super.load(item: item, playWhenReady: playWhenReady)
+        queueManager.replaceCurrentItem(with: item)
+    }
+    
+    /**
      Add a single item to the queue.
      
      - parameter item: The item to add.
