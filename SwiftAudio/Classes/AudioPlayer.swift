@@ -26,10 +26,6 @@ public protocol AudioPlayerDelegate: class {
     
 }
 
-/**
- The main AudioPlayer.
- - warning: DO NOT USE THIS CLASS, use `SimpleAudioPlayer` or `QueuedAudioPlayer`
- */
 public class AudioPlayer: AVPlayerWrapperDelegate {
     
     var wrapper: AVPlayerWrapperProtocol
@@ -52,6 +48,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      Default remote commands to use for each playing item
      */
     public var remoteCommands: [RemoteCommand] = []
+    
     
     // MARK: - Getters from AVPlayerWrapper
     
@@ -90,7 +87,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      
      [Read more from Apple Documentation](https://developer.apple.com/documentation/avfoundation/avplayeritem/1643630-preferredforwardbufferduration)
      
-     - Important: This setting will have no effect if `automaticallyWaitsToMinimizeStalling` is set to `true`
+     - Important: This setting will have no effect if `automaticallyWaitsToMinimizeStalling` is set to `true` in the AVPlayer
      */
     public var bufferDuration: TimeInterval {
         get { return wrapper.bufferDuration }
@@ -112,10 +109,12 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      
      - parameter infoCenter: The InfoCenter to update. Default is `MPNowPlayingInfoCenter.default()`.
      */
-    public init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default(), remoteCommandController: RemoteCommandController? = nil) {
-        self.wrapper = AVPlayerWrapper()
-        self.nowPlayingInfoController = NowPlayingInfoController(infoCenter: infoCenter)
-        self.remoteCommandController = remoteCommandController ?? RemoteCommandController()
+    public init(avPlayer: AVPlayer = AVPlayer(),
+                nowPlayingInfoController: NowPlayingInfoController = NowPlayingInfoController(),
+                remoteCommandController: RemoteCommandController = RemoteCommandController()) {
+        self.wrapper = AVPlayerWrapper(avPlayer: avPlayer)
+        self.nowPlayingInfoController = nowPlayingInfoController
+        self.remoteCommandController = remoteCommandController
         
         self.wrapper.delegate = self
         self.remoteCommandController.audioPlayer = self

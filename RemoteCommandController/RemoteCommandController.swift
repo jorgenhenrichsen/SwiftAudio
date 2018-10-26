@@ -14,13 +14,20 @@ public protocol RemoteCommandable {
 
 public class RemoteCommandController {
         
-    private let center = MPRemoteCommandCenter.shared()
+    private let center: MPRemoteCommandCenter
     
     weak var audioPlayer: AudioPlayer?
     
     var commandTargetPointers: [String: Any] = [:]
     
-    public init() {}
+    /**
+     Create a new RemoteCommandController.
+     
+     - parameter remoteCommandCenter: The MPRemoteCommandCenter used. Default is `MPRemoteCommandCenter.shared()`
+     */
+    public init(remoteCommandCenter: MPRemoteCommandCenter = MPRemoteCommandCenter.shared()) {
+        self.center = remoteCommandCenter
+    }
     
     /**
      Enable a set of RemoteCommands. Calling this will disable all earlier set commands, so include all commands that needs to be active.

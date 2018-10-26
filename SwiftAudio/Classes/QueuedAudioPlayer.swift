@@ -21,10 +21,6 @@ public class QueuedAudioPlayer: AudioPlayer {
      */
     public var automaticallyPlayNextSong: Bool = true
     
-    public override init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default(), remoteCommandController: RemoteCommandController? = nil) {
-        super.init(infoCenter: infoCenter, remoteCommandController: remoteCommandController)
-    }
-    
     public override var currentItem: AudioItem? {
         return queueManager.current
     }

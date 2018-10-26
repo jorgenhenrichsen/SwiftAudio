@@ -23,7 +23,12 @@ public class NowPlayingInfoController {
     
     var info: [String: Any]
     
-    public init(infoCenter: MPNowPlayingInfoCenter) {
+    /**
+     Create a new NowPlayingInfoController.
+     
+     - parameter infoCenter: The MPNowPlayingInfoCenter to use. Default is `MPNowPlayingInfoCenter.default()`
+     */
+    public init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
         self.infoCenter = infoCenter
         self.info = [:]
     }
