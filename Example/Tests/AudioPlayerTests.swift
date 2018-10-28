@@ -140,6 +140,22 @@ class AudioPlayerTests: QuickSpec {
                     })
                 })
             })
+            
+            describe("its currentItem", {
+                it("should be nil", closure: {
+                    expect(audioPlayer.currentItem).to(beNil())
+                })
+                
+                context("when loading an item", {
+                    beforeEach {
+                        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
+                    }
+                    
+                    it("should not be nil", closure: {
+                        expect(audioPlayer.currentItem).toNot(beNil())
+                    })
+                })
+            })
         }
     }
     
