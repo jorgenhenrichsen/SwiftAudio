@@ -102,6 +102,11 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         set { wrapper.timeEventFrequency = newValue }
     }
     
+    public var automaticallyWaitsToMinimizeStalling: Bool {
+        get { return wrapper.automaticallyWaitsToMinimizeStalling }
+        set { wrapper.automaticallyWaitsToMinimizeStalling = newValue }
+    }
+    
     public var volume: Float {
         get { return wrapper.volume }
         set { wrapper.volume = newValue }
