@@ -14,9 +14,6 @@ public protocol NowPlayingInfoKeyValue {
     func getValue() -> Any?
 }
 
-/**
- Wrapper class to control the NowPlayingInfoCenter
- */
 public class NowPlayingInfoController {
     
     let infoCenter: MPNowPlayingInfoCenter

@@ -28,13 +28,13 @@ public protocol AudioPlayerDelegate: class {
 
 public class AudioPlayer: AVPlayerWrapperDelegate {
     
-    var wrapper: AVPlayerWrapperProtocol
-    let nowPlayingInfoController: NowPlayingInfoController
+    private var wrapper: AVPlayerWrapperProtocol
+    
+    public let nowPlayingInfoController: NowPlayingInfoController
     public let remoteCommandController: RemoteCommandController
+    public weak var delegate: AudioPlayerDelegate?
     
     var _currentItem: AudioItem?
-    
-    public weak var delegate: AudioPlayerDelegate?
     public var currentItem: AudioItem? {
         return _currentItem
     }
@@ -143,7 +143,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         }
         
         self._currentItem = item
-        set(item: item)
+        self.updateMetaValues(item: item)
         setArtwork(forItem: item)
         enableRemoteCommands(forItem: item)
     }
@@ -205,21 +205,15 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     // MARK: - NowPlayingInfo
     
-    /**
-     Reloads the NowPlayingInfo from the current AudioItem.
-     */
+    /// Reload all NowPlayingInfo for the playing item.
     public func reloadNowPlayingInfo() {
         guard let item = currentItem else { return }
-        set(item: item)
+        updateMetaValues(item: item)
         setArtwork(forItem: item)
         updatePlaybackValues()
     }
     
-    public func add(property: NowPlayingInfoKeyValue) {
-        self.nowPlayingInfoController.set(keyValue: property)
-    }
-    
-    func set(item: AudioItem) {
+    func updateMetaValues(item: AudioItem) {
         guard automaticallyUpdateNowPlayingInfo else { return }
 
         nowPlayingInfoController.set(keyValues: [
@@ -233,11 +227,9 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         guard automaticallyUpdateNowPlayingInfo else { return }
         item.getArtwork { (image) in
             if let image = image {
-                
                 let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (size) -> UIImage in
                     return image
                 })
-                
                 self.nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
             }
         }
