@@ -186,10 +186,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     // MARK: - Remote Command Center
     
-    /**
-     Set the remote commands that should be activated and handled.
-     Calling this will disable all earlier enabled commands, so include all commands you need.
-     */
     func enableRemoteCommands(_ commands: [RemoteCommand]) {
         self.remoteCommandController.enable(commands: commands)
     }

@@ -29,12 +29,7 @@ public class RemoteCommandController {
         self.center = remoteCommandCenter
     }
     
-    /**
-     Enable a set of RemoteCommands. Calling this will disable all earlier set commands, so include all commands that needs to be active.
-     
-     - parameter commands: The RemoteCommands that is to be enabled.
-     */
-    public func enable(commands: [RemoteCommand]) {
+    private func enable(commands: [RemoteCommand]) {
         self.disable(commands: RemoteCommand.all())
         commands.forEach { (command) in
             self.enable(command: command)
