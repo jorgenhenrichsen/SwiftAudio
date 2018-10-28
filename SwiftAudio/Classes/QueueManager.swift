@@ -79,7 +79,7 @@ class QueueManager<T> {
      */
     public func addItems(_ items: [T], at index: Int) throws {
         guard index >= 0 && items.count > index else {
-            throw APError.QueueError.invalidIndex(index: index, message: "The jump index has to be positive and smaller thant the count of current items (\(items.count))")
+            throw APError.QueueError.invalidIndex(index: index, message: "Index for addition has to be positive and smaller than the count of current items (\(items.count))")
         }
         
         _items.insert(contentsOf: items, at: index)
@@ -137,6 +137,7 @@ class QueueManager<T> {
         guard index >= 0 && items.count > index else {
             throw APError.QueueError.invalidIndex(index: index, message: "The jump index has to be positive and smaller thant the count of current items (\(items.count))")
         }
+
         _currentIndex = index
         return _items[index]
     }
@@ -162,7 +163,8 @@ class QueueManager<T> {
             throw APError.QueueError.invalidIndex(index: toIndex, message: "The toIndex has to be positive and smaller than the count of current items (\(items.count)).")
         }
         
-        _items.insert(_items.remove(at: fromIndex), at: toIndex)
+        let item = try! removeItem(at: fromIndex)
+        try! addItems([item], at: toIndex)
     }
     
     /**
@@ -173,14 +175,19 @@ class QueueManager<T> {
      - returns: The removed item.
      */
     @discardableResult
-    public func remove(atIndex index: Int) throws -> T {
+    public func removeItem(at index: Int) throws -> T {
         guard index != _currentIndex else {
             throw APError.QueueError.invalidIndex(index: index, message: "Cannot remove the current item!")
         }
         
         guard index >= 0 && _items.count > index else {
-            throw APError.QueueError.invalidIndex(index: index, message: "Index for removal has to be postivie and smaller than the count of current items (\(items.count)).")
+            throw APError.QueueError.invalidIndex(index: index, message: "Index for removal has to be positive and smaller than the count of current items (\(items.count)).")
         }
+        
+        if index < _currentIndex {
+            _currentIndex = _currentIndex - 1
+        }
+
         return _items.remove(at: index)
     }
 

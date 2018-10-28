@@ -113,8 +113,8 @@ public class QueuedAudioPlayer: AudioPlayer {
      - parameter index: The index of the item to remove.
      - throws: `APError.QueueError`
      */
-    public func removeItem(atIndex index: Int) throws {
-        try queueManager.remove(atIndex: index)
+    public func removeItem(at index: Int) throws {
+        try queueManager.removeItem(at: index)
     }
     
     /**
