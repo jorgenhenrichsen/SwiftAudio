@@ -42,7 +42,7 @@ class AVPlayerWrapper {
      */
     var playWhenReady: Bool { return _playWhenReady }
     
-    private var _playWhenReady: Bool = true
+    fileprivate var _playWhenReady: Bool = true
     
     /**
      The current `AudioPlayerState` of the player.
@@ -98,9 +98,11 @@ class AVPlayerWrapper {
     
     /**
      The rate of the AVPlayer
+     Default is 1.0
      */
     var rate: Float {
-        return avPlayer.rate
+        get { return avPlayer.rate }
+        set { avPlayer.rate = newValue }
     }
     
     // MARK: - AVPlayer Config Properties
@@ -226,9 +228,8 @@ class AVPlayerWrapper {
         guard currentItem != nil else {
             throw APError.PlaybackError.noLoadedItem
         }
-        let millis = Int64(max(min(seconds, duration), 0) * 1000)
-        let time = CMTime(value: millis, timescale: 1000)
-        avPlayer.seek(to: time) { (finished) in
+        
+        avPlayer.seek(to: CMTimeMakeWithSeconds(seconds, 1)) { (finished) in
             self.delegate?.AVWrapper(seekTo: Int(seconds), didFinish: finished)
         }
     }
@@ -240,7 +241,6 @@ class AVPlayerWrapper {
      - parameter playWhenReady: Whether playback should start immediately when the item is ready. Default is `true`
      */
     func load(fromUrlString urlString: String, playWhenReady: Bool = true) throws {
-        
         guard let url = URL(string: urlString) else {
             throw APError.LoadError.invalidSourceUrl(urlString)
         }
@@ -287,6 +287,7 @@ class AVPlayerWrapper {
         if !soft {
             avPlayer.replaceCurrentItem(with: nil)
         }
+        
         playerTimeObserver.unregisterForBoundaryTimeEvents()
         playerItemNotificationObserver.stopObservingCurrentItem()
     }

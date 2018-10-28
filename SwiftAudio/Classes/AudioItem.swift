@@ -12,6 +12,13 @@ public enum SourceType {
     case file
 }
 
+public enum PitchAlgorithmType {
+    case variSpeed
+    case spectral
+    case timeDomain
+    case lowQualityZeroLatency
+}
+
 public protocol AudioItem {
     
     func getSourceUrl() -> String
@@ -19,6 +26,7 @@ public protocol AudioItem {
     func getTitle() -> String?
     func getAlbumTitle() -> String?
     func getSourceType() -> SourceType
+    func getPitchAlgorithmType() -> PitchAlgorithmType
     func getArtwork(_ handler: @escaping (UIImage?) -> Void)
     
 }
@@ -36,14 +44,17 @@ public struct DefaultAudioItem: AudioItem {
     
     public var sourceType: SourceType
     
+    public var pitchAlgorithmType: PitchAlgorithmType
+    
     public var artwork: UIImage?
     
-    public init(audioUrl: String, artist: String? = nil, title: String? = nil, albumTitle: String? = nil, sourceType: SourceType, artwork: UIImage? = nil) {
+    public init(audioUrl: String, artist: String? = nil, title: String? = nil, albumTitle: String? = nil, sourceType: SourceType, pitchAlgorithmType: PitchAlgorithmType, artwork: UIImage? = nil) {
         self.audioUrl = audioUrl
         self.artist = artist
         self.title = title
         self.albumTitle = albumTitle
         self.sourceType = sourceType
+        self.pitchAlgorithmType = pitchAlgorithmType
         self.artwork = artwork
     }
     
@@ -67,9 +78,12 @@ public struct DefaultAudioItem: AudioItem {
         return sourceType
     }
     
+    public func getPitchAlgorithmType() -> PitchAlgorithmType {
+        return pitchAlgorithmType
+    }
+    
     public func getArtwork(_ handler: @escaping (UIImage?) -> Void) {
         handler(artwork)
     }
-    
     
 }

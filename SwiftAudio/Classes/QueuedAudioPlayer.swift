@@ -29,6 +29,14 @@ public class QueuedAudioPlayer: AudioPlayer {
         return queueManager.current
     }
     
+     /**
+     Stops the player and clears the queue.
+     */
+    public override func stop() {
+        super.stop()
+        queueManager.clearQueue()
+    }
+    
     /**
      The previous items held by the queue.
      */
@@ -75,6 +83,10 @@ public class QueuedAudioPlayer: AudioPlayer {
         else {
             queueManager.addItems(items)
         }
+    }
+    
+    public func add(items: [AudioItem], at index: Int) throws {
+        try queueManager.addItems(items, at: index)
     }
     
     /**
@@ -126,6 +138,13 @@ public class QueuedAudioPlayer: AudioPlayer {
      */
     func moveItem(fromIndex: Int, toIndex: Int) throws {
         try queueManager.moveItem(fromIndex: fromIndex, toIndex: toIndex)
+    }
+    
+    /**
+     Remove all upcoming items, those returned by `next()`
+     */
+    public func removeUpcomingItems() {
+        queueManager.removeUpcomingItems()
     }
     
     // MARK: - AVPlayerWrapperDelegate

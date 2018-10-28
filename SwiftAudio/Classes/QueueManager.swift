@@ -72,6 +72,21 @@ class QueueManager<T> {
     }
     
     /**
+     Add an array of items to the queue at a given index.
+     
+     - parameter items: The `AudioItem`s to be added.
+     - parameter at: The index to insert the items at.
+     */
+    public func addItems(_ items: [T], at index: Int) throws {
+        guard index >= 0 && items.count > index else {
+            throw APError.QueueError.invalidIndex(index: index, message: "The jump index has to be positive and smaller thant the count of current items (\(items.count))")
+        }
+        
+        _items.insert(contentsOf: items, at: index)
+        if (_currentIndex >= index) { _currentIndex = _currentIndex + items.count }
+    }
+    
+    /**
      Get the next item in the queue, if there are any.
      Will update the current item.
      
@@ -169,5 +184,21 @@ class QueueManager<T> {
         return _items.remove(at: index)
     }
 
+    /**
+     Remove upcoming items.
+     */
+    public func removeUpcomingItems() {
+        let nextIndex = _currentIndex + 1
+        guard nextIndex < _items.count else { return }
+        _items.removeSubrange(nextIndex..<items.count)
+    }
     
+    /**
+     Removes all items for queue
+     */
+    public func clearQueue() {
+        _currentIndex = 0
+        _items.removeAll()
+    }
+
 }

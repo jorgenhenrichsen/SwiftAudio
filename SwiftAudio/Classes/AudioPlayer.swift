@@ -23,7 +23,7 @@ public protocol AudioPlayerDelegate: class {
     func audioPlayer(seekTo seconds: Int, didFinish: Bool)
     
     func audioPlayer(didUpdateDuration duration: Double)
-    
+
 }
 
 /**
@@ -67,13 +67,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      */
     public var duration: Double {
         return wrapper.duration
-    }
-    
-    /**
-     The current rate of the underlying `AudioPlayer`.
-     */
-    public var rate: Float {
-        return wrapper.rate
     }
     
     /**
@@ -123,6 +116,15 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         set { wrapper.volume = newValue }
     }
     
+    /**
+     The player rate
+     Default is 1.0
+     */
+    public var rate: Float {
+        get { return wrapper.rate }
+        set { wrapper.rate = newValue }
+    }
+    
     // MARK: - Init
     
     /**
@@ -159,6 +161,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         self._currentItem = item
         set(item: item)
         setArtwork(forItem: item)
+        setPitchAlgorithm(forItem: item)
         enableRemoteCommands(forItem: item)
     }
     
@@ -254,6 +257,19 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
                 
                 self.nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
             }
+        }
+    }
+    
+    func setPitchAlgorithm(forItem item: AudioItem) {
+        switch item.getPitchAlgorithmType() {
+        case .lowQualityZeroLatency:
+            wrapper.currentItem?.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmLowQualityZeroLatency
+        case .spectral:
+            wrapper.currentItem?.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmSpectral
+        case .timeDomain:
+            wrapper.currentItem?.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmTimeDomain
+        case .variSpeed:
+            wrapper.currentItem?.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmVarispeed
         }
     }
     
