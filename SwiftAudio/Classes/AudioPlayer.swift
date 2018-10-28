@@ -102,6 +102,16 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         set { wrapper.timeEventFrequency = newValue }
     }
     
+    public var volume: Float {
+        get { return wrapper.volume }
+        set { wrapper.volume = newValue }
+    }
+    
+    public var isMuted: Bool {
+        get { return wrapper.isMuted }
+        set { wrapper.isMuted = newValue }
+    }
+    
     // MARK: - Init
     
     /**

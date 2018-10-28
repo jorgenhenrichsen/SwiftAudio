@@ -19,6 +19,8 @@ protocol AVPlayerWrapperProtocol {
     
     var duration: TimeInterval { get }
     
+    var reasonForWaitingToPlay: AVPlayer.WaitingReason? { get }
+    
     var rate: Float { get }
     
     
@@ -27,6 +29,12 @@ protocol AVPlayerWrapperProtocol {
     var bufferDuration: TimeInterval { get set }
     
     var timeEventFrequency: TimeEventFrequency { get set }
+    
+    var volume: Float { get set }
+    
+    var isMuted: Bool { get set }
+    
+    var automaticallyWaitsToMinimizeStalling: Bool { get set }
     
     
     func play()

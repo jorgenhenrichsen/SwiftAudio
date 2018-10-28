@@ -56,8 +56,17 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         return _state
     }
     
+    var reasonForWaitingToPlay: AVPlayer.WaitingReason? {
+        return avPlayer.reasonForWaitingToPlay
+    }
+    
     var currentItem: AVPlayerItem? {
         return avPlayer.currentItem
+    }
+    
+    var automaticallyWaitsToMinimizeStalling: Bool {
+        get { return avPlayer.automaticallyWaitsToMinimizeStalling }
+        set { avPlayer.automaticallyWaitsToMinimizeStalling = newValue }
     }
     
     var currentTime: TimeInterval {
@@ -84,6 +93,16 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         didSet {
             playerTimeObserver.periodicObserverTimeInterval = timeEventFrequency.getTime()
         }
+    }
+    
+    var volume: Float {
+        get { return avPlayer.volume }
+        set { avPlayer.volume = newValue }
+    }
+    
+    var isMuted: Bool {
+        get { return avPlayer.isMuted }
+        set { avPlayer.isMuted = newValue }
     }
     
     func play() {
