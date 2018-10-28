@@ -33,6 +33,7 @@ public class QueuedAudioPlayer: AudioPlayer {
      Stops the player and clears the queue.
      */
     public override func stop() {
+        AVWrapper(itemPlaybackDoneWithReason: .playerStopped)
         super.stop()
         queueManager.clearQueue()
     }
@@ -95,6 +96,7 @@ public class QueuedAudioPlayer: AudioPlayer {
      - throws: `APError`
      */
     public func next() throws {
+        AVWrapper(itemPlaybackDoneWithReason: .skippedToNext)
         let nextItem = try queueManager.next()
         try self.loadItem(nextItem, playWhenReady: true)
     }
@@ -103,6 +105,7 @@ public class QueuedAudioPlayer: AudioPlayer {
      Step to the previous item in the queue.
      */
     public func previous() throws {
+        AVWrapper(itemPlaybackDoneWithReason: .skippedToPrevious)
         let previousItem = try queueManager.previous()
         try self.loadItem(previousItem, playWhenReady: true)
     }
@@ -125,6 +128,8 @@ public class QueuedAudioPlayer: AudioPlayer {
      - throws: `APError`
      */
     public func jumpToItem(atIndex index: Int, playWhenReady: Bool = true) throws {
+        AVWrapper(itemPlaybackDoneWithReason: .jumpedToIndex)
+
         let item = try queueManager.jump(to: index)
         try self.loadItem(item, playWhenReady: playWhenReady)
     }
@@ -149,8 +154,10 @@ public class QueuedAudioPlayer: AudioPlayer {
     
     // MARK: - AVPlayerWrapperDelegate
     
-    override func AVWrapperItemDidComplete() {
-        super.AVWrapperItemDidComplete()
+    override func AVWrapper(itemPlaybackDoneWithReason reason: PlaybackEndedReason) {
+        super.AVWrapper(itemPlaybackDoneWithReason: reason)
+        guard reason == .playedUntilEnd else { return }
+
         if automaticallyPlayNextSong {
             try? self.next()
         }

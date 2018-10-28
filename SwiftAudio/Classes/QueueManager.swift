@@ -20,7 +20,7 @@ class QueueManager<T> {
     }
     
     public var nextItems: [T] {
-        guard _currentIndex < _items.count else {
+        guard _currentIndex + 1 < _items.count else {
             return []
         }
         return Array(_items[_currentIndex + 1..<items.count])

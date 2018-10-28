@@ -11,10 +11,18 @@ import AVFoundation
 import MediaPlayer
 
 
+public enum PlaybackEndedReason: String {
+    case playedUntilEnd
+    case playerStopped
+    case skippedToNext
+    case skippedToPrevious
+    case jumpedToIndex
+}
+
 protocol AVPlayerWrapperDelegate: class {
     
     func AVWrapper(didChangeState state: AVPlayerWrapperState)
-    func AVWrapperItemDidComplete()
+    func AVWrapper(itemPlaybackDoneWithReason reason: PlaybackEndedReason)
     func AVWrapper(secondsElapsed seconds: Double)
     func AVWrapper(failedWithError error: Error?)
     func AVWrapper(seekTo seconds: Int, didFinish: Bool)
@@ -354,7 +362,7 @@ extension AVPlayerWrapper: AVPlayerItemNotificationObserverDelegate {
     // MARK: - AVPlayerItemNotificationObserverDelegate
     
     func itemDidPlayToEndTime() {
-        delegate?.AVWrapperItemDidComplete()
+        delegate?.AVWrapper(itemPlaybackDoneWithReason: .playedUntilEnd)
     }
     
 }

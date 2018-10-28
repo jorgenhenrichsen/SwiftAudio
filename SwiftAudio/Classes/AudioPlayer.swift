@@ -14,7 +14,7 @@ public protocol AudioPlayerDelegate: class {
     
     func audioPlayer(playerDidChangeState state: AudioPlayerState)
     
-    func audioPlayerItemDidComplete()
+    func audioPlayer(itemPlaybackEndedWithReason reason: PlaybackEndedReason)
     
     func audioPlayer(secondsElapsed seconds: Double)
     
@@ -296,8 +296,8 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         self.delegate?.audioPlayer(playerDidChangeState: state)
     }
     
-    func AVWrapperItemDidComplete() {
-        self.delegate?.audioPlayerItemDidComplete()
+    func AVWrapper(itemPlaybackDoneWithReason reason: PlaybackEndedReason) {
+        self.delegate?.audioPlayer(itemPlaybackEndedWithReason: reason)
     }
     
     func AVWrapper(secondsElapsed seconds: Double) {
