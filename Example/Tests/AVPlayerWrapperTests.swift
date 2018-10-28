@@ -186,6 +186,34 @@ class AVPlayerWrapperTests: QuickSpec {
                 })
             })
             
+            describe("its automaticallyWaitsToMinimizeStalling option", {
+                it("should be false", closure: {
+                    expect(wrapper.automaticallyWaitsToMinimizeStalling).to(beFalse())
+                })
+                
+                context("when setting it to true", {
+                    beforeEach {
+                        wrapper.automaticallyWaitsToMinimizeStalling = true
+                    }
+                    
+                    it("should be true", closure: {
+                        expect(wrapper.automaticallyWaitsToMinimizeStalling).to(beTrue())
+                    })
+                })
+            })
+            
+            describe("its timeEventFrequency", {
+                context("when updated", {
+                    beforeEach {
+                        wrapper.timeEventFrequency = .everyHalfSecond
+                    }
+                    
+                    it("should update the playerTimeObservers periodicObserverTimeInterval", closure: {
+                        expect(wrapper.playerTimeObserver.periodicObserverTimeInterval).to(equal(TimeEventFrequency.everyHalfSecond.getTime()))
+                    })
+                })
+            })
+            
         }
 
     }
