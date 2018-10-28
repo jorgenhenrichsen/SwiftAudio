@@ -30,7 +30,6 @@
 		07732655205ECE1C00C4D1CD /* nasa_throttle_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */; };
 		0775575920668B020002C6A1 /* QueueManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775575820668B020002C6A1 /* QueueManagerTests.swift */; };
 		078C908F210D263200555E80 /* AVPlayerItemObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */; };
-		07CC171C213E912E005F880E /* SimpleAudioPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CC171A213E912A005F880E /* SimpleAudioPlayerTests.swift */; };
 		07DBB1E1212C17E600BB4278 /* QueuedAudioPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DBB1E0212C17E600BB4278 /* QueuedAudioPlayerTests.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -69,7 +68,6 @@
 		07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nasa_throttle_up.mp3; sourceTree = "<group>"; };
 		0775575820668B020002C6A1 /* QueueManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueManagerTests.swift; sourceTree = "<group>"; };
 		078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemObserverTests.swift; sourceTree = "<group>"; };
-		07CC171A213E912A005F880E /* SimpleAudioPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleAudioPlayerTests.swift; sourceTree = "<group>"; };
 		07DBB1E0212C17E600BB4278 /* QueuedAudioPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedAudioPlayerTests.swift; sourceTree = "<group>"; };
 		521F3AEC1228A2FA2637355F /* Pods-SwiftAudio_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftAudio_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftAudio_Tests/Pods-SwiftAudio_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SwiftAudio_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftAudio_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,7 +182,6 @@
 				078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */,
 				0708ED6B2116DA4B00EB29BD /* AudioSessionControllerTests.swift */,
 				07DBB1E0212C17E600BB4278 /* QueuedAudioPlayerTests.swift */,
-				07CC171A213E912A005F880E /* SimpleAudioPlayerTests.swift */,
 				0708ED712116E91300EB29BD /* Source */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -445,7 +442,6 @@
 			files = (
 				0708ED702116E89900EB29BD /* Source.swift in Sources */,
 				0708ED742116EE0100EB29BD /* AudioPlayerTests.swift in Sources */,
-				07CC171C213E912E005F880E /* SimpleAudioPlayerTests.swift in Sources */,
 				0775575920668B020002C6A1 /* QueueManagerTests.swift in Sources */,
 				074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */,
 				078C908F210D263200555E80 /* AVPlayerItemObserverTests.swift in Sources */,
@@ -600,6 +596,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -617,6 +614,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

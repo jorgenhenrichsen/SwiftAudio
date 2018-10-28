@@ -11,9 +11,9 @@ class AudioPlayerTests: QuickSpec {
             
             beforeEach {
                 audioPlayer = AudioPlayer()
-                audioPlayer.automaticallyWaitsToMinimizeStalling = false
                 audioPlayer.bufferDuration = 0.0001
-                audioPlayer.volume = 0
+                audioPlayer.automaticallyWaitsToMinimizeStalling = false
+                audioPlayer.volume = 0.0
             }
             
             describe("its state", {
@@ -24,7 +24,7 @@ class AudioPlayerTests: QuickSpec {
                 
                 context("when audio item is loaded", {
                     beforeEach {
-                        try? audioPlayer.loadItem(Source.getAudioItem(), playWhenReady: false)
+                        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
                     }
                     
                     it("it should eventually be ready", closure: {
@@ -34,7 +34,7 @@ class AudioPlayerTests: QuickSpec {
                 
                 context("when an item is loaded (playWhenReady=true)", {
                     beforeEach {
-                        try? audioPlayer.loadItem(Source.getAudioItem(), playWhenReady: true)
+                        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
                     }
                     
                     it("it should eventually be playing", closure: {
@@ -53,7 +53,7 @@ class AudioPlayerTests: QuickSpec {
                                 try? audioPlayer.play()
                             }
                         }
-                        try? audioPlayer.loadItem(Source.getAudioItem(), playWhenReady: false)
+                        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
                     }
                     
                     it("should eventually be playing", closure: {
@@ -71,7 +71,7 @@ class AudioPlayerTests: QuickSpec {
                                 try? audioPlayer.pause()
                             }
                         }
-                        try? audioPlayer.loadItem(Source.getAudioItem(), playWhenReady: true)
+                        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
                     }
                     
                     it("should eventually be paused", closure: {
@@ -89,7 +89,7 @@ class AudioPlayerTests: QuickSpec {
                                 audioPlayer.stop()
                             }
                         }
-                        try? audioPlayer.loadItem(Source.getAudioItem(), playWhenReady: true)
+                        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
                     }
                     
                     it("should eventually be idle", closure: {
@@ -114,7 +114,7 @@ class AudioPlayerTests: QuickSpec {
                                 try? audioPlayer.seek(to: seekTime)
                             }
                         }
-                        try? audioPlayer.loadItem(Source.getAudioItem(), playWhenReady: false)
+                        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
                     }
                     
                     it("should eventually be equal to the seeked time", closure: {
@@ -130,11 +130,27 @@ class AudioPlayerTests: QuickSpec {
                 
                 context("when playing an item", {
                     beforeEach {
-                        try? audioPlayer.loadItem(Source.getAudioItem(), playWhenReady: true)
+                        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
                     }
                     
                     it("should eventually be 1.0", closure: {
                         expect(audioPlayer.rate).toEventually(equal(1.0))
+                    })
+                })
+            })
+            
+            describe("its currentItem", {
+                it("should be nil", closure: {
+                    expect(audioPlayer.currentItem).to(beNil())
+                })
+                
+                context("when loading an item", {
+                    beforeEach {
+                        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
+                    }
+                    
+                    it("should not be nil", closure: {
+                        expect(audioPlayer.currentItem).toNot(beNil())
                     })
                 })
             })
