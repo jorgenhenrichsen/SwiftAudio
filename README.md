@@ -34,6 +34,8 @@ let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
 player.load(item: audioItem, playWhenReady: true) // Load the item and start playing when the player is ready.
 ```
 
+Implement `AudioPlayerDelegate` to get notified about useful events for the `AudioPlayer`.
+
 #### States
 The `AudioPlayer` has a `state` property, to make it easier to determine appropriate actions. The different states:
 + **idle**: The player is doing nothing, no item is set as current. This is the default state.
@@ -80,7 +82,7 @@ To disable interruption notifcations set `isObservingForInterruptions` to `false
 
 ### Now Playing Info
 The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork and time if the passed in `AudioItem` supports this.
-If you need to set additional properties for some items use `AudioPlayer.add(property:)`. Available properties can be found in `NowPlayingInfoProperty`.
+If you need to set additional properties for some items, access the player's `NowPlayingInfoController` and call `set(keyValue:)`. Available properties can be found in `NowPlayingInfoProperty`.
 
 ### Remote Commands
 **First** go to App Settings -> Capabilites -> Background Modes -> Check 'Remote notifications'
@@ -96,8 +98,6 @@ audioPlayer.remoteCommands = [
 ```
 These commands will be activated for each `AudioItem`. If you need some audio items to have different commands, implement `RemoteCommandable` in your `AudioItem`-subclass. These commands will override the commands found in `AudioPlayer.remoteCommands` so make sure to supply all commands you need for that particular `AudioItem`.
 
-
-
 #### Custom handlers for remote commands
 To supply custom handlers for your remote commands, just override the handlers contained in the player's `RemoteCommandController`:
 ```swift
@@ -107,7 +107,6 @@ player.remoteCommandController.handlePlayCommand = { (event) in
 }
 ```
 All available overrides can be found by looking at `RemoteCommandController`.
-
 
 ## Configuration
 
