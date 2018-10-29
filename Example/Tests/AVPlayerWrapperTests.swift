@@ -189,20 +189,18 @@ class AVPlayerWrapperTests: QuickSpec {
                 })
                 
                 context("when seeking to a time", {
+                    var passed = false
                     let holder = AVPlayerWrapperDelegateHolder()
                     let seekTime: TimeInterval = 0.5
                     beforeEach {
                         wrapper.delegate = holder
-                        holder.stateUpdate = { (state) in
-                            if state == .ready && wrapper.duration != 0 {
-                                try? wrapper.seek(to: seekTime)
-                            }
-                        }
+                        holder.seekCompletion = { passed = true }
                         try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
+                        try? wrapper.seek(to: seekTime)
                     }
                     
                     it("should eventually be equal to the seeked time", closure: {
-                        expect(wrapper.currentTime).toEventually(equal(seekTime))
+                        expect(passed).toEventually(beTrue())
                     })
                 })
             })
@@ -214,12 +212,12 @@ class AVPlayerWrapperTests: QuickSpec {
 }
 
 class AVPlayerWrapperDelegateHolder: AVPlayerWrapperDelegate {
-
-    
+    func AVWrapper(itemPlaybackDoneWithReason reason: PlaybackEndedReason) {
+        
+    }
     
     var state: AVPlayerWrapperState? {
         didSet {
-            print(state)
             if let state = state {
                 self.stateUpdate?(state)
             }
@@ -233,10 +231,6 @@ class AVPlayerWrapperDelegateHolder: AVPlayerWrapperDelegate {
         self.state = state
     }
     
-    func AVWrapperItemDidComplete() {
-        
-    }
-    
     func AVWrapper(secondsElapsed seconds: Double) {
         
     }
@@ -245,8 +239,9 @@ class AVPlayerWrapperDelegateHolder: AVPlayerWrapperDelegate {
         
     }
     
+    var seekCompletion: (() -> Void)?
     func AVWrapper(seekTo seconds: Int, didFinish: Bool) {
-         
+         seekCompletion?()
     }
     
     func AVWrapper(didUpdateDuration duration: Double) {

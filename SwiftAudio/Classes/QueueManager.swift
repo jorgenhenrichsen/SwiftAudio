@@ -23,7 +23,7 @@ class QueueManager<T> {
         guard _currentIndex + 1 < _items.count else {
             return []
         }
-        return Array(_items[_currentIndex + 1..<items.count])
+        return Array(_items[_currentIndex + 1..<_items.count])
     }
     
     public var previousItems: [T] {
@@ -78,12 +78,12 @@ class QueueManager<T> {
      - parameter at: The index to insert the items at.
      */
     public func addItems(_ items: [T], at index: Int) throws {
-        guard index >= 0 && items.count > index else {
-            throw APError.QueueError.invalidIndex(index: index, message: "Index for addition has to be positive and smaller than the count of current items (\(items.count))")
+        guard index >= 0 && _items.count > index else {
+            throw APError.QueueError.invalidIndex(index: index, message: "Index for addition has to be positive and smaller than the count of current items (\(_items.count))")
         }
         
         _items.insert(contentsOf: items, at: index)
-        if (_currentIndex >= index) { _currentIndex = _currentIndex + items.count }
+        if (_currentIndex >= index) { _currentIndex = _currentIndex + _items.count }
     }
     
     /**
@@ -134,8 +134,8 @@ class QueueManager<T> {
             throw APError.QueueError.invalidIndex(index: index, message: "Cannot jump to the current item")
         }
         
-        guard index >= 0 && items.count > index else {
-            throw APError.QueueError.invalidIndex(index: index, message: "The jump index has to be positive and smaller thant the count of current items (\(items.count))")
+        guard index >= 0 && _items.count > index else {
+            throw APError.QueueError.invalidIndex(index: index, message: "The jump index has to be positive and smaller thant the count of current items (\(_items.count))")
         }
 
         _currentIndex = index
@@ -156,11 +156,11 @@ class QueueManager<T> {
         }
         
         guard fromIndex >= 0 && fromIndex < _items.count else {
-            throw APError.QueueError.invalidIndex(index: fromIndex, message: "The fromIndex has to be positive and smaller than the count of current items (\(items.count)).")
+            throw APError.QueueError.invalidIndex(index: fromIndex, message: "The fromIndex has to be positive and smaller than the count of current items (\(_items.count)).")
         }
         
         guard toIndex >= 0 && toIndex < _items.count else {
-            throw APError.QueueError.invalidIndex(index: toIndex, message: "The toIndex has to be positive and smaller than the count of current items (\(items.count)).")
+            throw APError.QueueError.invalidIndex(index: toIndex, message: "The toIndex has to be positive and smaller than the count of current items (\(_items.count)).")
         }
         
         let item = try removeItem(at: fromIndex)
@@ -181,7 +181,7 @@ class QueueManager<T> {
         }
         
         guard index >= 0 && _items.count > index else {
-            throw APError.QueueError.invalidIndex(index: index, message: "Index for removal has to be positive and smaller than the count of current items (\(items.count)).")
+            throw APError.QueueError.invalidIndex(index: index, message: "Index for removal has to be positive and smaller than the count of current items (\(_items.count)).")
         }
         
         if index < _currentIndex {
@@ -197,7 +197,7 @@ class QueueManager<T> {
     public func removeUpcomingItems() {
         let nextIndex = _currentIndex + 1
         guard nextIndex < _items.count else { return }
-        _items.removeSubrange(nextIndex..<items.count)
+        _items.removeSubrange(nextIndex..<_items.count)
     }
     
     /**

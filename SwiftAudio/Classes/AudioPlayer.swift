@@ -158,7 +158,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
             try self.wrapper.load(fromFilePath: item.getSourceUrl(), playWhenReady: playWhenReady)
         }
         
-        wrapper.currentItem?.audioTimePitchAlgorithm = item.getPitchAlgorithmType() as String
+        wrapper.currentItem?.audioTimePitchAlgorithm = item.getPitchAlgorithmType()
         
         self._currentItem = item
         set(item: item)

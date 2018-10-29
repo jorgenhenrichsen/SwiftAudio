@@ -122,7 +122,7 @@ class QueueManagerTests: QuickSpec {
                 context("then removing the second item", {
                     var removed: Int?
                     beforeEach {
-                        removed = try? manager.remove(atIndex: 1)
+                        removed = try? manager.removeItem(at: 1)
                     }
                     
                     it("should have one less item", closure: {
@@ -134,7 +134,7 @@ class QueueManagerTests: QuickSpec {
                 context("then removing the last item", {
                     var removed: Int?
                     beforeEach {
-                        removed = try? manager.remove(atIndex: self.dummyItems.count - 1)
+                        removed = try? manager.removeItem(at: self.dummyItems.count - 1)
                     }
                     
                     it("should have one less item", closure: {
@@ -146,7 +146,7 @@ class QueueManagerTests: QuickSpec {
                 context("then removing the current item", {
                     var removed: Int?
                     beforeEach {
-                        removed = try? manager.remove(atIndex: manager.currentIndex)
+                        removed = try? manager.removeItem(at: manager.currentIndex)
                     }
                     it("should not remove any items", closure: {
                         expect(removed).to(beNil())
@@ -157,7 +157,7 @@ class QueueManagerTests: QuickSpec {
                 context("then removing with too large index", {
                     var removed: Int?
                     beforeEach {
-                        removed = try? manager.remove(atIndex: self.dummyItems.count)
+                        removed = try? manager.removeItem(at: self.dummyItems.count)
                     }
 
                     it("should not remove any items", closure: {
@@ -169,7 +169,7 @@ class QueueManagerTests: QuickSpec {
                 context("then removing with too small index", {
                     var removed: Int?
                     beforeEach {
-                        removed = try? manager.remove(atIndex: -1)
+                        removed = try? manager.removeItem(at: -1)
                     }
                     
                     it("should not remove any items", closure: {

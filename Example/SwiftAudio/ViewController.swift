@@ -61,6 +61,10 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: AudioPlayerDelegate {
+    func audioPlayer(itemPlaybackEndedWithReason reason: PlaybackEndedReason) {
+        
+    }
+    
     
     func audioPlayer(playerDidChangeState state: AVPlayerWrapperState) {
         playButton.setTitle(state == .playing ? "Pause" : "Play", for: .normal)
@@ -87,10 +91,6 @@ extension ViewController: AudioPlayerDelegate {
             slider.setValue(Float(controller.player.currentTime), animated: true)
             
         }
-    }
-    
-    func audioPlayerItemDidComplete() {
-        
     }
     
     func audioPlayer(secondsElapsed seconds: Double) {
