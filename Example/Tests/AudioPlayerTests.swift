@@ -105,20 +105,18 @@ class AudioPlayerTests: QuickSpec {
                 })
                 
                 context("when seeking to a time", {
+                    var passed = false
                     let holder = AudioPlayerDelegateHolder()
                     let seekTime: TimeInterval = 0.5
                     beforeEach {
                         audioPlayer.delegate = holder
-                        holder.stateUpdate = { (state) in
-                            if state == .ready && audioPlayer.duration != 0 {
-                                try? audioPlayer.seek(to: seekTime)
-                            }
-                        }
+                        holder.seekCompletion = { passed = true }
                         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
+                        audioPlayer.seek(to: seekTime)
                     }
                     
                     it("should eventually be equal to the seeked time", closure: {
-                        expect(audioPlayer.currentTime).toEventually(equal(seekTime))
+                        expect(passed).toEventually(beTrue())
                     })
                 })
             })
@@ -160,6 +158,10 @@ class AudioPlayerTests: QuickSpec {
 }
 
 class AudioPlayerDelegateHolder: AudioPlayerDelegate {
+    func audioPlayer(itemPlaybackEndedWithReason reason: PlaybackEndedReason) {
+        
+    }
+    
     
     var stateUpdate: ((_ state: AudioPlayerState) -> Void)?
     var state: AudioPlayerState? {
@@ -174,10 +176,6 @@ class AudioPlayerDelegateHolder: AudioPlayerDelegate {
         self.state = state
     }
     
-    func audioPlayerItemDidComplete() {
-        
-    }
-    
     func audioPlayer(secondsElapsed seconds: Double) {
         
     }
@@ -186,8 +184,9 @@ class AudioPlayerDelegateHolder: AudioPlayerDelegate {
         
     }
     
+    var seekCompletion: (() -> Void)?
     func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
-        
+        seekCompletion?()
     }
     
     func audioPlayer(didUpdateDuration duration: Double) {

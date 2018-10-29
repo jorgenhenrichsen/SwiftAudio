@@ -14,7 +14,7 @@ public protocol AudioPlayerDelegate: class {
     
     func audioPlayer(playerDidChangeState state: AudioPlayerState)
     
-    func audioPlayerItemDidComplete()
+    func audioPlayer(itemPlaybackEndedWithReason reason: PlaybackEndedReason)
     
     func audioPlayer(secondsElapsed seconds: Double)
     
@@ -23,7 +23,7 @@ public protocol AudioPlayerDelegate: class {
     func audioPlayer(seekTo seconds: Int, didFinish: Bool)
     
     func audioPlayer(didUpdateDuration duration: Double)
-    
+
 }
 
 public class AudioPlayer: AVPlayerWrapperDelegate {
@@ -64,13 +64,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      */
     public var duration: Double {
         return wrapper.duration
-    }
-    
-    /**
-     The current rate of the underlying `AudioPlayer`.
-     */
-    public var rate: Float {
-        return wrapper.rate
     }
     
     /**
@@ -116,6 +109,11 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         get { return wrapper.isMuted }
         set { wrapper.isMuted = newValue }
     }
+
+    public var rate: Float {
+        get { return wrapper.rate }
+        set { wrapper.rate = newValue }
+    }
     
     // MARK: - Init
     
@@ -157,6 +155,8 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
             wrapper.load(from: URL(fileURLWithPath: item.getSourceUrl()), playWhenReady: playWhenReady)
         }
         
+        wrapper.currentItem?.audioTimePitchAlgorithm = item.getPitchAlgorithmType()
+        
         self._currentItem = item
         self.updateMetaValues(item: item)
         setArtwork(forItem: item)
@@ -188,6 +188,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      Stop playback, resetting the player.
      */
     public func stop() {
+        AVWrapper(itemPlaybackDoneWithReason: .playerStopped)
         self.reset()
         self.wrapper.stop()
     }
@@ -269,8 +270,8 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         self.delegate?.audioPlayer(playerDidChangeState: state)
     }
     
-    func AVWrapperItemDidComplete() {
-        self.delegate?.audioPlayerItemDidComplete()
+    func AVWrapper(itemPlaybackDoneWithReason reason: PlaybackEndedReason) {
+        self.delegate?.audioPlayer(itemPlaybackEndedWithReason: reason)
     }
     
     func AVWrapper(secondsElapsed seconds: Double) {

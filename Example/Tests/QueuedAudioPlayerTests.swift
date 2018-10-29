@@ -82,7 +82,7 @@ class QueuedAudioPlayerTests: QuickSpec {
                     
                     context("then removing one item", {
                         beforeEach {
-                            try? audioPlayer.removeItem(atIndex: 1)
+                            try? audioPlayer.removeItem(at: 1)
                         }
                         
                         it("should be empty", closure: {

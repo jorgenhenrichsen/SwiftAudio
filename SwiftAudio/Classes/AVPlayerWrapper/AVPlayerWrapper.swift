@@ -10,6 +10,13 @@ import Foundation
 import AVFoundation
 import MediaPlayer
 
+public enum PlaybackEndedReason: String {
+    case playedUntilEnd
+    case playerStopped
+    case skippedToNext
+    case skippedToPrevious
+    case jumpedToIndex
+}
 
 class AVPlayerWrapper: AVPlayerWrapperProtocol {
     
@@ -24,6 +31,11 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     let playerTimeObserver: AVPlayerTimeObserver
     let playerItemNotificationObserver: AVPlayerItemNotificationObserver
     let playerItemObserver: AVPlayerItemObserver
+
+    /**
+     True if the last call to load(from:playWhenReady) had playWhenReady=true.
+     */
+    fileprivate var _playWhenReady: Bool = true
     
     fileprivate var _state: AVPlayerWrapperState = AVPlayerWrapperState.idle {
         didSet {
@@ -32,8 +44,6 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
             }
         }
     }
-    
-    fileprivate var _playWhenReady: Bool = false
     
     public init(avPlayer: AVPlayer = AVPlayer()) {
         self.avPlayer = avPlayer
@@ -73,16 +83,12 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         let seconds = avPlayer.currentTime().seconds
         return seconds.isNaN ? 0 : seconds
     }
-    
+
     var duration: TimeInterval {
         if let seconds = currentItem?.duration.seconds, !seconds.isNaN {
             return seconds
         }
         return 0
-    }
-    
-    var rate: Float {
-        return avPlayer.rate
     }
     
     weak var delegate: AVPlayerWrapperDelegate? = nil
@@ -93,6 +99,11 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         didSet {
             playerTimeObserver.periodicObserverTimeInterval = timeEventFrequency.getTime()
         }
+    }
+
+    var rate: Float {
+        get { return avPlayer.rate }
+        set { avPlayer.rate = newValue }
     }
     
     var volume: Float {
@@ -128,14 +139,12 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     }
     
     func seek(to seconds: TimeInterval) {
-        let millis = Int64(max(min(seconds, duration), 0) * 1000)
-        let time = CMTime(value: millis, timescale: 1000)
-        avPlayer.seek(to: time) { (finished) in
+        avPlayer.seek(to: CMTimeMakeWithSeconds(seconds, 1)) { (finished) in
             self.delegate?.AVWrapper(seekTo: Int(seconds), didFinish: finished)
         }
     }
-    
-    func load(from url: URL, playWhenReady: Bool) {
+
+    public func load(from url: URL, playWhenReady: Bool) {
         reset(soft: true)
         _playWhenReady = playWhenReady
         _state = .loading
@@ -159,6 +168,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         if !soft {
             avPlayer.replaceCurrentItem(with: nil)
         }
+        
         playerTimeObserver.unregisterForBoundaryTimeEvents()
         playerItemNotificationObserver.stopObservingCurrentItem()
     }
@@ -225,7 +235,7 @@ extension AVPlayerWrapper: AVPlayerItemNotificationObserverDelegate {
     // MARK: - AVPlayerItemNotificationObserverDelegate
     
     func itemDidPlayToEndTime() {
-        delegate?.AVWrapperItemDidComplete()
+        delegate?.AVWrapper(itemPlaybackDoneWithReason: .playedUntilEnd)
     }
     
 }
