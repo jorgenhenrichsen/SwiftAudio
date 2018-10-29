@@ -158,10 +158,11 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
             try self.wrapper.load(fromFilePath: item.getSourceUrl(), playWhenReady: playWhenReady)
         }
         
+        wrapper.currentItem?.audioTimePitchAlgorithm = item.getPitchAlgorithmType() as String
+        
         self._currentItem = item
         set(item: item)
         setArtwork(forItem: item)
-        setPitchAlgorithm(forItem: item)
         enableRemoteCommands(forItem: item)
     }
     
@@ -190,6 +191,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      Stop playback, resetting the player.
      */
     public func stop() {
+        AVWrapper(itemPlaybackDoneWithReason: .playerStopped)
         self.reset()
         self.wrapper.stop()
     }
@@ -257,19 +259,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
                 
                 self.nowPlayingInfoController.set(keyValue: MediaItemProperty.artwork(artwork))
             }
-        }
-    }
-    
-    func setPitchAlgorithm(forItem item: AudioItem) {
-        switch item.getPitchAlgorithmType() {
-        case .lowQualityZeroLatency:
-            wrapper.currentItem?.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmLowQualityZeroLatency
-        case .spectral:
-            wrapper.currentItem?.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmSpectral
-        case .timeDomain:
-            wrapper.currentItem?.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmTimeDomain
-        case .variSpeed:
-            wrapper.currentItem?.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmVarispeed
         }
     }
     

@@ -33,7 +33,6 @@ public class QueuedAudioPlayer: AudioPlayer {
      Stops the player and clears the queue.
      */
     public override func stop() {
-        AVWrapper(itemPlaybackDoneWithReason: .playerStopped)
         super.stop()
         queueManager.clearQueue()
     }

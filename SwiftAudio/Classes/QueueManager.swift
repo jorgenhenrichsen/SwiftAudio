@@ -163,8 +163,8 @@ class QueueManager<T> {
             throw APError.QueueError.invalidIndex(index: toIndex, message: "The toIndex has to be positive and smaller than the count of current items (\(items.count)).")
         }
         
-        let item = try! removeItem(at: fromIndex)
-        try! addItems([item], at: toIndex)
+        let item = try removeItem(at: fromIndex)
+        try addItems([item], at: toIndex)
     }
     
     /**
