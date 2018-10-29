@@ -13,7 +13,7 @@ struct Source {
     static let path: String = Bundle.main.path(forResource: "TestSound", ofType: "m4a")!
     
     static func getAudioItem() -> AudioItem {
-        return DefaultAudioItem(audioUrl: Source.path, sourceType: .file)
+        return DefaultAudioItem(audioUrl: Source.path, sourceType: .file, pitchAlgorithmType: .lowQualityZeroLatency)
     }
 }
 
@@ -21,6 +21,6 @@ struct ShortSource {
     static let path: String = Bundle.main.path(forResource: "ShortTestSound", ofType: "m4a")!
     
     static func getAudioItem() -> AudioItem {
-        return DefaultAudioItem(audioUrl: ShortSource.path, sourceType: .file)
+        return DefaultAudioItem(audioUrl: ShortSource.path, sourceType: .file, pitchAlgorithmType: .lowQualityZeroLatency)
     }
 }

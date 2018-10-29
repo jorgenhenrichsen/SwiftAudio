@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 public enum SourceType {
     case stream
@@ -19,6 +20,7 @@ public protocol AudioItem {
     func getTitle() -> String?
     func getAlbumTitle() -> String?
     func getSourceType() -> SourceType
+    func getPitchAlgorithmType() -> AVAudioTimePitchAlgorithm
     func getArtwork(_ handler: @escaping (UIImage?) -> Void)
     
 }
@@ -36,14 +38,17 @@ public struct DefaultAudioItem: AudioItem {
     
     public var sourceType: SourceType
     
+    public var pitchAlgorithmType: AVAudioTimePitchAlgorithm
+    
     public var artwork: UIImage?
     
-    public init(audioUrl: String, artist: String? = nil, title: String? = nil, albumTitle: String? = nil, sourceType: SourceType, artwork: UIImage? = nil) {
+    public init(audioUrl: String, artist: String? = nil, title: String? = nil, albumTitle: String? = nil, sourceType: SourceType, pitchAlgorithmType: AVAudioTimePitchAlgorithm, artwork: UIImage? = nil) {
         self.audioUrl = audioUrl
         self.artist = artist
         self.title = title
         self.albumTitle = albumTitle
         self.sourceType = sourceType
+        self.pitchAlgorithmType = pitchAlgorithmType
         self.artwork = artwork
     }
     
@@ -67,9 +72,12 @@ public struct DefaultAudioItem: AudioItem {
         return sourceType
     }
     
+    public func getPitchAlgorithmType() -> AVAudioTimePitchAlgorithm {
+        return pitchAlgorithmType
+    }
+    
     public func getArtwork(_ handler: @escaping (UIImage?) -> Void) {
         handler(artwork)
     }
-    
     
 }

@@ -29,6 +29,14 @@ public class QueuedAudioPlayer: AudioPlayer {
         return queueManager.current
     }
     
+     /**
+     Stops the player and clears the queue.
+     */
+    public override func stop() {
+        super.stop()
+        queueManager.clearQueue()
+    }
+    
     /**
      The previous items held by the queue.
      */
@@ -77,12 +85,17 @@ public class QueuedAudioPlayer: AudioPlayer {
         }
     }
     
+    public func add(items: [AudioItem], at index: Int) throws {
+        try queueManager.addItems(items, at: index)
+    }
+    
     /**
      Step to the next item in the queue.
      
      - throws: `APError`
      */
     public func next() throws {
+        AVWrapper(itemPlaybackDoneWithReason: .skippedToNext)
         let nextItem = try queueManager.next()
         try self.loadItem(nextItem, playWhenReady: true)
     }
@@ -91,6 +104,7 @@ public class QueuedAudioPlayer: AudioPlayer {
      Step to the previous item in the queue.
      */
     public func previous() throws {
+        AVWrapper(itemPlaybackDoneWithReason: .skippedToPrevious)
         let previousItem = try queueManager.previous()
         try self.loadItem(previousItem, playWhenReady: true)
     }
@@ -101,8 +115,8 @@ public class QueuedAudioPlayer: AudioPlayer {
      - parameter index: The index of the item to remove.
      - throws: `APError.QueueError`
      */
-    public func removeItem(atIndex index: Int) throws {
-        try queueManager.remove(atIndex: index)
+    public func removeItem(at index: Int) throws {
+        try queueManager.removeItem(at: index)
     }
     
     /**
@@ -113,6 +127,8 @@ public class QueuedAudioPlayer: AudioPlayer {
      - throws: `APError`
      */
     public func jumpToItem(atIndex index: Int, playWhenReady: Bool = true) throws {
+        AVWrapper(itemPlaybackDoneWithReason: .jumpedToIndex)
+
         let item = try queueManager.jump(to: index)
         try self.loadItem(item, playWhenReady: playWhenReady)
     }
@@ -128,10 +144,19 @@ public class QueuedAudioPlayer: AudioPlayer {
         try queueManager.moveItem(fromIndex: fromIndex, toIndex: toIndex)
     }
     
+    /**
+     Remove all upcoming items, those returned by `next()`
+     */
+    public func removeUpcomingItems() {
+        queueManager.removeUpcomingItems()
+    }
+    
     // MARK: - AVPlayerWrapperDelegate
     
-    override func AVWrapperItemDidComplete() {
-        super.AVWrapperItemDidComplete()
+    override func AVWrapper(itemPlaybackDoneWithReason reason: PlaybackEndedReason) {
+        super.AVWrapper(itemPlaybackDoneWithReason: reason)
+        guard reason == .playedUntilEnd else { return }
+
         if automaticallyPlayNextSong {
             try? self.next()
         }
