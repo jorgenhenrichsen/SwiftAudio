@@ -19,6 +19,9 @@
 		075131BB218322E000D3BFB9 /* NowPlayingInfoProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075131B5218322E000D3BFB9 /* NowPlayingInfoProperty.swift */; };
 		075131BC218322E000D3BFB9 /* RemoteCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075131B7218322E000D3BFB9 /* RemoteCommand.swift */; };
 		075131BD218322E000D3BFB9 /* RemoteCommandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075131B8218322E000D3BFB9 /* RemoteCommandController.swift */; };
+		07756B73218C2D590023935E /* AudioSessionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07756B70218C2D590023935E /* AudioSessionCategory.swift */; };
+		07756B74218C2D590023935E /* AudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07756B71218C2D590023935E /* AudioSession.swift */; };
+		07756B75218C2D590023935E /* AudioSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07756B72218C2D590023935E /* AudioSessionController.swift */; };
 		089FC967E3D8DD6212509D9C6AC7185B /* CwlCatchException.m in Sources */ = {isa = PBXBuildFile; fileRef = 25045F70284E802FFFF0F6EFD40A01C7 /* CwlCatchException.m */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		08EA01BACA4194902667F1FF29DC6265 /* MatcherProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945BF3F9EA32D635660DD7902B1A3D03 /* MatcherProtocols.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		095BD8D416719E425189E8E4963A8D4E /* TimeEventFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4534C7E47CA5B502A19513117CBFC3 /* TimeEventFrequency.swift */; };
@@ -36,7 +39,6 @@
 		1D230EC73A17C8494F279447636B6D51 /* Nimble.h in Headers */ = {isa = PBXBuildFile; fileRef = 572C9B621320D273AC417E7C04066AEA /* Nimble.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1DC86A0AEBBA8A5B9353C4F7B2D4649A /* SwiftAudio-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B6541C48548E76AC573D95227051A3E8 /* SwiftAudio-dummy.m */; };
 		1F626496F8B9ACBEA1C48D85D371790E /* ExampleMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0BC856D7B86412A484A3DD582F9841 /* ExampleMetadata.swift */; };
-		213745669894F37CD02BED396AC2EFFA /* AudioSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006367118F9218EE3420DCEF343E7B4C /* AudioSessionController.swift */; };
 		2722196E68C16CB6AE1C739A6632DDDD /* ToSucceed.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08DE2F262516A80F255EE2310F0EDD0 /* ToSucceed.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		275B03F03D701555A341DEFDA586D3F2 /* Nimble-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADDE4EA63584E9BF3933026B32B66E2 /* Nimble-dummy.m */; };
 		2A561B51439F9724CF97415032FFB649 /* NMBObjCMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDAE77638703F05830D6AF66FBCAE75 /* NMBObjCMatcher.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
@@ -176,7 +178,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		006367118F9218EE3420DCEF343E7B4C /* AudioSessionController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudioSessionController.swift; path = SwiftAudio/Classes/AudioSessionController.swift; sourceTree = "<group>"; };
 		01056F9C4DEDD08119B7F98ECE8B2845 /* HaveCount.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HaveCount.swift; path = Sources/Nimble/Matchers/HaveCount.swift; sourceTree = "<group>"; };
 		011EE192D3B1D2A686C8C5D93E3AB0D0 /* APError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = APError.swift; path = SwiftAudio/Classes/APError.swift; sourceTree = "<group>"; };
 		01DCEA2B70C5FE3C749141DED60AA3A1 /* AVPlayerObserver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AVPlayerObserver.swift; sourceTree = "<group>"; };
@@ -190,6 +191,9 @@
 		075131B5218322E000D3BFB9 /* NowPlayingInfoProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayingInfoProperty.swift; sourceTree = "<group>"; };
 		075131B7218322E000D3BFB9 /* RemoteCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteCommand.swift; sourceTree = "<group>"; };
 		075131B8218322E000D3BFB9 /* RemoteCommandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteCommandController.swift; sourceTree = "<group>"; };
+		07756B70218C2D590023935E /* AudioSessionCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSessionCategory.swift; sourceTree = "<group>"; };
+		07756B71218C2D590023935E /* AudioSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSession.swift; sourceTree = "<group>"; };
+		07756B72218C2D590023935E /* AudioSessionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSessionController.swift; sourceTree = "<group>"; };
 		0A362FBD9BA860D03408EC59B8DAD715 /* QueuedAudioPlayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QueuedAudioPlayer.swift; path = SwiftAudio/Classes/QueuedAudioPlayer.swift; sourceTree = "<group>"; };
 		0B2E2D47B69C1FB3AC152895C90935DE /* NMBStringify.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NMBStringify.m; path = Sources/NimbleObjectiveC/NMBStringify.m; sourceTree = "<group>"; };
 		0B83D7847D2E148325682799F8D762FB /* AdapterProtocols.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdapterProtocols.swift; path = Sources/Nimble/Adapters/AdapterProtocols.swift; sourceTree = "<group>"; };
@@ -410,6 +414,17 @@
 			);
 			name = RemoteCommandController;
 			path = SwiftAudio/Classes/RemoteCommandController;
+			sourceTree = "<group>";
+		};
+		07756B6F218C2D590023935E /* AudioSessionController */ = {
+			isa = PBXGroup;
+			children = (
+				07756B72218C2D590023935E /* AudioSessionController.swift */,
+				07756B70218C2D590023935E /* AudioSessionCategory.swift */,
+				07756B71218C2D590023935E /* AudioSession.swift */,
+			);
+			name = AudioSessionController;
+			path = SwiftAudio/Classes/AudioSessionController;
 			sourceTree = "<group>";
 		};
 		1E85F0F44277212282918D8D5DDB3588 /* iOS */ = {
@@ -694,10 +709,10 @@
 				011EE192D3B1D2A686C8C5D93E3AB0D0 /* APError.swift */,
 				04C9AEEB071CD4A301C5C9CC7DB3CD15 /* AudioItem.swift */,
 				7CF92AE58937B3AD4BA6DA7134DA9F52 /* AudioPlayer.swift */,
-				006367118F9218EE3420DCEF343E7B4C /* AudioSessionController.swift */,
 				0A362FBD9BA860D03408EC59B8DAD715 /* QueuedAudioPlayer.swift */,
 				7D4763A422F83644D194E97981775831 /* QueueManager.swift */,
 				EF4534C7E47CA5B502A19513117CBFC3 /* TimeEventFrequency.swift */,
+				07756B6F218C2D590023935E /* AudioSessionController */,
 				075131B2218322E000D3BFB9 /* NowPlayingInfoController */,
 				075131B6218322E000D3BFB9 /* RemoteCommandController */,
 				581526FDBE4DC5C1C3F143696A8DE42E /* AVPlayerWrapper */,
@@ -932,11 +947,12 @@
 				D10E1F8FA9C618DFE1DE13BBF1A1B683 /* AudioItem.swift in Sources */,
 				42249CE127313A81E6DF9F492BC3FD60 /* AudioPlayer.swift in Sources */,
 				075131B9218322E000D3BFB9 /* MediaItemProperty.swift in Sources */,
-				213745669894F37CD02BED396AC2EFFA /* AudioSessionController.swift in Sources */,
+				07756B73218C2D590023935E /* AudioSessionCategory.swift in Sources */,
 				121F6F4C3C3FBD49FBFF3BC91205C11B /* AVPlayerItemNotificationObserver.swift in Sources */,
 				E10CAB33DDA27C101EF36E8923046511 /* AVPlayerItemObserver.swift in Sources */,
 				13AFC3FFA6B2175A542C1279345CAAA3 /* AVPlayerObserver.swift in Sources */,
 				C74928AC19FB27AA9D7AC4FC94A2D7F1 /* AVPlayerTimeObserver.swift in Sources */,
+				07756B74218C2D590023935E /* AudioSession.swift in Sources */,
 				315B8C7DDF47918E6F996F8AC45C6BB7 /* AVPlayerWrapper.swift in Sources */,
 				F462AF5848880C2C1791D0C7F943879A /* AVPlayerWrapperState.swift in Sources */,
 				075131AD2182FF1600D3BFB9 /* AVPlayerWrapperProtocol.swift in Sources */,
@@ -944,6 +960,7 @@
 				36DAEF0CCEB4AEFA64DFAF8197FD5C68 /* QueuedAudioPlayer.swift in Sources */,
 				075131BA218322E000D3BFB9 /* NowPlayingInfoController.swift in Sources */,
 				47B306C3AA1AA9EB82EE2FDE5267B13C /* QueueManager.swift in Sources */,
+				07756B75218C2D590023935E /* AudioSessionController.swift in Sources */,
 				075131AF21830D9500D3BFB9 /* AVPlayerWrapperDelegate.swift in Sources */,
 				1DC86A0AEBBA8A5B9353C4F7B2D4649A /* SwiftAudio-dummy.m in Sources */,
 				095BD8D416719E425189E8E4963A8D4E /* TimeEventFrequency.swift in Sources */,

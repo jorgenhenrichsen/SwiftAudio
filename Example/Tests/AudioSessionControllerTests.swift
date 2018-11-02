@@ -9,7 +9,7 @@ class AudioSessionControllerTests: QuickSpec {
     override func spec() {
         
         describe("An AudioSessionController") {
-            let audioSessionController: AudioSessionController = AudioSessionController.shared
+            let audioSessionController: AudioSessionController = AudioSessionController(audioSession: NonFailingAudioSession())
             
             it("should be inactive", closure: {
                 expect(audioSessionController.audioSessionIsActive).to(beFalse())
@@ -69,11 +69,25 @@ class AudioSessionControllerTests: QuickSpec {
                     
                 })
             })
-            
         }
         
+        describe("An AudioSessionController with a failing AudioSession") {
+            var audioSessionController: AudioSessionController!
+            beforeEach {
+                audioSessionController = AudioSessionController(audioSession: FailingAudioSession())
+            }
+            
+            context("when activated", {
+                beforeEach {
+                    try? audioSessionController.activateSession()
+                }
+                
+                it("should be inactive", closure: {
+                    expect(audioSessionController.audioSessionIsActive).to(beFalse())
+                })
+            })
+        }
     }
-    
 }
 
 class AudioSessionControllerDelegateImplementation: AudioSessionControllerDelegate {

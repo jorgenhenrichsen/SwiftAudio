@@ -59,6 +59,16 @@ class QueueManagerTests: QuickSpec {
                     })
                 })
                 
+                context("when mulitple items are added", {
+                    beforeEach {
+                        manager.addItems(self.dummyItems)
+                    }
+                    
+                    it("should not be nil", closure: {
+                        expect(manager.current).toNot(beNil())
+                    })
+                })
+                
             })
             
             context("when adding one item", {
