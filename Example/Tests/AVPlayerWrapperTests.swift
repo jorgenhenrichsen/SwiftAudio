@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import AVFoundation
 
 @testable import SwiftAudio
 
@@ -13,51 +14,12 @@ class AVPlayerWrapperTests: QuickSpec {
             var wrapper: AVPlayerWrapper!
 
             beforeEach {
-                wrapper = AVPlayerWrapper()
-                wrapper.automaticallyWaitsToMinimizeStalling = false
+                let player = AVPlayer()
+                player.automaticallyWaitsToMinimizeStalling = false
+                player.volume = 0.0
+                wrapper = AVPlayerWrapper(avPlayer: player)
                 wrapper.bufferDuration = 0.0001
-                wrapper.volume = 0.0
             }
-            
-            context("when calling play() with no item", {
-                var err: APError.PlaybackError?
-                
-                beforeEach {
-                    do {
-                        try wrapper.play()
-                    }
-                    catch {
-                        if let error = error as? APError.PlaybackError {
-                            err = error
-                        }
-                    }
-                }
-                
-                it("should throw a noItemLoaded error", closure: {
-                    expect(err).toNot(beNil())
-                    expect(err).to(equal(APError.PlaybackError.noLoadedItem))
-                })
-            })
-            
-            context("when calling pause() with no item", {
-                var err: APError.PlaybackError?
-                
-                beforeEach {
-                    do {
-                        try wrapper.pause()
-                    }
-                    catch {
-                        if let error = error as? APError.PlaybackError {
-                            err = error
-                        }
-                    }
-                }
-                
-                it("should throw a noItemLoaded error", closure: {
-                    expect(err).toNot(beNil())
-                    expect(err).to(equal(APError.PlaybackError.noLoadedItem))
-                })
-            })
 
             describe("its state", {
                 it("should be idle", closure: {
@@ -66,7 +28,7 @@ class AVPlayerWrapperTests: QuickSpec {
 
                 context("when loading a source", {
                     beforeEach {
-                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
+                        wrapper.load(from: URL(fileURLWithPath: Source.path), playWhenReady: false)
                     }
                     
                     it("should be loading", closure: {
@@ -80,7 +42,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 
                 context("when playing with no source", {
                     beforeEach {
-                        try? wrapper.play()
+                        wrapper.play()
                     }
                     it("should be idle", closure: {
                         expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
@@ -89,7 +51,7 @@ class AVPlayerWrapperTests: QuickSpec {
 
                 context("when playing a source", {
                     beforeEach {
-                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
+                        wrapper.load(from: URL(fileURLWithPath: Source.path), playWhenReady: true)
                     }
 
                     it("should eventually be playing", closure: {
@@ -106,10 +68,10 @@ class AVPlayerWrapperTests: QuickSpec {
                         wrapper.delegate = holder
                         holder.stateUpdate = { (state) in
                             if state == .playing {
-                                try? wrapper.pause()
+                                wrapper.pause()
                             }
                         }
-                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
+                        wrapper.load(from: URL(fileURLWithPath: Source.path), playWhenReady: true)
                     }
 
                     it("should eventually be paused", closure: {
@@ -123,10 +85,10 @@ class AVPlayerWrapperTests: QuickSpec {
                         wrapper.delegate = holder
                         holder.stateUpdate = { (state) in
                             if state == .playing {
-                                try? wrapper.togglePlaying()
+                                wrapper.togglePlaying()
                             }
                         }
-                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
+                        wrapper.load(from: URL(fileURLWithPath: Source.path), playWhenReady: true)
                     }
                     it("should eventually be paused", closure: {
                         expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.paused))
@@ -149,7 +111,7 @@ class AVPlayerWrapperTests: QuickSpec {
                                 receivedIdleUpdate = true
                             }
                         }
-                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: true)
+                        wrapper.load(from: URL(fileURLWithPath: Source.path), playWhenReady: true)
                     }
 
                     it("should eventually be 'idle'", closure: {
@@ -160,7 +122,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 
                 context("when seeking before loading", {
                     beforeEach {
-                        try? wrapper.seek(to: 10)
+                        wrapper.seek(to: 10)
                     }
                     it("should be idle", closure: {
                         expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
@@ -175,7 +137,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 
                 context("when loading source", {
                     beforeEach {
-                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
+                        wrapper.load(from: URL(fileURLWithPath: Source.path), playWhenReady: false)
                     }
                     it("should eventually not be 0", closure: {
                         expect(wrapper.duration).toEventuallyNot(equal(0))
@@ -195,12 +157,57 @@ class AVPlayerWrapperTests: QuickSpec {
                     beforeEach {
                         wrapper.delegate = holder
                         holder.seekCompletion = { passed = true }
-                        try? wrapper.load(fromFilePath: Source.path, playWhenReady: false)
-                        try? wrapper.seek(to: seekTime)
+                        wrapper.load(from: Source.url, playWhenReady: false)
+                        wrapper.seek(to: seekTime)
                     }
                     
                     it("should eventually be equal to the seeked time", closure: {
                         expect(passed).toEventually(beTrue())
+                    })
+                })
+            })
+            
+            describe("its rate", {
+                it("should be 0", closure: {
+                    expect(wrapper.rate).to(equal(0.0))
+                })
+                
+                context("when playing a source", {
+                    beforeEach {
+                        wrapper.load(from: URL(fileURLWithPath: Source.path), playWhenReady: true)
+                    }
+                    
+                    it("should eventually be 1.0", closure: {
+                        expect(wrapper.rate).toEventually(equal(1.0))
+                    })
+                    
+                })
+            })
+            
+            describe("its automaticallyWaitsToMinimizeStalling option", {
+                it("should be false", closure: {
+                    expect(wrapper.automaticallyWaitsToMinimizeStalling).to(beFalse())
+                })
+                
+                context("when setting it to true", {
+                    beforeEach {
+                        wrapper.automaticallyWaitsToMinimizeStalling = true
+                    }
+                    
+                    it("should be true", closure: {
+                        expect(wrapper.automaticallyWaitsToMinimizeStalling).to(beTrue())
+                    })
+                })
+            })
+            
+            describe("its timeEventFrequency", {
+                context("when updated", {
+                    beforeEach {
+                        wrapper.timeEventFrequency = .everyHalfSecond
+                    }
+                    
+                    it("should update the playerTimeObservers periodicObserverTimeInterval", closure: {
+                        expect(wrapper.playerTimeObserver.periodicObserverTimeInterval).to(equal(TimeEventFrequency.everyHalfSecond.getTime()))
                     })
                 })
             })

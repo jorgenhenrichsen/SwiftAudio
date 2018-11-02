@@ -20,6 +20,57 @@ class QueueManagerTests: QuickSpec {
                 manager = QueueManager()
             }
             
+            describe("its current item", {
+                
+                it("should be nil", closure: {
+                    expect(manager.current).to(beNil())
+                })
+                
+                context("when one item is added", closure: {
+                    beforeEach {
+                        manager.addItem(self.dummyItem)
+                    }
+                    
+                    it("should not be nil", closure: {
+                        expect(manager.current).toNot(beNil())
+                    })
+                    
+                    it("should be the added item", closure: {
+                        expect(manager.current).to(equal(self.dummyItem))
+                    })
+                    
+                    context("then replaced", closure: {
+                        beforeEach {
+                            manager.replaceCurrentItem(with: 1)
+                        }
+                        it("should be the new item", closure: {
+                            expect(manager.current).to(equal(1))
+                        })
+                    })
+                })
+                
+                context("when replaced", closure: {
+                    beforeEach {
+                        manager.replaceCurrentItem(with: 1)
+                    }
+                    
+                    it("should not be nil", closure: {
+                        expect(manager.current).toNot(beNil())
+                    })
+                })
+                
+                context("when mulitple items are added", {
+                    beforeEach {
+                        manager.addItems(self.dummyItems)
+                    }
+                    
+                    it("should not be nil", closure: {
+                        expect(manager.current).toNot(beNil())
+                    })
+                })
+                
+            })
+            
             context("when adding one item", {
                 
                 beforeEach {
@@ -30,9 +81,13 @@ class QueueManagerTests: QuickSpec {
                     expect(manager.items).notTo(beEmpty())
                 })
                 
-                it("should set it as the current item", closure: {
-                    expect(manager.current).toNot(beNil())
-                    expect(manager.current).to(equal(self.dummyItem))
+                context("then replacing the item", closure: {
+                    beforeEach {
+                        try? manager.replaceCurrentItem(with: 1)
+                    }
+                    it("should have replaced the current item", closure: {
+                        expect(manager.current).to(equal(1))
+                    })
                 })
                 
                 context("then calling next", {
@@ -117,7 +172,53 @@ class QueueManagerTests: QuickSpec {
                     })
                 })
                 
+                context("adding more items", {
+                    var initialItemCount: Int!
+                    let newItems: [Int] = [10, 11, 12, 13]
+                    beforeEach {
+                        initialItemCount = manager.items.count
+                        try? manager.addItems(newItems, at: manager.items.endIndex - 1)
+                    }
+                    
+                    it("should have more items", closure: {
+                        expect(manager.items.count).to(equal(initialItemCount + newItems.count))
+                    })
+                })
+                
+                context("adding more items at a smaller index than currentIndex", {
+                    var initialCurrentIndex: Int!
+                    let newItems: [Int] = [10, 11, 12, 13]
+                    beforeEach {
+                        initialCurrentIndex = manager.currentIndex
+                        try? manager.addItems(newItems, at: initialCurrentIndex)
+                    }
+                    
+                    it("currentIndex should increase by number of new items", closure: {
+                        expect(manager.currentIndex).to(equal(initialCurrentIndex + newItems.count))
+                    })
+                })
+                
                 // MARK: - Removal
+                
+                context("then removing a item with index less than currentIndex", {
+                    beforeEach {
+                        var removed: Int?
+                        var initialCurrentIndex: Int!
+                        beforeEach {
+                            try? manager.jump(to: 3)
+                            initialCurrentIndex = manager.currentIndex
+                            removed = try? manager.removeItem(at: initialCurrentIndex - 1)
+                        }
+                        
+                        it("should remove an item", closure: {
+                            expect(removed).toNot(beNil())
+                        })
+                        
+                        it("should decrement the currentIndex", closure: {
+                            expect(manager.currentIndex).to(equal(initialCurrentIndex - 1))
+                        })
+                    }
+                })
                 
                 context("then removing the second item", {
                     var removed: Int?
@@ -175,6 +276,16 @@ class QueueManagerTests: QuickSpec {
                     it("should not remove any items", closure: {
                         expect(removed).to(beNil())
                         expect(manager.items.count).to(equal(self.dummyItems.count))
+                    })
+                })
+                
+                context("then removing upcoming items", {
+                    beforeEach {
+                        manager.removeUpcomingItems()
+                    }
+                    
+                    it("should have no next items", closure: {
+                        expect(manager.nextItems.count).to(equal(0))
                     })
                 })
                 
@@ -341,6 +452,22 @@ class QueueManagerTests: QuickSpec {
                     
                     it("should move the item", closure: {
                         expect(manager.items).to(equal(afterMoving))
+                    })
+                })
+                
+                // MARK: - Clear
+                
+                context("when queue is cleared", {
+                    beforeEach {
+                        manager.clearQueue()
+                    }
+                    
+                    it("should have currentIndex 0", closure: {
+                        expect(manager.currentIndex).to(equal(0))
+                    })
+                    
+                    it("should have no items", closure: {
+                        expect(manager.items.count).to(equal(0))
                     })
                 })
             })

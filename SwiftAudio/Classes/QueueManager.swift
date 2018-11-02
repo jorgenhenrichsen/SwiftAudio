@@ -83,7 +83,7 @@ class QueueManager<T> {
         }
         
         _items.insert(contentsOf: items, at: index)
-        if (_currentIndex >= index) { _currentIndex = _currentIndex + _items.count }
+        if (_currentIndex >= index) { _currentIndex = _currentIndex + items.count }
     }
     
     /**
@@ -189,6 +189,19 @@ class QueueManager<T> {
         }
 
         return _items.remove(at: index)
+    }
+    
+    /**
+     Replace the current item with a new one. If there is no current item, it is equivalent to calling add(item:).
+     
+     - parameter item: The item to set as the new current item.
+     */
+    public func replaceCurrentItem(with item: T) {
+        if current == nil  {
+            self.addItem(item)
+        }
+        
+        self._items[_currentIndex] = item
     }
 
     /**
