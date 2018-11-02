@@ -83,7 +83,7 @@ class QueueManager<T> {
         }
         
         _items.insert(contentsOf: items, at: index)
-        if (_currentIndex >= index) { _currentIndex = _currentIndex + _items.count }
+        if (_currentIndex >= index) { _currentIndex = _currentIndex + items.count }
     }
     
     /**
