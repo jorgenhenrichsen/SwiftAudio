@@ -90,11 +90,14 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     /**
      Set this to decide how often the player should call the delegate with time progress events.
      */
-    public var timeEventFrquency: TimeEventFrequency {
+    public var timeEventFrequency: TimeEventFrequency {
         get { return wrapper.timeEventFrequency }
         set { wrapper.timeEventFrequency = newValue }
     }
     
+    /**
+     Indicates whether the player should automatically delay playback in order to minimize stalling
+     */
     public var automaticallyWaitsToMinimizeStalling: Bool {
         get { return wrapper.automaticallyWaitsToMinimizeStalling }
         set { wrapper.automaticallyWaitsToMinimizeStalling = newValue }
