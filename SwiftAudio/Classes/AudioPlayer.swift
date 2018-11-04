@@ -259,7 +259,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     // MARK: - Private
     
-    private func reset() {
+    func reset() {
         self._currentItem = nil
     }
     
