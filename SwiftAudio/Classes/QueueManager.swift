@@ -203,9 +203,20 @@ class QueueManager<T> {
         
         self._items[_currentIndex] = item
     }
+    
+    /**
+     Remove all previous items in the queue.
+     If no previous items exist, no action will be taken.
+     */
+    public func removePreviousItems() {
+        guard currentIndex > 0 else { return }
+        _items.removeSubrange(0..<_currentIndex)
+        _currentIndex = 0
+    }
 
     /**
      Remove upcoming items.
+     If no upcoming items exist, no action will be taken.
      */
     public func removeUpcomingItems() {
         let nextIndex = _currentIndex + 1

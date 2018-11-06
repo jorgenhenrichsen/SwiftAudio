@@ -30,6 +30,9 @@ public class QueuedAudioPlayer: AudioPlayer {
      */
     public override func stop() {
         super.stop()
+    }
+    
+    override func reset() {
         queueManager.clearQueue()
     }
     
@@ -156,6 +159,13 @@ public class QueuedAudioPlayer: AudioPlayer {
      */
     public func removeUpcomingItems() {
         queueManager.removeUpcomingItems()
+    }
+    
+    /**
+     Remove all previous items, those returned by `previous()`
+     */
+    public func removePreviousItems() {
+        queueManager.removePreviousItems()
     }
     
     // MARK: - AVPlayerWrapperDelegate

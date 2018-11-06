@@ -98,6 +98,26 @@ class QueuedAudioPlayerTests: QuickSpec {
                             expect(audioPlayer.nextItems.count).to(equal(0))
                         })
                     })
+                    
+                    context("then removing upcoming items", {
+                        beforeEach {
+                            audioPlayer.removeUpcomingItems()
+                        }
+                        
+                        it("should be empty", closure: {
+                            expect(audioPlayer.nextItems.count).to(equal(0))
+                        })
+                    })
+                    
+                    context("then stopping", {
+                        beforeEach {
+                            audioPlayer.stop()
+                        }
+                        
+                        it("should be empty", closure: {
+                            expect(audioPlayer.nextItems.count).to(equal(0))
+                        })
+                    })
                 })
             })
             
@@ -121,6 +141,26 @@ class QueuedAudioPlayerTests: QuickSpec {
                         }
                         it("should contain one item", closure: {
                             expect(audioPlayer.previousItems.count).to(equal(1))
+                        })
+                    })
+                    
+                    context("then removing all previous items", {
+                        beforeEach {
+                            audioPlayer.removePreviousItems()
+                        }
+                        
+                        it("should be empty", closure: {
+                            expect(audioPlayer.previousItems.count).to(equal(0))
+                        })
+                    })
+                    
+                    context("then stopping", {
+                        beforeEach {
+                            audioPlayer.stop()
+                        }
+                        
+                        it("should be empty", closure: {
+                            expect(audioPlayer.previousItems.count).to(equal(0))
                         })
                     })
                     

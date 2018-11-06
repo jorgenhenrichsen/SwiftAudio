@@ -144,7 +144,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         }
     }
 
-    public func load(from url: URL, playWhenReady: Bool) {
+    func load(from url: URL, playWhenReady: Bool) {
         reset(soft: true)
         _playWhenReady = playWhenReady
         _state = .loading
