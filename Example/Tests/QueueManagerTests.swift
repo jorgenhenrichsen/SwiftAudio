@@ -170,6 +170,18 @@ class QueueManagerTests: QuickSpec {
                             expect(manager.current).to(equal(self.dummyItems.first))
                         })
                     })
+                    
+                    context("then removing previous items", {
+                        beforeEach {
+                            manager.removePreviousItems()
+                        }
+                        it("should have no previous items", closure: {
+                            expect(manager.previousItems.count).to(equal(0))
+                        })
+                        it("should have current index zero", closure: {
+                            expect(manager.currentIndex).to(equal(0))
+                        })
+                    })
                 })
                 
                 context("adding more items", {
