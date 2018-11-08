@@ -56,7 +56,7 @@ class AVPlayerItemObserver: NSObject {
         }
     }
     
-    private func stopObservingCurrentItem() {
+    func stopObservingCurrentItem() {
         observingItem?.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.duration, context: &AVPlayerItemObserver.context)
         self.isObserving = false
         self.observingItem = nil
