@@ -29,7 +29,7 @@ pod 'SwiftAudio', '~> 0.4.3'
 ### Carthage
 SwiftAudio supports [Carthage](https://github.com/Carthage/Carthage). Add this to your Cartfile:
 ```ruby
-github "jorgenhenrichsen/SwiftAudio" ~> 0.4.2
+github "jorgenhenrichsen/SwiftAudio" ~> 0.4.3
 ```
 Then follow the rest of Carthage instructions on [adding a framework](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
