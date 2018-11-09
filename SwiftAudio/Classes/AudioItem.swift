@@ -20,12 +20,18 @@ public protocol AudioItem {
     func getTitle() -> String?
     func getAlbumTitle() -> String?
     func getSourceType() -> SourceType
-    func getPitchAlgorithmType() -> AVAudioTimePitchAlgorithm
     func getArtwork(_ handler: @escaping (UIImage?) -> Void)
     
 }
 
-public struct DefaultAudioItem: AudioItem {
+/// Make your `AudioItem`-subclass conform to this protocol to control which AVAudioTimePitchAlgorithm is used for each item.
+public protocol TimePitching {
+    
+    func getPitchAlgorithmType() -> AVAudioTimePitchAlgorithm
+    
+}
+
+public struct DefaultAudioItem: AudioItem, TimePitching {
     
 
     public var audioUrl: String
@@ -42,7 +48,7 @@ public struct DefaultAudioItem: AudioItem {
     
     public var artwork: UIImage?
     
-    public init(audioUrl: String, artist: String? = nil, title: String? = nil, albumTitle: String? = nil, sourceType: SourceType, pitchAlgorithmType: AVAudioTimePitchAlgorithm, artwork: UIImage? = nil) {
+    public init(audioUrl: String, artist: String? = nil, title: String? = nil, albumTitle: String? = nil, sourceType: SourceType, pitchAlgorithmType: AVAudioTimePitchAlgorithm = AVAudioTimePitchAlgorithm.lowQualityZeroLatency, artwork: UIImage? = nil) {
         self.audioUrl = audioUrl
         self.artist = artist
         self.title = title

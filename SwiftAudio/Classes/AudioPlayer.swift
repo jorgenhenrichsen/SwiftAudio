@@ -45,6 +45,12 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     public var automaticallyUpdateNowPlayingInfo: Bool = true
     
     /**
+     Controls the time pitch algorithm applied to each item loaded into the player.
+     If the loaded `AudioItem` conforms to `TimePitcher`-protocol this will be overriden.
+     */
+    public var audioTimePitchAlgorithm: AVAudioTimePitchAlgorithm = AVAudioTimePitchAlgorithm.lowQualityZeroLatency
+    
+    /**
      Default remote commands to use for each playing item
      */
     public var remoteCommands: [RemoteCommand] = []
@@ -158,7 +164,12 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
             wrapper.load(from: URL(fileURLWithPath: item.getSourceUrl()), playWhenReady: playWhenReady)
         }
         
-        wrapper.currentItem?.audioTimePitchAlgorithm = item.getPitchAlgorithmType()
+        if let item = item as? TimePitching {
+            wrapper.currentItem?.audioTimePitchAlgorithm = item.getPitchAlgorithmType()
+        }
+        else {
+            wrapper.currentItem?.audioTimePitchAlgorithm = audioTimePitchAlgorithm
+        }
         
         self._currentItem = item
         self.updateMetaValues(item: item)
