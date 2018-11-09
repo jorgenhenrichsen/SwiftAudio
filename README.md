@@ -39,7 +39,7 @@ Then follow the rest of Carthage instructions on [adding a framework](https://gi
 To get started playing some audio:
 ```swift
 let player = AudioPlayer()
-let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream, pitchAlgorithmType: .lowQualityZeroLatency)
+let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
 player.load(item: audioItem, playWhenReady: true) // Load the item and start playing when the player is ready.
 ```
 
@@ -49,7 +49,7 @@ Implement `AudioPlayerDelegate` to get notified about useful events and updates 
 The `QueuedAudioPlayer` is asubclass of `AudioPlayer` that maintains a queue of audio tracks.
 ```swift
 let player = QueuedAudioPlayer()
-let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream, pitchAlgorithmType: .lowQualityZeroLatency)
+let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
 player.add(item: audioItem, playWhenReady: true) // Since this is the first item, we can supply playWhenReady: true to immedietaly start playing when the item is loaded.
 ```
 
@@ -77,6 +77,7 @@ Current options for configuring the `AudioPlayer`:
 - `volume`
 - `isMuted`
 - `rate`
+- `audioTimePitchAlgorithm`: This value decides the `AVAudioTimePitchAlgorithm` used for each `AudioItem`. Implement `TimePitching` in your `AudioItem`-subclass to override individually for each `AudioItem`.
 
 ### Audio Session
 Remember to activate an audio session with an appropriate category for your app. This can be done with `AudioSessionController`:
