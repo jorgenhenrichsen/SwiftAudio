@@ -31,9 +31,8 @@ public protocol TimePitching {
     
 }
 
-public struct DefaultAudioItem: AudioItem, TimePitching {
+public class DefaultAudioItem: AudioItem {
     
-
     public var audioUrl: String
     
     public var artist: String?
@@ -44,17 +43,14 @@ public struct DefaultAudioItem: AudioItem, TimePitching {
     
     public var sourceType: SourceType
     
-    public var pitchAlgorithmType: AVAudioTimePitchAlgorithm
-    
     public var artwork: UIImage?
     
-    public init(audioUrl: String, artist: String? = nil, title: String? = nil, albumTitle: String? = nil, sourceType: SourceType, pitchAlgorithmType: AVAudioTimePitchAlgorithm = AVAudioTimePitchAlgorithm.lowQualityZeroLatency, artwork: UIImage? = nil) {
+    public init(audioUrl: String, artist: String? = nil, title: String? = nil, albumTitle: String? = nil, sourceType: SourceType, artwork: UIImage? = nil) {
         self.audioUrl = audioUrl
         self.artist = artist
         self.title = title
         self.albumTitle = albumTitle
         self.sourceType = sourceType
-        self.pitchAlgorithmType = pitchAlgorithmType
         self.artwork = artwork
     }
     
@@ -77,13 +73,29 @@ public struct DefaultAudioItem: AudioItem, TimePitching {
     public func getSourceType() -> SourceType {
         return sourceType
     }
-    
-    public func getPitchAlgorithmType() -> AVAudioTimePitchAlgorithm {
-        return pitchAlgorithmType
-    }
-    
+
     public func getArtwork(_ handler: @escaping (UIImage?) -> Void) {
         handler(artwork)
     }
     
+}
+
+/// An AudioItem that also conforms to the `TimePitching`-protocol
+public class DefaultAudioItemTimePitching: DefaultAudioItem, TimePitching {
+    
+    public var pitchAlgorithmType: AVAudioTimePitchAlgorithm
+    
+    public override init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, sourceType: SourceType, artwork: UIImage?) {
+        self.pitchAlgorithmType = AVAudioTimePitchAlgorithm.lowQualityZeroLatency
+        super.init(audioUrl: audioUrl, artist: artist, title: title, albumTitle: albumTitle, sourceType: sourceType, artwork: artwork)
+    }
+    
+    public init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, sourceType: SourceType, artwork: UIImage?, audioTimePitchAlgorithm: AVAudioTimePitchAlgorithm) {
+        self.pitchAlgorithmType = audioTimePitchAlgorithm
+        super.init(audioUrl: audioUrl, artist: artist, title: title, albumTitle: albumTitle, sourceType: sourceType, artwork: artwork)
+    }
+    
+    public func getPitchAlgorithmType() -> AVAudioTimePitchAlgorithm {
+        return pitchAlgorithmType
+    }
 }
