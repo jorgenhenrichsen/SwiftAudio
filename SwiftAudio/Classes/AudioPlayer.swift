@@ -28,7 +28,12 @@ public protocol AudioPlayerDelegate: class {
 
 public class AudioPlayer: AVPlayerWrapperDelegate {
     
-    private var wrapper: AVPlayerWrapperProtocol
+    private var _wrapper: AVPlayerWrapperProtocol
+    
+    /// The wrapper around the underlying AVPlayer
+    var wrapper: AVPlayerWrapperProtocol {
+        return _wrapper
+    }
     
     public let nowPlayingInfoController: NowPlayingInfoController
     public let remoteCommandController: RemoteCommandController
@@ -90,7 +95,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      */
     public var bufferDuration: TimeInterval {
         get { return wrapper.bufferDuration }
-        set { wrapper.bufferDuration = newValue }
+        set { _wrapper.bufferDuration = newValue }
     }
     
     /**
@@ -98,7 +103,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      */
     public var timeEventFrequency: TimeEventFrequency {
         get { return wrapper.timeEventFrequency }
-        set { wrapper.timeEventFrequency = newValue }
+        set { _wrapper.timeEventFrequency = newValue }
     }
     
     /**
@@ -106,22 +111,22 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      */
     public var automaticallyWaitsToMinimizeStalling: Bool {
         get { return wrapper.automaticallyWaitsToMinimizeStalling }
-        set { wrapper.automaticallyWaitsToMinimizeStalling = newValue }
+        set { _wrapper.automaticallyWaitsToMinimizeStalling = newValue }
     }
     
     public var volume: Float {
         get { return wrapper.volume }
-        set { wrapper.volume = newValue }
+        set { _wrapper.volume = newValue }
     }
     
     public var isMuted: Bool {
         get { return wrapper.isMuted }
-        set { wrapper.isMuted = newValue }
+        set { _wrapper.isMuted = newValue }
     }
 
     public var rate: Float {
         get { return wrapper.rate }
-        set { wrapper.rate = newValue }
+        set { _wrapper.rate = newValue }
     }
     
     // MARK: - Init
@@ -134,11 +139,11 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     public init(avPlayer: AVPlayer = AVPlayer(),
                 nowPlayingInfoController: NowPlayingInfoController = NowPlayingInfoController(),
                 remoteCommandController: RemoteCommandController = RemoteCommandController()) {
-        self.wrapper = AVPlayerWrapper(avPlayer: avPlayer)
+        self._wrapper = AVPlayerWrapper(avPlayer: avPlayer)
         self.nowPlayingInfoController = nowPlayingInfoController
         self.remoteCommandController = remoteCommandController
         
-        self.wrapper.delegate = self
+        self._wrapper.delegate = self
         self.remoteCommandController.audioPlayer = self
     }
     
