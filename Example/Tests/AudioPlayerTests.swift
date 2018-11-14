@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import AVFoundation
 
 @testable import SwiftAudio
 
@@ -149,6 +150,34 @@ class AudioPlayerTests: QuickSpec {
                     
                     it("should not be nil", closure: {
                         expect(audioPlayer.currentItem).toNot(beNil())
+                    })
+                })
+                
+                context("when setting the timePitchAlgorithm", {
+                    
+                    beforeEach {
+                        audioPlayer.audioTimePitchAlgorithm = .timeDomain
+                    }
+                    
+                    context("then loading an item", {
+                        beforeEach {
+                            try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
+                        }
+                        
+                        it("should have the applied timePitchAlgorithm", closure: {
+                            expect(audioPlayer.wrapper.currentItem?.audioTimePitchAlgorithm).to(equal(AVAudioTimePitchAlgorithm.timeDomain))
+                        })
+                    })
+                    
+                    context("then loading a timepitching item", {
+                        beforeEach {
+                            let item = DefaultAudioItemTimePitching(audioUrl: Source.path, artist: nil, title: nil, albumTitle: nil, sourceType: .file, artwork: nil, audioTimePitchAlgorithm: AVAudioTimePitchAlgorithm.spectral)
+                            try? audioPlayer.load(item: item, playWhenReady: false)
+                        }
+                        
+                        it("should have the applied timePitchAlgorithm", closure: {
+                            expect(audioPlayer.wrapper.currentItem?.audioTimePitchAlgorithm).to(equal(AVAudioTimePitchAlgorithm.spectral))
+                        })
                     })
                 })
             })
