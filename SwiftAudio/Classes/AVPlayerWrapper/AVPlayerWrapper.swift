@@ -85,11 +85,12 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     }
 
     var duration: TimeInterval {
-        if let timeRange = currentItem?.loadedTimeRanges.first?.timeRangeValue {
-            let seconds = timeRange.duration.seconds
-            if !seconds.isNaN {
-                return seconds
-            }
+        if let seconds = currentItem?.duration.seconds, !seconds.isNaN {
+            return seconds
+        }
+        else if let seconds = currentItem?.loadedTimeRanges.first?.timeRangeValue.duration.seconds,
+            !seconds.isNaN {
+            return seconds
         }
         return 0.0
     }
