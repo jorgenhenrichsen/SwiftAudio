@@ -88,7 +88,11 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         if let seconds = currentItem?.duration.seconds, !seconds.isNaN {
             return seconds
         }
-        return 0
+        else if let seconds = currentItem?.loadedTimeRanges.first?.timeRangeValue.duration.seconds,
+            !seconds.isNaN {
+            return seconds
+        }
+        return 0.0
     }
     
     weak var delegate: AVPlayerWrapperDelegate? = nil
