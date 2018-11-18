@@ -14,7 +14,7 @@ struct Source {
     static let url: URL = URL(fileURLWithPath: Source.path)
     
     static func getAudioItem() -> AudioItem {
-        return DefaultAudioItem(audioUrl: Source.path, sourceType: .file, pitchAlgorithmType: .lowQualityZeroLatency)
+        return DefaultAudioItem(audioUrl: Source.path, sourceType: .file)
     }
 }
 
@@ -23,6 +23,6 @@ struct ShortSource {
     static let url: URL = URL(fileURLWithPath: Source.path)
     
     static func getAudioItem() -> AudioItem {
-        return DefaultAudioItem(audioUrl: ShortSource.path, sourceType: .file, pitchAlgorithmType: .lowQualityZeroLatency)
+        return DefaultAudioItem(audioUrl: ShortSource.path, sourceType: .file)
     }
 }

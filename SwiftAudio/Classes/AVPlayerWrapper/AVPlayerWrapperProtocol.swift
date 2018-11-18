@@ -21,8 +21,8 @@ protocol AVPlayerWrapperProtocol {
     
     var reasonForWaitingToPlay: AVPlayer.WaitingReason? { get }
     
-    var rate: Float { get set }
     
+    var rate: Float { get set }
     
     var delegate: AVPlayerWrapperDelegate? { get set }
     
@@ -35,7 +35,7 @@ protocol AVPlayerWrapperProtocol {
     var isMuted: Bool { get set }
     
     var automaticallyWaitsToMinimizeStalling: Bool { get set }
-    
+        
     
     func play()
     
