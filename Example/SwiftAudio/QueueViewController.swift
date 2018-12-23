@@ -46,7 +46,7 @@ extension QueueViewController: UITableViewDataSource, UITableViewDelegate {
         case 0:
             return 1
         case 1:
-            return controller.player.nextItems.count ?? 0
+            return controller.player.nextItems.count
         default:
             return 0
         }

@@ -51,7 +51,7 @@ class AudioPlayerTests: QuickSpec {
                         holder.stateUpdate = { state in
                             print(state.rawValue)
                             if state == .ready {
-                                try? audioPlayer.play()
+                                audioPlayer.play()
                             }
                         }
                         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
@@ -69,7 +69,7 @@ class AudioPlayerTests: QuickSpec {
                         audioPlayer.delegate = holder
                         holder.stateUpdate = { (state) in
                             if state == .playing {
-                                try? audioPlayer.pause()
+                                audioPlayer.pause()
                             }
                         }
                         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
