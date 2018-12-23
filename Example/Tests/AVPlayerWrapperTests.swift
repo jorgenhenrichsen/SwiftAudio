@@ -137,7 +137,7 @@ class AVPlayerWrapperTests: QuickSpec {
                 
                 context("when loading source", {
                     beforeEach {
-                        wrapper.load(from: URL(fileURLWithPath: Source.path), playWhenReady: false)
+                        wrapper.load(from: URL(fileURLWithPath: LongSource.path), playWhenReady: false)
                     }
                     it("should eventually not be 0", closure: {
                         expect(wrapper.duration).toEventuallyNot(equal(0))
