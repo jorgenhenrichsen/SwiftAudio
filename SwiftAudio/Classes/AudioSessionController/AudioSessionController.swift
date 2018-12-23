@@ -10,7 +10,7 @@ import AVFoundation
 
 
 public protocol AudioSessionControllerDelegate: class {
-    func handleInterruption(type: AVAudioSessionInterruptionType)
+    func handleInterruption(type: AVAudioSession.InterruptionType)
 }
 
 
@@ -72,7 +72,7 @@ public class AudioSessionController {
     
     public func activateSession() throws {
         do {
-            try audioSession.setActive(true)
+            try audioSession.setActive(true, options: [])
             audioSessionIsActive = true
         }
         catch let error { throw error }
@@ -80,17 +80,14 @@ public class AudioSessionController {
     
     public func deactivateSession() throws {
         do {
-            try audioSession.setActive(false)
+            try audioSession.setActive(false, options: [])
             audioSessionIsActive = false
         }
         catch let error { throw error }
     }
     
-    /**
-     Set the audiosession.
-     */
-    public func set(category: AudioSessionCategory) throws {
-        try audioSession.setCategory(category.getValue())
+    public func set(category: AVAudioSession.Category) throws {
+        try audioSession.setCategory(category, mode: audioSession.mode, options: audioSession.categoryOptions)
     }
     
     // MARK: - Interruptions
@@ -98,20 +95,20 @@ public class AudioSessionController {
     private func registerForInterruptionNotification() {
         notificationCenter.addObserver(self,
                                        selector: #selector(handleInterruption),
-                                       name: .AVAudioSessionInterruption,
+                                       name: AVAudioSession.interruptionNotification,
                                        object: nil)
         _isObservingForInterruptions = true
     }
     
     private func unregisterForInterruptionNotification() {
-        notificationCenter.removeObserver(self, name: .AVAudioSessionInterruption, object: nil)
+        notificationCenter.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
         _isObservingForInterruptions = false
     }
     
     @objc func handleInterruption(notification: Notification) {
         guard let userInfo = notification.userInfo,
             let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-            let type = AVAudioSessionInterruptionType(rawValue: typeValue) else {
+            let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
                 return
         }
         
