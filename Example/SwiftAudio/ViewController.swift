@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         if (!controller.audioSessionController.audioSessionIsActive) {
             try? controller.audioSessionController.activateSession()
         }
-        try? controller.player.togglePlaying()
+        controller.player.togglePlaying()
     }
     
     @IBAction func previous(_ sender: Any) {
@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func scrubbing(_ sender: UISlider) {
-        try? controller.player.seek(to: Double(slider.value))
+        controller.player.seek(to: Double(slider.value))
     }
     
     @IBAction func scrubbingValueChanged(_ sender: UISlider) {

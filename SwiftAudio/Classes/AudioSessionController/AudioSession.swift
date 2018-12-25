@@ -13,16 +13,21 @@ protocol AudioSession {
     
     var isOtherAudioPlaying: Bool { get }
     
-    var availableCategories: [String] { get }
+    var category: AVAudioSession.Category { get }
     
+    var mode: AVAudioSession.Mode { get }
     
-    func setCategory(_ category: String) throws
+    var categoryOptions: AVAudioSession.CategoryOptions { get }
     
-    func setCategory(_ category: String, mode: String, options: AVAudioSessionCategoryOptions) throws
+    var availableCategories: [AVAudioSession.Category] { get }
     
-    func setActive(_ active: Bool) throws
+    @available(iOS 10.0, *)
+    func setCategory(_ category: AVAudioSession.Category, mode: AVAudioSession.Mode, options: AVAudioSession.CategoryOptions) throws
     
-    func setActive(_ active: Bool, with options: AVAudioSessionSetActiveOptions) throws
+    @available(iOS 11.0, *)
+    func setCategory(_ category: AVAudioSession.Category, mode: AVAudioSession.Mode, policy: AVAudioSession.RouteSharingPolicy, options: AVAudioSession.CategoryOptions) throws
+    
+    func setActive(_ active: Bool, options: AVAudioSession.SetActiveOptions) throws
     
 }
 

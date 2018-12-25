@@ -55,7 +55,7 @@ class AudioSessionControllerTests: QuickSpec {
                 context("when a interruption arrives", {
                     var delegate: AudioSessionControllerDelegateImplementation!
                     beforeEach {
-                        let notification = Notification(name: .AVAudioSessionInterruption, object: nil, userInfo: [
+                        let notification = Notification(name: AVAudioSession.interruptionNotification, object: nil, userInfo: [
                             AVAudioSessionInterruptionTypeKey: UInt(0)
                             ])
                         delegate = AudioSessionControllerDelegateImplementation()
@@ -92,9 +92,9 @@ class AudioSessionControllerTests: QuickSpec {
 
 class AudioSessionControllerDelegateImplementation: AudioSessionControllerDelegate {
     
-    var interruptionType: AVAudioSessionInterruptionType? = nil
+    var interruptionType: AVAudioSession.InterruptionType? = nil
     
-    func handleInterruption(type: AVAudioSessionInterruptionType) {
+    func handleInterruption(type: AVAudioSession.InterruptionType) {
         self.interruptionType = type
     }
 }

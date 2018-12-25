@@ -83,7 +83,7 @@ class QueueManagerTests: QuickSpec {
                 
                 context("then replacing the item", closure: {
                     beforeEach {
-                        try? manager.replaceCurrentItem(with: 1)
+                        manager.replaceCurrentItem(with: 1)
                     }
                     it("should have replaced the current item", closure: {
                         expect(manager.current).to(equal(1))
@@ -217,7 +217,7 @@ class QueueManagerTests: QuickSpec {
                         var removed: Int?
                         var initialCurrentIndex: Int!
                         beforeEach {
-                            try? manager.jump(to: 3)
+                            let _ = try? manager.jump(to: 3)
                             initialCurrentIndex = manager.currentIndex
                             removed = try? manager.removeItem(at: initialCurrentIndex - 1)
                         }

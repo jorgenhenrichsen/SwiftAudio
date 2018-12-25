@@ -7,8 +7,8 @@ import AVFoundation
 
 class AVPlayerObserverTests: QuickSpec, AVPlayerObserverDelegate {
     
-    var status: AVPlayerStatus?
-    var timeControlStatus: AVPlayerTimeControlStatus?
+    var status: AVPlayer.Status?
+    var timeControlStatus: AVPlayer.TimeControlStatus?
     
     override func spec() {
         
@@ -58,11 +58,11 @@ class AVPlayerObserverTests: QuickSpec, AVPlayerObserverDelegate {
         }
     }
     
-    func player(statusDidChange status: AVPlayerStatus) {
+    func player(statusDidChange status: AVPlayer.Status) {
         self.status = status
     }
     
-    func player(didChangeTimeControlStatus status: AVPlayerTimeControlStatus) {
+    func player(didChangeTimeControlStatus status: AVPlayer.TimeControlStatus) {
         self.timeControlStatus = status
     }
     

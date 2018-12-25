@@ -143,7 +143,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     }
     
     func seek(to seconds: TimeInterval) {
-        avPlayer.seek(to: CMTimeMakeWithSeconds(seconds, 1)) { (finished) in
+        avPlayer.seek(to: CMTimeMakeWithSeconds(seconds, preferredTimescale: 1)) { (finished) in
             self.delegate?.AVWrapper(seekTo: Int(seconds), didFinish: finished)
         }
     }
@@ -184,7 +184,7 @@ extension AVPlayerWrapper: AVPlayerObserverDelegate {
     
     // MARK: - AVPlayerObserverDelegate
     
-    func player(didChangeTimeControlStatus status: AVPlayerTimeControlStatus) {
+    func player(didChangeTimeControlStatus status: AVPlayer.TimeControlStatus) {
         switch status {
         case .paused:
             if currentItem == nil {
@@ -200,7 +200,7 @@ extension AVPlayerWrapper: AVPlayerObserverDelegate {
         }
     }
     
-    func player(statusDidChange status: AVPlayerStatus) {
+    func player(statusDidChange status: AVPlayer.Status) {
         switch status {
 
         case .readyToPlay:
