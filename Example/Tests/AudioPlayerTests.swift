@@ -106,18 +106,26 @@ class AudioPlayerTests: QuickSpec {
                 })
                 
                 context("when seeking to a time", {
-                    var passed = false
-                    let holder = AudioPlayerDelegateHolder()
-                    let seekTime: TimeInterval = 0.5
+                    let seekTime: TimeInterval = 1.0
                     beforeEach {
-                        audioPlayer.delegate = holder
-                        holder.seekCompletion = { passed = true }
                         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
                         audioPlayer.seek(to: seekTime)
                     }
                     
                     it("should eventually be equal to the seeked time", closure: {
-                        expect(passed).toEventually(beTrue())
+                        expect(audioPlayer.currentTime).toEventually(equal(seekTime))
+                    })
+                })
+                
+                context("when playing an item with an initial time", {
+                    var item: DefaultAudioItemInitialTime!
+                    beforeEach {
+                        item = DefaultAudioItemInitialTime(audioUrl: LongSource.path, artist: nil, title: nil, albumTitle: nil, sourceType: .file, artwork: nil, initialTime: 4.0)
+                        try? audioPlayer.load(item: item, playWhenReady: false)
+                    }
+                    
+                    it("should eventaully be equal to the initial time", closure: {
+                        expect(audioPlayer.currentTime).toEventually(equal(item.getInitialTime()))
                     })
                 })
             })

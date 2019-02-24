@@ -156,18 +156,22 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      - parameter playWhenReady: Immediately start playback when the item is ready. Default is `true`. If you disable this you have to call play() or togglePlay() when the `state` switches to `ready`.
      */
     public func load(item: AudioItem, playWhenReady: Bool = true) throws {
-        print("Loading: \(item)")
+        let url: URL
         switch item.getSourceType() {
         case .stream:
-            if let url = URL(string: item.getSourceUrl()) {
-                wrapper.load(from: url, playWhenReady: playWhenReady)
+            if let itemUrl = URL(string: item.getSourceUrl()) {
+                url = itemUrl
             }
             else {
                 throw APError.LoadError.invalidSourceUrl(item.getSourceUrl())
             }
         case .file:
-            wrapper.load(from: URL(fileURLWithPath: item.getSourceUrl()), playWhenReady: playWhenReady)
+            url = URL(fileURLWithPath: item.getSourceUrl())
         }
+        
+        wrapper.load(from: url,
+                     playWhenReady: playWhenReady,
+                     initialTime: (item as? InitialTiming)?.getInitialTime())
         
         if let item = item as? TimePitching {
             wrapper.currentItem?.audioTimePitchAlgorithm = item.getPitchAlgorithmType()

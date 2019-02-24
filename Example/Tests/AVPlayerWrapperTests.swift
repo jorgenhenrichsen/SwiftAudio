@@ -30,10 +30,6 @@ class AVPlayerWrapperTests: QuickSpec {
                     beforeEach {
                         wrapper.load(from: URL(fileURLWithPath: Source.path), playWhenReady: false)
                     }
-                    
-                    it("should be loading", closure: {
-                        expect(wrapper.state).to(equal(AVPlayerWrapperState.loading))
-                    })
 
                     it("should eventually be ready", closure: {
                         expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.ready))
@@ -128,6 +124,17 @@ class AVPlayerWrapperTests: QuickSpec {
                         expect(wrapper.state).to(equal(AVPlayerWrapperState.idle))
                     })
                 })
+                
+                context("when loading source with initial time", closure: {
+                    let initialTime: TimeInterval = 4.0
+                    beforeEach {
+                        wrapper.load(from: LongSource.url, playWhenReady: true, initialTime: initialTime)
+                    }
+                    
+                    it("should eventually be playing", closure: {
+                        expect(wrapper.state).toEventually(equal(AVPlayerWrapperState.playing))
+                    })
+                })
             })
             
             describe("its duration", {
@@ -161,6 +168,17 @@ class AVPlayerWrapperTests: QuickSpec {
                     
                     it("should eventually be equal to the seeked time", closure: {
                         expect(wrapper.currentTime).toEventually(equal(seekTime))
+                    })
+                })
+                
+                context("when playing from initial time", closure: {
+                    let initialTime: TimeInterval = 4.0
+                    beforeEach {
+                        wrapper.load(from: LongSource.url, playWhenReady: false, initialTime: initialTime)
+                    }
+                    
+                    it("should eventuallt be equal to the initial time", closure: {
+                        expect(wrapper.currentTime).toEventually(equal(initialTime))
                     })
                 })
             })

@@ -126,6 +126,9 @@ player.remoteCommandController.handlePlayCommand = { (event) in
 ```
 All available overrides can be found by looking at `RemoteCommandController`.
 
+### Start playback from a certain point in time
+Make your `AudioItem`-subclass conform to `InitialTiming` to be able to start playback from a certain time.
+
 ## Author
 
 Jørgen Henrichsen
