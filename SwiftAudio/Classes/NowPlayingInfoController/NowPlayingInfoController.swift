@@ -32,14 +32,12 @@ public class NowPlayingInfoController {
     
     /**
      This updates a set of values in the now playing info.
-     
-     - Warning: This will reset the now playing info completely! Use this function when starting playback of a new item.
      */
     public func set(keyValues: [NowPlayingInfoKeyValue]) {
-        self.info = [:]
         keyValues.forEach { (keyValue) in
             info[keyValue.getKey()] = keyValue.getValue()
         }
+        self.infoCenter.nowPlayingInfo = info
     }
     
     /**
