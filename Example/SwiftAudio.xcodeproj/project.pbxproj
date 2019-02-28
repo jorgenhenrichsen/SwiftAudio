@@ -32,6 +32,7 @@
 		07756B69218A4E870023935E /* AudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07756B68218A4E870023935E /* AudioSession.swift */; };
 		078C908F210D263200555E80 /* AVPlayerItemObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */; };
 		07DBB1E1212C17E600BB4278 /* QueuedAudioPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DBB1E0212C17E600BB4278 /* QueuedAudioPlayerTests.swift */; };
+		07EB8EE2222869B2000197DE /* NowPlayingInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EB8EE022286980000197DE /* NowPlayingInfoTests.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -71,6 +72,7 @@
 		07756B68218A4E870023935E /* AudioSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSession.swift; sourceTree = "<group>"; };
 		078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemObserverTests.swift; sourceTree = "<group>"; };
 		07DBB1E0212C17E600BB4278 /* QueuedAudioPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedAudioPlayerTests.swift; sourceTree = "<group>"; };
+		07EB8EE022286980000197DE /* NowPlayingInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingInfoTests.swift; sourceTree = "<group>"; };
 		521F3AEC1228A2FA2637355F /* Pods-SwiftAudio_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftAudio_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftAudio_Tests/Pods-SwiftAudio_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SwiftAudio_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftAudio_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				078C908D210D25F700555E80 /* AVPlayerItemObserverTests.swift */,
 				0708ED6B2116DA4B00EB29BD /* AudioSessionControllerTests.swift */,
 				07DBB1E0212C17E600BB4278 /* QueuedAudioPlayerTests.swift */,
+				07EB8EE022286980000197DE /* NowPlayingInfoTests.swift */,
 				0708ED712116E91300EB29BD /* Source */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -462,6 +465,7 @@
 				074A6485205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* AVPlayerObserverTests.swift in Sources */,
 				074A6487205E59B60083D868 /* AVPlayerWrapperTests.swift in Sources */,
+				07EB8EE2222869B2000197DE /* NowPlayingInfoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

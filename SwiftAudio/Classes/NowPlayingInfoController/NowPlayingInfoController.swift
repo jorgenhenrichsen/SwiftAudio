@@ -9,25 +9,17 @@ import Foundation
 import MediaPlayer
 
 
-public protocol NowPlayingInfoKeyValue {
-    func getKey() -> String
-    func getValue() -> Any?
-}
-
-public class NowPlayingInfoController {
+public class NowPlayingInfoController: NowPlayingInfoControllerProtocol {
     
-    let infoCenter: MPNowPlayingInfoCenter
+    private let infoCenter: MPNowPlayingInfoCenter
+    private var info: [String: Any] = [:]
     
-    var info: [String: Any]
+    required public init() {
+        self.infoCenter = MPNowPlayingInfoCenter.default()
+    }
     
-    /**
-     Create a new NowPlayingInfoController.
-     
-     - parameter infoCenter: The MPNowPlayingInfoCenter to use. Default is `MPNowPlayingInfoCenter.default()`
-     */
-    public init(infoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()) {
+    required public init(infoCenter: MPNowPlayingInfoCenter) {
         self.infoCenter = infoCenter
-        self.info = [:]
     }
     
     /**

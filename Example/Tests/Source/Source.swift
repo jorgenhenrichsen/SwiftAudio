@@ -14,7 +14,7 @@ struct Source {
     static let url: URL = URL(fileURLWithPath: Source.path)
     
     static func getAudioItem() -> AudioItem {
-        return DefaultAudioItem(audioUrl: Source.path, sourceType: .file)
+        return DefaultAudioItem(audioUrl: Source.path, artist: "Artist", title: "Title", albumTitle: "AlbumTitle", sourceType: .file, artwork: nil)
     }
 }
 

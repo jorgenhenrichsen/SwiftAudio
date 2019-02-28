@@ -12,6 +12,8 @@
 		0262F9E0C329E749D1B3480EBF568E48 /* Quick-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DBE2FD6322DB92AF73F714DBCDAC39 /* Quick-dummy.m */; };
 		03D7EA5C17FCEB40D10C3C73F9472F4E /* NimbleEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194F331624F24ECBAEF52731D29FAD3E /* NimbleEnvironment.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		04AA9A137A0D38056D1081B4B304CFB6 /* Predicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9753520784E15A0CF31F3233F37520 /* Predicate.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
+		074B0D6322289268001A45A9 /* NowPlayingInfoControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B0D6222289268001A45A9 /* NowPlayingInfoControllerProtocol.swift */; };
+		074B0D652228929B001A45A9 /* NowPlayingInfoKeyValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B0D642228929B001A45A9 /* NowPlayingInfoKeyValue.swift */; };
 		075131AD2182FF1600D3BFB9 /* AVPlayerWrapperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075131AC2182FF1600D3BFB9 /* AVPlayerWrapperProtocol.swift */; };
 		075131AF21830D9500D3BFB9 /* AVPlayerWrapperDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075131AE21830D9500D3BFB9 /* AVPlayerWrapperDelegate.swift */; };
 		075131B9218322E000D3BFB9 /* MediaItemProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075131B3218322E000D3BFB9 /* MediaItemProperty.swift */; };
@@ -183,6 +185,8 @@
 		048A74934A0826237E15D12BBFA56C98 /* Quick-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Quick-umbrella.h"; sourceTree = "<group>"; };
 		049D65258659A381E53BD1E11B7345E8 /* BeVoid.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeVoid.swift; path = Sources/Nimble/Matchers/BeVoid.swift; sourceTree = "<group>"; };
 		04C9AEEB071CD4A301C5C9CC7DB3CD15 /* AudioItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudioItem.swift; path = SwiftAudio/Classes/AudioItem.swift; sourceTree = "<group>"; };
+		074B0D6222289268001A45A9 /* NowPlayingInfoControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingInfoControllerProtocol.swift; sourceTree = "<group>"; };
+		074B0D642228929B001A45A9 /* NowPlayingInfoKeyValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingInfoKeyValue.swift; sourceTree = "<group>"; };
 		075131AC2182FF1600D3BFB9 /* AVPlayerWrapperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerWrapperProtocol.swift; sourceTree = "<group>"; };
 		075131AE21830D9500D3BFB9 /* AVPlayerWrapperDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerWrapperDelegate.swift; sourceTree = "<group>"; };
 		075131B3218322E000D3BFB9 /* MediaItemProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemProperty.swift; sourceTree = "<group>"; };
@@ -399,6 +403,8 @@
 				075131B3218322E000D3BFB9 /* MediaItemProperty.swift */,
 				075131B4218322E000D3BFB9 /* NowPlayingInfoController.swift */,
 				075131B5218322E000D3BFB9 /* NowPlayingInfoProperty.swift */,
+				074B0D6222289268001A45A9 /* NowPlayingInfoControllerProtocol.swift */,
+				074B0D642228929B001A45A9 /* NowPlayingInfoKeyValue.swift */,
 			);
 			name = NowPlayingInfoController;
 			path = SwiftAudio/Classes/NowPlayingInfoController;
@@ -944,6 +950,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				075131BD218322E000D3BFB9 /* RemoteCommandController.swift in Sources */,
+				074B0D652228929B001A45A9 /* NowPlayingInfoKeyValue.swift in Sources */,
 				95C261DC185368D41443743CBA636141 /* APError.swift in Sources */,
 				075131BB218322E000D3BFB9 /* NowPlayingInfoProperty.swift in Sources */,
 				D10E1F8FA9C618DFE1DE13BBF1A1B683 /* AudioItem.swift in Sources */,
@@ -964,6 +971,7 @@
 				07756B75218C2D590023935E /* AudioSessionController.swift in Sources */,
 				075131AF21830D9500D3BFB9 /* AVPlayerWrapperDelegate.swift in Sources */,
 				1DC86A0AEBBA8A5B9353C4F7B2D4649A /* SwiftAudio-dummy.m in Sources */,
+				074B0D6322289268001A45A9 /* NowPlayingInfoControllerProtocol.swift in Sources */,
 				095BD8D416719E425189E8E4963A8D4E /* TimeEventFrequency.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
