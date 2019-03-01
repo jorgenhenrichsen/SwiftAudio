@@ -40,6 +40,8 @@ class NowPlayingInfoTests: QuickSpec {
                         
                         expect(nowPlayingController.getAlbumTitle()).toEventuallyNot(beNil())
                         expect(nowPlayingController.getAlbumTitle()).toEventually(equal(item.getAlbumTitle()!))
+                        
+                        expect(nowPlayingController.getArtwork()).toEventuallyNot(beNil())
                     })
                     
                 })
@@ -111,6 +113,10 @@ class NowPlayingInfoController_Mock: NowPlayingInfoControllerProtocol {
     
     func getCurrentTime() -> Double? {
         return info[NowPlayingInfoProperty.elapsedPlaybackTime(nil).getKey()] as? Double
+    }
+    
+    func getArtwork() -> MPMediaItemArtwork? {
+        return info[MediaItemProperty.artwork(nil).getKey()] as? MPMediaItemArtwork
     }
     
 }
