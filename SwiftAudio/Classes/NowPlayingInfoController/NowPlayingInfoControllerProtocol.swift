@@ -13,10 +13,12 @@ public protocol NowPlayingInfoControllerProtocol {
     
     init()
     
-    init(infoCenter: MPNowPlayingInfoCenter)
+    init(infoCenter: NowPlayingInfoCenter)
     
     func set(keyValue: NowPlayingInfoKeyValue)
     
     func set(keyValues: [NowPlayingInfoKeyValue])
+    
+    func clear()
     
 }

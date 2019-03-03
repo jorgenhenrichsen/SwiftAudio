@@ -11,33 +11,40 @@ import MediaPlayer
 
 public class NowPlayingInfoController: NowPlayingInfoControllerProtocol {
     
-    private let infoCenter: MPNowPlayingInfoCenter
-    private var info: [String: Any] = [:]
+    private var _infoCenter: NowPlayingInfoCenter
+    private var _info: [String: Any] = [:]
     
-    required public init() {
-        self.infoCenter = MPNowPlayingInfoCenter.default()
+    var infoCenter: NowPlayingInfoCenter {
+        return _infoCenter
     }
     
-    required public init(infoCenter: MPNowPlayingInfoCenter) {
-        self.infoCenter = infoCenter
+    var info: [String: Any] {
+        return _info
     }
     
-    /**
-     This updates a set of values in the now playing info.
-     */
+    public required init() {
+        self._infoCenter = MPNowPlayingInfoCenter.default()
+    }
+    
+    public required init(infoCenter: NowPlayingInfoCenter) {
+        self._infoCenter = infoCenter
+    }
+    
     public func set(keyValues: [NowPlayingInfoKeyValue]) {
         keyValues.forEach { (keyValue) in
-            info[keyValue.getKey()] = keyValue.getValue()
+            _info[keyValue.getKey()] = keyValue.getValue()
         }
-        self.infoCenter.nowPlayingInfo = info
+        self._infoCenter.nowPlayingInfo = _info
     }
     
-    /**
-     This updates a single value in the now playing info.
-     */
     public func set(keyValue: NowPlayingInfoKeyValue) {
-        info[keyValue.getKey()] = keyValue.getValue()
-        self.infoCenter.nowPlayingInfo = info
+        _info[keyValue.getKey()] = keyValue.getValue()
+        self._infoCenter.nowPlayingInfo = _info
+    }
+    
+    public func clear() {
+        self._info = [:]
+        self._infoCenter.nowPlayingInfo = _info
     }
     
 }
