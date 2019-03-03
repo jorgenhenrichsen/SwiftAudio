@@ -222,6 +222,9 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      Seek to a specific time in the item.
      */
     public func seek(to seconds: TimeInterval) {
+        if automaticallyUpdateNowPlayingInfo {
+            self.updateNowPlayingCurrentTime(seconds)
+        }
         self.wrapper.seek(to: seconds)
     }
     
@@ -337,7 +340,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     }
     
     func AVWrapper(seekTo seconds: Int, didFinish: Bool) {
-        if (automaticallyUpdateNowPlayingInfo) {
+        if !didFinish && automaticallyUpdateNowPlayingInfo {
             updateNowPlayingCurrentTime(currentTime)
         }
         self.delegate?.audioPlayer(seekTo: seconds, didFinish: didFinish)
