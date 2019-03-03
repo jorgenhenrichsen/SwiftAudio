@@ -24,6 +24,9 @@
 		074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */; };
 		074A6485205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */; };
 		074A6487205E59B60083D868 /* AVPlayerWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */; };
+		074B0D67222C1EC7001A45A9 /* NowPlayingInfoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B0D66222C1EC7001A45A9 /* NowPlayingInfoControllerTests.swift */; };
+		074B0D6B222C247B001A45A9 /* NowPlayingInfoCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B0D6A222C247B001A45A9 /* NowPlayingInfoCenter.swift */; };
+		074B0D6D222C24DE001A45A9 /* NowPlayingInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B0D6C222C24DE001A45A9 /* NowPlayingInfoController.swift */; };
 		07732651205EACA300C4D1CD /* WAV-MP3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07732650205EACA300C4D1CD /* WAV-MP3.wav */; };
 		07732653205EB1B500C4D1CD /* nasa_throttle_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */; };
 		07732654205ECA8B00C4D1CD /* WAV-MP3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07732650205EACA300C4D1CD /* WAV-MP3.wav */; };
@@ -66,6 +69,9 @@
 		074A6482205C155E0083D868 /* AVPlayerTimeObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerTimeObserverTests.swift; sourceTree = "<group>"; };
 		074A6484205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemNotificationObserverTests.swift; sourceTree = "<group>"; };
 		074A6486205E59B60083D868 /* AVPlayerWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerWrapperTests.swift; sourceTree = "<group>"; };
+		074B0D66222C1EC7001A45A9 /* NowPlayingInfoControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingInfoControllerTests.swift; sourceTree = "<group>"; };
+		074B0D6A222C247B001A45A9 /* NowPlayingInfoCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingInfoCenter.swift; sourceTree = "<group>"; };
+		074B0D6C222C24DE001A45A9 /* NowPlayingInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingInfoController.swift; sourceTree = "<group>"; };
 		07732650205EACA300C4D1CD /* WAV-MP3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "WAV-MP3.wav"; sourceTree = "<group>"; };
 		07732652205EB1B500C4D1CD /* nasa_throttle_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nasa_throttle_up.mp3; sourceTree = "<group>"; };
 		0775575820668B020002C6A1 /* QueueManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueManagerTests.swift; sourceTree = "<group>"; };
@@ -130,6 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				07756B68218A4E870023935E /* AudioSession.swift */,
+				074B0D6A222C247B001A45A9 /* NowPlayingInfoCenter.swift */,
+				074B0D6C222C24DE001A45A9 /* NowPlayingInfoController.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -196,6 +204,7 @@
 				0708ED6B2116DA4B00EB29BD /* AudioSessionControllerTests.swift */,
 				07DBB1E0212C17E600BB4278 /* QueuedAudioPlayerTests.swift */,
 				07EB8EE022286980000197DE /* NowPlayingInfoTests.swift */,
+				074B0D66222C1EC7001A45A9 /* NowPlayingInfoControllerTests.swift */,
 				0708ED712116E91300EB29BD /* Source */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -455,13 +464,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				07756B69218A4E870023935E /* AudioSession.swift in Sources */,
+				074B0D67222C1EC7001A45A9 /* NowPlayingInfoControllerTests.swift in Sources */,
 				0708ED702116E89900EB29BD /* Source.swift in Sources */,
 				0708ED742116EE0100EB29BD /* AudioPlayerTests.swift in Sources */,
 				0775575920668B020002C6A1 /* QueueManagerTests.swift in Sources */,
 				074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */,
 				078C908F210D263200555E80 /* AVPlayerItemObserverTests.swift in Sources */,
 				0708ED6C2116DA4C00EB29BD /* AudioSessionControllerTests.swift in Sources */,
+				074B0D6B222C247B001A45A9 /* NowPlayingInfoCenter.swift in Sources */,
 				07DBB1E1212C17E600BB4278 /* QueuedAudioPlayerTests.swift in Sources */,
+				074B0D6D222C24DE001A45A9 /* NowPlayingInfoController.swift in Sources */,
 				074A6485205C29920083D868 /* AVPlayerItemNotificationObserverTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* AVPlayerObserverTests.swift in Sources */,
 				074A6487205E59B60083D868 /* AVPlayerWrapperTests.swift in Sources */,

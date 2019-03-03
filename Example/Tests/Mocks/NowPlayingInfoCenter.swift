@@ -7,3 +7,12 @@
 //
 
 import Foundation
+import AVFoundation
+
+@testable import SwiftAudio
+
+class NowPlayingInfoCenter_Mock: NowPlayingInfoCenter {
+    
+    var nowPlayingInfo: [String : Any]? = nil
+    
+}
