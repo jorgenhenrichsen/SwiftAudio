@@ -99,8 +99,25 @@ If you are storing progress for playback time on items when the app quits, it ca
 To disable interruption notifcations set `isObservingForInterruptions` to `false`.
 
 ### Now Playing Info
-The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork and time if the passed in `AudioItem` supports this. This functionality can be turned off by setting `automaticallyUpdateNowPlayingInfo` to `false`.
-If you need to set additional properties for some items, access the player's `NowPlayingInfoController` and call `set(keyValue:)`. Available properties can be found in `NowPlayingInfoProperty`.
+The `AudioPlayer` can automatically update `nowPlayingInfo` for you. This requires `automaticallyUpdateNowPlayingInfo` to be true (default), and that the `AudioItem` that is passed in return values for the getters. The `AudioPlayer` will update: artist, title, album, artwork, elapsed time, duration and rate.
+
+Additional properties for items can be set by accessing the setter of the `nowPlayingInforController`:
+```swift
+    let player = AudioPlayer()
+    player.load(item: someItem)
+    player.nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.isLiveStream(true))
+```
+The set(keyValue:) and set(keyValues:) accept both `MediaItemProperty` and `NowPlayingInfoProperty`.
+
+The info can be forced to reload/update from the `AudioPlayer`.
+```swift
+    audioPlayer.loadNowPlayingMetaValues()
+    audioPlayer.updateNowPlayingPlaybackValues()
+```
+The current info can be cleared with:
+```swift
+    audioPlayer.nowPlayingInfoController.clear()
+```
 
 ### Remote Commands
 **First** go to App Settings -> Capabilites -> Background Modes -> Check 'Remote notifications'
