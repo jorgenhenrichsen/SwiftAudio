@@ -213,9 +213,9 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      Stop playback, resetting the player.
      */
     public func stop() {
-        AVWrapper(itemPlaybackDoneWithReason: .playerStopped)
         self.reset()
         self.wrapper.stop()
+        self.delegate?.audioPlayer(itemPlaybackEndedWithReason: .playerStopped)
     }
     
     /**
@@ -327,10 +327,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         self.delegate?.audioPlayer(playerDidChangeState: state)
     }
     
-    func AVWrapper(itemPlaybackDoneWithReason reason: PlaybackEndedReason) {
-        self.delegate?.audioPlayer(itemPlaybackEndedWithReason: reason)
-    }
-    
     func AVWrapper(secondsElapsed seconds: Double) {
         self.delegate?.audioPlayer(secondsElapsed: seconds)
     }
@@ -348,6 +344,10 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     func AVWrapper(didUpdateDuration duration: Double) {
         self.delegate?.audioPlayer(didUpdateDuration: duration)
+    }
+    
+    func AVWrapperItemDidPlayToEndTime() {
+        self.delegate?.audioPlayer(itemPlaybackEndedWithReason: .playedUntilEnd)
     }
     
 }
