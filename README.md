@@ -82,11 +82,11 @@ Current options for configuring the `AudioPlayer`:
 ### Audio Session
 Remember to activate an audio session with an appropriate category for your app. This can be done with `AudioSessionController`:
 ```swift
-try? AudioSessionController.set(category: .playback)
+try? AudioSessionController.shared.set(category: .playback)
 //...
 // You should wait with activating the session until you actually start playback of audio.
 // This is to avoid interrupting other audio without the need to do it.
-try? AudioSessionController.activateSession()
+try? AudioSessionController.shared.activateSession()
 ```
 
 **Important**: If you want audio to continue playing when the app is inactive, remember to activate background audio:
