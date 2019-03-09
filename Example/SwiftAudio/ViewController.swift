@@ -27,7 +27,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        controller.player.delegate = self
+        controller.player.audioPlayerStateChangeEvent.addListener(self, ViewController.handleAudioPlayerStateChange)
+        controller.player.audioPlayerSecondElapsedEvent.addListener(self, ViewController.handleAudioPlayerSecondElapsed)
+        controller.player.audioPlayerSeekToEvent.addListener(self, ViewController.handleAudioPlayerDidSeek)
+        controller.player.audioPlayerUpdateDurationEvent.addListener(self, ViewController.handleAudioPlayerUpdateDuration)
     }
     
     @IBAction func togglePlay(_ sender: Any) {
@@ -58,15 +61,8 @@ class ViewController: UIViewController {
         elapsedTimeLabel.text = value.secondsToString()
         remainingTimeLabel.text = (controller.player.duration - value).secondsToString()
     }
-}
-
-extension ViewController: AudioPlayerDelegate {
-    func audioPlayer(itemPlaybackEndedWithReason reason: PlaybackEndedReason) {
-        
-    }
     
-    
-    func audioPlayer(playerDidChangeState state: AVPlayerWrapperState) {
+    func handleAudioPlayerStateChange(state: AudioPlayerState) {
         playButton.setTitle(state == .playing ? "Pause" : "Play", for: .normal)
         
         switch state {
@@ -93,7 +89,7 @@ extension ViewController: AudioPlayerDelegate {
         }
     }
     
-    func audioPlayer(secondsElapsed seconds: Double) {
+    func handleAudioPlayerSecondElapsed(seconds: TimeInterval) {
         if !isScrubbing {
             slider.setValue(Float(seconds), animated: false)
             elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
@@ -101,18 +97,13 @@ extension ViewController: AudioPlayerDelegate {
         }
     }
     
-    func audioPlayer(failedWithError error: Error?) {
-        
-    }
-    
-    func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
+    func handleAudioPlayerDidSeek(data: AudioPlayer.SeekEventData) {
         isScrubbing = false
     }
     
-    func audioPlayer(didUpdateDuration duration: Double) {
+    func handleAudioPlayerUpdateDuration(duration: TimeInterval) {
         slider.maximumValue = Float(controller.player.duration)
         slider.setValue(Float(controller.player.currentTime), animated: true)
-        
         elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
         remainingTimeLabel.text = (controller.player.duration - controller.player.currentTime).secondsToString()
     }

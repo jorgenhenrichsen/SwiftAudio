@@ -22,6 +22,7 @@
 		075131BB218322E000D3BFB9 /* NowPlayingInfoProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075131B5218322E000D3BFB9 /* NowPlayingInfoProperty.swift */; };
 		075131BC218322E000D3BFB9 /* RemoteCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075131B7218322E000D3BFB9 /* RemoteCommand.swift */; };
 		075131BD218322E000D3BFB9 /* RemoteCommandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075131B8218322E000D3BFB9 /* RemoteCommandController.swift */; };
+		076DFC5D2233CB1800A8D163 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076DFC5C2233CB1700A8D163 /* Event.swift */; };
 		07756B74218C2D590023935E /* AudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07756B71218C2D590023935E /* AudioSession.swift */; };
 		07756B75218C2D590023935E /* AudioSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07756B72218C2D590023935E /* AudioSessionController.swift */; };
 		089FC967E3D8DD6212509D9C6AC7185B /* CwlCatchException.m in Sources */ = {isa = PBXBuildFile; fileRef = 25045F70284E802FFFF0F6EFD40A01C7 /* CwlCatchException.m */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
@@ -196,6 +197,7 @@
 		075131B5218322E000D3BFB9 /* NowPlayingInfoProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayingInfoProperty.swift; sourceTree = "<group>"; };
 		075131B7218322E000D3BFB9 /* RemoteCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteCommand.swift; sourceTree = "<group>"; };
 		075131B8218322E000D3BFB9 /* RemoteCommandController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteCommandController.swift; sourceTree = "<group>"; };
+		076DFC5C2233CB1700A8D163 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Event.swift; path = SwiftAudio/Classes/Event.swift; sourceTree = "<group>"; };
 		07756B71218C2D590023935E /* AudioSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSession.swift; sourceTree = "<group>"; };
 		07756B72218C2D590023935E /* AudioSessionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSessionController.swift; sourceTree = "<group>"; };
 		0A362FBD9BA860D03408EC59B8DAD715 /* QueuedAudioPlayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QueuedAudioPlayer.swift; path = SwiftAudio/Classes/QueuedAudioPlayer.swift; sourceTree = "<group>"; };
@@ -718,6 +720,7 @@
 				0A362FBD9BA860D03408EC59B8DAD715 /* QueuedAudioPlayer.swift */,
 				7D4763A422F83644D194E97981775831 /* QueueManager.swift */,
 				EF4534C7E47CA5B502A19513117CBFC3 /* TimeEventFrequency.swift */,
+				076DFC5C2233CB1700A8D163 /* Event.swift */,
 				07756B6F218C2D590023935E /* AudioSessionController */,
 				075131B2218322E000D3BFB9 /* NowPlayingInfoController */,
 				075131B6218322E000D3BFB9 /* RemoteCommandController */,
@@ -964,6 +967,7 @@
 				13AFC3FFA6B2175A542C1279345CAAA3 /* AVPlayerObserver.swift in Sources */,
 				C74928AC19FB27AA9D7AC4FC94A2D7F1 /* AVPlayerTimeObserver.swift in Sources */,
 				07756B74218C2D590023935E /* AudioSession.swift in Sources */,
+				076DFC5D2233CB1800A8D163 /* Event.swift in Sources */,
 				315B8C7DDF47918E6F996F8AC45C6BB7 /* AVPlayerWrapper.swift in Sources */,
 				F462AF5848880C2C1791D0C7F943879A /* AVPlayerWrapperState.swift in Sources */,
 				074B0D69222C23BB001A45A9 /* NowPlayingInfoCenter.swift in Sources */,
