@@ -43,7 +43,32 @@ let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
 player.load(item: audioItem, playWhenReady: true) // Load the item and start playing when the player is ready.
 ```
 
-Implement `AudioPlayerDelegate` to get notified about useful events and updates to the state of the `AudioPlayer`.
+To listen for events in the `AudioPlayer`, subscribe to these events in the player:
+```swift
+audioPlayerStateChangeEvent: AudioPlayer.Event<StateChangeEventData>
+audioPlayerPlaybackEndedEvent: AudioPlayer.Event<PlaybackEndedEventData>
+audioPlayerSecondElapsedEvent: AudioPlayer.Event<SecondsElapsedEventData>
+audioPlayerFailedEvent: AudioPlayer.Event<FailedEventData>
+audioPlayerSeekToEvent: AudioPlayer.Event<SeekEventData>
+audioPlayerUpdateDurationEvent: AudioPlayer.Event<UpdateDurationEventData>
+```
+
+To subscribe to an event:
+```swift
+class MyCustomViewController: UIViewController {
+
+    let audioPlayer = AudioPlayer()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        audioPlayer.audioPlayerStateChangeEvent.addListener(self, MyCustomViewController.handleAudioPlayerStateChange)
+    }
+    
+    func handleAudioPlayerStateChange(state: AudioPlayerState) {
+        // Handle the event
+    }
+}
+```
 
 #### QueuedAudioPlayer
 The `QueuedAudioPlayer` is asubclass of `AudioPlayer` that maintains a queue of audio tracks.
