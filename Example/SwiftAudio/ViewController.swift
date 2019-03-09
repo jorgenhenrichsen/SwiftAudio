@@ -62,38 +62,47 @@ class ViewController: UIViewController {
         remainingTimeLabel.text = (controller.player.duration - value).secondsToString()
     }
     
-    func handleAudioPlayerStateChange(state: AudioPlayerState) {
+    func updateTimeValues() {
+        self.slider.maximumValue = Float(self.controller.player.duration)
+        self.slider.setValue(Float(self.controller.player.currentTime), animated: true)
+        self.elapsedTimeLabel.text = self.controller.player.currentTime.secondsToString()
+        self.remainingTimeLabel.text = (self.controller.player.duration - self.controller.player.currentTime).secondsToString()
+    }
+    
+    func updateMetaData() {
+        if let item = controller.player.currentItem {
+            titleLabel.text = item.getTitle()
+            artistLabel.text = item.getArtist()
+            item.getArtwork({ (image) in
+                self.imageView.image = image
+            })
+        }
+    }
+    
+    func setPlayButtonState(forAudioPlayerState state: AudioPlayerState) {
         playButton.setTitle(state == .playing ? "Pause" : "Play", for: .normal)
-        
-        switch state {
-        case .ready:
-            
-            if let item = controller.player.currentItem {
-                titleLabel.text = item.getTitle()
-                artistLabel.text = item.getArtist()
-                item.getArtwork({ (image) in
-                    self.imageView.image = image
-                })
+    }
+    
+    // MARK: - AudioPlayer Event Handlers
+    
+    func handleAudioPlayerStateChange(state: AudioPlayerState) {
+        DispatchQueue.main.async {
+            self.setPlayButtonState(forAudioPlayerState: state)
+            switch state {
+            case .ready:
+                self.updateMetaData()
+                self.updateTimeValues()
+            case .loading, .playing, .paused, .idle:
+                self.updateTimeValues()
             }
-            
-            slider.maximumValue = Float(controller.player.duration)
-            slider.setValue(Float(controller.player.currentTime), animated: true)
-            
-            elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
-            remainingTimeLabel.text = (controller.player.duration - controller.player.currentTime).secondsToString()
-            
-        case .loading, .playing, .paused, .idle:
-            slider.maximumValue = Float(controller.player.duration)
-            slider.setValue(Float(controller.player.currentTime), animated: true)
-            
         }
     }
     
     func handleAudioPlayerSecondElapsed(seconds: TimeInterval) {
         if !isScrubbing {
-            slider.setValue(Float(seconds), animated: false)
-            elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
-            remainingTimeLabel.text = (controller.player.duration - controller.player.currentTime).secondsToString()
+            DispatchQueue.main.async {
+                self.updateTimeValues()
+            }
         }
     }
     
@@ -102,10 +111,9 @@ class ViewController: UIViewController {
     }
     
     func handleAudioPlayerUpdateDuration(duration: TimeInterval) {
-        slider.maximumValue = Float(controller.player.duration)
-        slider.setValue(Float(controller.player.currentTime), animated: true)
-        elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
-        remainingTimeLabel.text = (controller.player.duration - controller.player.currentTime).secondsToString()
+        DispatchQueue.main.async {
+            self.updateTimeValues()
+        }
     }
     
 }
