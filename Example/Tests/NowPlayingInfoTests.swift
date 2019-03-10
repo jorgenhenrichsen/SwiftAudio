@@ -18,6 +18,7 @@ class NowPlayingInfoTests: QuickSpec {
                 nowPlayingController = NowPlayingInfoController_Mock()
                 audioPlayer = AudioPlayer(nowPlayingInfoController: nowPlayingController)
                 audioPlayer.automaticallyUpdateNowPlayingInfo = true
+                audioPlayer.volume = 0
             }
             
             describe("its NowPlayingInfoController", {

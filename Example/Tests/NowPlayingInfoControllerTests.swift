@@ -4,7 +4,6 @@ import MediaPlayer
 
 @testable import SwiftAudio
 
-/// Tests that the AudioPlayer is automatically updating the values it should update in the NowPlayingInfoController.
 class NowPlayingInfoControllerTests: QuickSpec {
     
     override func spec() {
