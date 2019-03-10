@@ -27,10 +27,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        controller.player.audioPlayerStateChangeEvent.addListener(self, handleAudioPlayerStateChange)
-        controller.player.audioPlayerSecondElapsedEvent.addListener(self, handleAudioPlayerSecondElapsed)
-        controller.player.audioPlayerSeekToEvent.addListener(self, handleAudioPlayerDidSeek)
-        controller.player.audioPlayerUpdateDurationEvent.addListener(self, handleAudioPlayerUpdateDuration)
+        controller.player.event.stateChange.addListener(self, handleAudioPlayerStateChange)
+        controller.player.event.secondElapse.addListener(self, handleAudioPlayerSecondElapsed)
+        controller.player.event.seek.addListener(self, handleAudioPlayerDidSeek)
+        controller.player.event.updateDuration.addListener(self, handleAudioPlayerUpdateDuration)
     }
     
     @IBAction func togglePlay(_ sender: Any) {
@@ -98,7 +98,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func handleAudioPlayerSecondElapsed(data: AudioPlayer.SecondElapsedEventData) {
+    func handleAudioPlayerSecondElapsed(data: AudioPlayer.SecondElapseEventData) {
         if !isScrubbing {
             DispatchQueue.main.async {
                 self.updateTimeValues()

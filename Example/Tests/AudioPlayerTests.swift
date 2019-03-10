@@ -204,8 +204,8 @@ class AudioPlayerEventListener {
     var seekCompletion: (() -> Void)?
     
     init(audioPlayer: AudioPlayer) {
-        audioPlayer.audioPlayerStateChangeEvent.addListener(self, handleDidUpdateState)
-        audioPlayer.audioPlayerSeekToEvent.addListener(self, handleSeek)
+        audioPlayer.event.stateChange.addListener(self, handleDidUpdateState)
+        audioPlayer.event.seek.addListener(self, handleSeek)
     }
     
     func handleDidUpdateState(state: AudioPlayerState) {

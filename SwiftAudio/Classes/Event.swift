@@ -9,6 +9,53 @@ import Foundation
 
 extension AudioPlayer {
     
+    public typealias StateChangeEventData = (AudioPlayerState)
+    public typealias PlaybackEndEventData = (PlaybackEndedReason)
+    public typealias SecondElapseEventData = (TimeInterval)
+    public typealias FailEventData = (Error?)
+    public typealias SeekEventData = (seconds: Int, didFinish: Bool)
+    public typealias UpdateDurationEventData = (Double)
+    
+    public struct EventHolder {
+        
+        /**
+         Emitted when the `AudioPlayer`s state is changed
+         - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
+         */
+        public let stateChange: AudioPlayer.Event<StateChangeEventData> = AudioPlayer.Event()
+        
+        /**
+         Emitted when the playback of the player, for some reason, has stopped.
+         - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
+         */
+        public let playbackEnd: AudioPlayer.Event<PlaybackEndEventData> = AudioPlayer.Event()
+        
+        /**
+         Emitted when a second is elapsed in the `AudioPlayer`.
+         - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
+         */
+        public let secondElapse: AudioPlayer.Event<SecondElapseEventData> = AudioPlayer.Event()
+        
+        /**
+         Emitted when the player encounters an error.
+         - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
+         */
+        public let fail: AudioPlayer.Event<FailEventData> = AudioPlayer.Event()
+        
+        /**
+         Emitted when the player is done attempting to seek.
+         - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
+         */
+        public let seek: AudioPlayer.Event<SeekEventData> = AudioPlayer.Event()
+        
+        /**
+         Emitted when the player updates its duration.
+         - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
+         */
+        public let updateDuration: AudioPlayer.Event<UpdateDurationEventData> = AudioPlayer.Event()
+        
+    }
+    
     public typealias EventClosure<EventData> = (EventData) -> Void
     
     class Invoker<EventData> {
@@ -68,6 +115,7 @@ extension AudioPlayer {
                 self.invokersSemaphore.signal()
             }
         }
+        
     }
     
 }
