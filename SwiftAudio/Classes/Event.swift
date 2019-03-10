@@ -9,37 +9,39 @@ import Foundation
 
 extension AudioPlayer {
     
-    public typealias EventHandler<Listener, EventData> = (Listener) -> (EventData) -> Void
+    public typealias EventClosure<EventData> = (EventData) -> Void
     
-    private class Invoker<EventData> {
+    class Invoker<EventData> {
         
         // Signals false if the listener object is nil
         let invoke: (EventData) -> Bool
         weak var listener: AnyObject?
         
-        init<Listener: AnyObject>(listener: Listener, handler: @escaping EventHandler<Listener, EventData>) {
+        init<Listener: AnyObject>(listener: Listener, closure: @escaping EventClosure<EventData>) {
             self.listener = listener
             self.invoke = { [weak listener] (data: EventData) in
-                guard let listener = listener else {
+                guard let _ = listener else {
                     return false
                 }
-                handler(listener)(data)
+                closure(data)
                 return true
             }
         }
+        
     }
     
     public class Event<EventData> {
         
         private let eventQueue: DispatchQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.utility)
         private let actionQueue: DispatchQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated)
-        private var invokers: [Invoker<EventData>] = []
         private let invokersSemaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
         
-        public func addListener<Listener: AnyObject>(_ listener: Listener, _ handler: @escaping EventHandler<Listener, EventData>) {
+        var invokers: [Invoker<EventData>] = []
+        
+        public func addListener<Listener: AnyObject>(_ listener: Listener, _ closure: @escaping EventClosure<EventData>) {
             actionQueue.async {
                 self.invokersSemaphore.wait()
-                self.invokers.append(Invoker(listener: listener, handler: handler))
+                self.invokers.append(Invoker(listener: listener, closure: closure))
                 self.invokersSemaphore.signal()
             }
         }

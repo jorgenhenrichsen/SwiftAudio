@@ -37,8 +37,8 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     public typealias PlaybackEndedEventData = (PlaybackEndedReason)
     public let audioPlayerPlaybackEndedEvent: AudioPlayer.Event<PlaybackEndedEventData> = AudioPlayer.Event()
     
-    public typealias SecondsElapsedEventData = (TimeInterval)
-    public let audioPlayerSecondElapsedEvent: AudioPlayer.Event<SecondsElapsedEventData> = AudioPlayer.Event()
+    public typealias SecondElapsedEventData = (TimeInterval)
+    public let audioPlayerSecondElapsedEvent: AudioPlayer.Event<SecondElapsedEventData> = AudioPlayer.Event()
     
     public typealias FailedEventData = (Error?)
     public let audioPlayerFailedEvent: AudioPlayer.Event<FailedEventData> = AudioPlayer.Event()

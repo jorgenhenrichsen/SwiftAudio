@@ -27,10 +27,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        controller.player.audioPlayerStateChangeEvent.addListener(self, ViewController.handleAudioPlayerStateChange)
-        controller.player.audioPlayerSecondElapsedEvent.addListener(self, ViewController.handleAudioPlayerSecondElapsed)
-        controller.player.audioPlayerSeekToEvent.addListener(self, ViewController.handleAudioPlayerDidSeek)
-        controller.player.audioPlayerUpdateDurationEvent.addListener(self, ViewController.handleAudioPlayerUpdateDuration)
+        controller.player.audioPlayerStateChangeEvent.addListener(self, handleAudioPlayerStateChange)
+        controller.player.audioPlayerSecondElapsedEvent.addListener(self, handleAudioPlayerSecondElapsed)
+        controller.player.audioPlayerSeekToEvent.addListener(self, handleAudioPlayerDidSeek)
+        controller.player.audioPlayerUpdateDurationEvent.addListener(self, handleAudioPlayerUpdateDuration)
     }
     
     @IBAction func togglePlay(_ sender: Any) {
@@ -85,10 +85,10 @@ class ViewController: UIViewController {
     
     // MARK: - AudioPlayer Event Handlers
     
-    func handleAudioPlayerStateChange(state: AudioPlayerState) {
+    func handleAudioPlayerStateChange(data: AudioPlayer.StateChangeEventData) {
         DispatchQueue.main.async {
-            self.setPlayButtonState(forAudioPlayerState: state)
-            switch state {
+            self.setPlayButtonState(forAudioPlayerState: data)
+            switch data {
             case .ready:
                 self.updateMetaData()
                 self.updateTimeValues()
@@ -98,7 +98,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func handleAudioPlayerSecondElapsed(seconds: TimeInterval) {
+    func handleAudioPlayerSecondElapsed(data: AudioPlayer.SecondElapsedEventData) {
         if !isScrubbing {
             DispatchQueue.main.async {
                 self.updateTimeValues()
@@ -110,7 +110,7 @@ class ViewController: UIViewController {
         isScrubbing = false
     }
     
-    func handleAudioPlayerUpdateDuration(duration: TimeInterval) {
+    func handleAudioPlayerUpdateDuration(data: AudioPlayer.UpdateDurationEventData) {
         DispatchQueue.main.async {
             self.updateTimeValues()
         }
