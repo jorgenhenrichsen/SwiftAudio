@@ -27,7 +27,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        controller.player.delegate = self
+        controller.player.event.stateChange.addListener(self, handleAudioPlayerStateChange)
+        controller.player.event.secondElapse.addListener(self, handleAudioPlayerSecondElapsed)
+        controller.player.event.seek.addListener(self, handleAudioPlayerDidSeek)
+        controller.player.event.updateDuration.addListener(self, handleAudioPlayerUpdateDuration)
     }
     
     @IBAction func togglePlay(_ sender: Any) {
@@ -58,63 +61,59 @@ class ViewController: UIViewController {
         elapsedTimeLabel.text = value.secondsToString()
         remainingTimeLabel.text = (controller.player.duration - value).secondsToString()
     }
-}
-
-extension ViewController: AudioPlayerDelegate {
-    func audioPlayer(itemPlaybackEndedWithReason reason: PlaybackEndedReason) {
-        
+    
+    func updateTimeValues() {
+        self.slider.maximumValue = Float(self.controller.player.duration)
+        self.slider.setValue(Float(self.controller.player.currentTime), animated: true)
+        self.elapsedTimeLabel.text = self.controller.player.currentTime.secondsToString()
+        self.remainingTimeLabel.text = (self.controller.player.duration - self.controller.player.currentTime).secondsToString()
     }
     
+    func updateMetaData() {
+        if let item = controller.player.currentItem {
+            titleLabel.text = item.getTitle()
+            artistLabel.text = item.getArtist()
+            item.getArtwork({ (image) in
+                self.imageView.image = image
+            })
+        }
+    }
     
-    func audioPlayer(playerDidChangeState state: AVPlayerWrapperState) {
+    func setPlayButtonState(forAudioPlayerState state: AudioPlayerState) {
         playButton.setTitle(state == .playing ? "Pause" : "Play", for: .normal)
-        
-        switch state {
-        case .ready:
-            
-            if let item = controller.player.currentItem {
-                titleLabel.text = item.getTitle()
-                artistLabel.text = item.getArtist()
-                item.getArtwork({ (image) in
-                    self.imageView.image = image
-                })
+    }
+    
+    // MARK: - AudioPlayer Event Handlers
+    
+    func handleAudioPlayerStateChange(data: AudioPlayer.StateChangeEventData) {
+        DispatchQueue.main.async {
+            self.setPlayButtonState(forAudioPlayerState: data)
+            switch data {
+            case .ready:
+                self.updateMetaData()
+                self.updateTimeValues()
+            case .loading, .playing, .paused, .idle:
+                self.updateTimeValues()
             }
-            
-            slider.maximumValue = Float(controller.player.duration)
-            slider.setValue(Float(controller.player.currentTime), animated: true)
-            
-            elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
-            remainingTimeLabel.text = (controller.player.duration - controller.player.currentTime).secondsToString()
-            
-        case .loading, .playing, .paused, .idle:
-            slider.maximumValue = Float(controller.player.duration)
-            slider.setValue(Float(controller.player.currentTime), animated: true)
-            
         }
     }
     
-    func audioPlayer(secondsElapsed seconds: Double) {
+    func handleAudioPlayerSecondElapsed(data: AudioPlayer.SecondElapseEventData) {
         if !isScrubbing {
-            slider.setValue(Float(seconds), animated: false)
-            elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
-            remainingTimeLabel.text = (controller.player.duration - controller.player.currentTime).secondsToString()
+            DispatchQueue.main.async {
+                self.updateTimeValues()
+            }
         }
     }
     
-    func audioPlayer(failedWithError error: Error?) {
-        
-    }
-    
-    func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
+    func handleAudioPlayerDidSeek(data: AudioPlayer.SeekEventData) {
         isScrubbing = false
     }
     
-    func audioPlayer(didUpdateDuration duration: Double) {
-        slider.maximumValue = Float(controller.player.duration)
-        slider.setValue(Float(controller.player.currentTime), animated: true)
-        
-        elapsedTimeLabel.text = controller.player.currentTime.secondsToString()
-        remainingTimeLabel.text = (controller.player.duration - controller.player.currentTime).secondsToString()
+    func handleAudioPlayerUpdateDuration(data: AudioPlayer.UpdateDurationEventData) {
+        DispatchQueue.main.async {
+            self.updateTimeValues()
+        }
     }
     
 }

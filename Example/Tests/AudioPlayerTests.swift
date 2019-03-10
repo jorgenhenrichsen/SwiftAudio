@@ -44,12 +44,10 @@ class AudioPlayerTests: QuickSpec {
                 })
                 
                 context("when playing an item", {
-                    var holder: AudioPlayerDelegateHolder!
+                    var listener: AudioPlayerEventListener!
                     beforeEach {
-                        holder = AudioPlayerDelegateHolder()
-                        audioPlayer.delegate = holder
-                        holder.stateUpdate = { state in
-                            print(state.rawValue)
+                        listener = AudioPlayerEventListener(audioPlayer: audioPlayer)
+                        listener.stateUpdate = { state in
                             if state == .ready {
                                 audioPlayer.play()
                             }
@@ -63,11 +61,10 @@ class AudioPlayerTests: QuickSpec {
                 })
                 
                 context("when pausing an item", {
-                    var holder: AudioPlayerDelegateHolder!
+                    var listener: AudioPlayerEventListener!
                     beforeEach {
-                        holder = AudioPlayerDelegateHolder()
-                        audioPlayer.delegate = holder
-                        holder.stateUpdate = { (state) in
+                        listener = AudioPlayerEventListener(audioPlayer: audioPlayer)
+                        listener.stateUpdate = { (state) in
                             if state == .playing {
                                 audioPlayer.pause()
                             }
@@ -81,11 +78,10 @@ class AudioPlayerTests: QuickSpec {
                 })
                 
                 context("when stopping an item", {
-                    var holder: AudioPlayerDelegateHolder!
+                    var listener: AudioPlayerEventListener!
                     beforeEach {
-                        holder = AudioPlayerDelegateHolder()
-                        audioPlayer.delegate = holder
-                        holder.stateUpdate = { (state) in
+                        listener = AudioPlayerEventListener(audioPlayer: audioPlayer)
+                        listener.stateUpdate = { (state) in
                             if state == .playing {
                                 audioPlayer.stop()
                             }
@@ -194,13 +190,8 @@ class AudioPlayerTests: QuickSpec {
     
 }
 
-class AudioPlayerDelegateHolder: AudioPlayerDelegate {
-    func audioPlayer(itemPlaybackEndedWithReason reason: PlaybackEndedReason) {
-        
-    }
+class AudioPlayerEventListener {
     
-    
-    var stateUpdate: ((_ state: AudioPlayerState) -> Void)?
     var state: AudioPlayerState? {
         didSet {
             if let state = state {
@@ -209,29 +200,20 @@ class AudioPlayerDelegateHolder: AudioPlayerDelegate {
         }
     }
     
-    func audioPlayer(playerDidChangeState state: AudioPlayerState) {
+    var stateUpdate: ((_ state: AudioPlayerState) -> Void)?
+    var seekCompletion: (() -> Void)?
+    
+    init(audioPlayer: AudioPlayer) {
+        audioPlayer.event.stateChange.addListener(self, handleDidUpdateState)
+        audioPlayer.event.seek.addListener(self, handleSeek)
+    }
+    
+    func handleDidUpdateState(state: AudioPlayerState) {
         self.state = state
     }
     
-    func audioPlayer(secondsElapsed seconds: Double) {
-        
-    }
-    
-    func audioPlayer(failedWithError error: Error?) {
-        
-    }
-    
-    var seekCompletion: (() -> Void)?
-    func audioPlayer(seekTo seconds: Int, didFinish: Bool) {
+    func handleSeek(data: AudioPlayer.SeekEventData) {
         seekCompletion?()
     }
     
-    func audioPlayer(didUpdateDuration duration: Double) {
-        if let state = self.state {
-            self.stateUpdate?(state)
-        }
-    }
-    
 }
-
-

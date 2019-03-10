@@ -23,13 +23,13 @@ SwiftAudio is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'SwiftAudio', '~> 0.6.2'
+pod 'SwiftAudio', '~> 0.7.0'
 ```
 
 ### Carthage
 SwiftAudio supports [Carthage](https://github.com/Carthage/Carthage). Add this to your Cartfile:
 ```ruby
-github "jorgenhenrichsen/SwiftAudio" ~> 0.6.2
+github "jorgenhenrichsen/SwiftAudio" ~> 0.7.0
 ```
 Then follow the rest of Carthage instructions on [adding a framework](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
@@ -43,10 +43,26 @@ let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
 player.load(item: audioItem, playWhenReady: true) // Load the item and start playing when the player is ready.
 ```
 
-Implement `AudioPlayerDelegate` to get notified about useful events and updates to the state of the `AudioPlayer`.
+To listen for events in the `AudioPlayer`, subscribe to events found in the `event` property of the `AudioPlayer`.
+To subscribe to an event:
+```swift
+class MyCustomViewController: UIViewController {
+
+    let audioPlayer = AudioPlayer()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        audioPlayer.event.stateChange.addListener(self, handleAudioPlayerStateChange)
+    }
+    
+    func handleAudioPlayerStateChange(state: AudioPlayerState) {
+        // Handle the event
+    }
+}
+```
 
 #### QueuedAudioPlayer
-The `QueuedAudioPlayer` is asubclass of `AudioPlayer` that maintains a queue of audio tracks.
+The `QueuedAudioPlayer` is a subclass of `AudioPlayer` that maintains a queue of audio tracks.
 ```swift
 let player = QueuedAudioPlayer()
 let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
@@ -82,11 +98,11 @@ Current options for configuring the `AudioPlayer`:
 ### Audio Session
 Remember to activate an audio session with an appropriate category for your app. This can be done with `AudioSessionController`:
 ```swift
-try? AudioSessionController.set(category: .playback)
+try? AudioSessionController.shared.set(category: .playback)
 //...
 // You should wait with activating the session until you actually start playback of audio.
 // This is to avoid interrupting other audio without the need to do it.
-try? AudioSessionController.activateSession()
+try? AudioSessionController.shared.activateSession()
 ```
 
 **Important**: If you want audio to continue playing when the app is inactive, remember to activate background audio:
@@ -99,8 +115,25 @@ If you are storing progress for playback time on items when the app quits, it ca
 To disable interruption notifcations set `isObservingForInterruptions` to `false`.
 
 ### Now Playing Info
-The `AudioPlayer` will automatically update the `MPNowPlayingInfoCenter` with artist, title, album, artwork and time if the passed in `AudioItem` supports this. This functionality can be turned off by setting `automaticallyUpdateNowPlayingInfo` to `false`.
-If you need to set additional properties for some items, access the player's `NowPlayingInfoController` and call `set(keyValue:)`. Available properties can be found in `NowPlayingInfoProperty`.
+The `AudioPlayer` can automatically update `nowPlayingInfo` for you. This requires `automaticallyUpdateNowPlayingInfo` to be true (default), and that the `AudioItem` that is passed in return values for the getters. The `AudioPlayer` will update: artist, title, album, artwork, elapsed time, duration and rate.
+
+Additional properties for items can be set by accessing the setter of the `nowPlayingInforController`:
+```swift
+    let player = AudioPlayer()
+    player.load(item: someItem)
+    player.nowPlayingInfoController.set(keyValue: NowPlayingInfoProperty.isLiveStream(true))
+```
+The set(keyValue:) and set(keyValues:) accept both `MediaItemProperty` and `NowPlayingInfoProperty`.
+
+The info can be forced to reload/update from the `AudioPlayer`.
+```swift
+    audioPlayer.loadNowPlayingMetaValues()
+    audioPlayer.updateNowPlayingPlaybackValues()
+```
+The current info can be cleared with:
+```swift
+    audioPlayer.nowPlayingInfoController.clear()
+```
 
 ### Remote Commands
 **First** go to App Settings -> Capabilites -> Background Modes -> Check 'Remote notifications'

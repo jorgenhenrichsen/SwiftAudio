@@ -260,7 +260,7 @@ extension AVPlayerWrapper: AVPlayerItemNotificationObserverDelegate {
     // MARK: - AVPlayerItemNotificationObserverDelegate
     
     func itemDidPlayToEndTime() {
-        delegate?.AVWrapper(itemPlaybackDoneWithReason: .playedUntilEnd)
+        delegate?.AVWrapperItemDidPlayToEndTime()
     }
     
 }

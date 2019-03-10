@@ -19,6 +19,7 @@ class AVPlayerObserverTests: QuickSpec, AVPlayerObserverDelegate {
             
             beforeEach {
                 player = AVPlayer()
+                player.volume = 0.0
                 observer = AVPlayerObserver(player: player)
                 observer.delegate = self
             }

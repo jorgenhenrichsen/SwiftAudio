@@ -235,7 +235,7 @@ class AVPlayerWrapperTests: QuickSpec {
 }
 
 class AVPlayerWrapperDelegateHolder: AVPlayerWrapperDelegate {
-    func AVWrapper(itemPlaybackDoneWithReason reason: PlaybackEndedReason) {
+    func AVWrapperItemDidPlayToEndTime() {
         
     }
     
