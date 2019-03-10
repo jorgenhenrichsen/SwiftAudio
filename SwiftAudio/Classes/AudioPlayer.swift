@@ -29,10 +29,6 @@ public protocol AudioPlayerDelegate: class {
 
 public class AudioPlayer: AVPlayerWrapperDelegate {
     
-    // MARK: - Events
-    
-    
-    
     private var _wrapper: AVPlayerWrapperProtocol
     
     /// The wrapper around the underlying AVPlayer
