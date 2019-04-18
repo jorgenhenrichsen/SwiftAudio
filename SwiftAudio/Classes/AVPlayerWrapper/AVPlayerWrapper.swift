@@ -142,6 +142,8 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
             pause()
         case .paused:
             play()
+        @unknown default:
+            fatalError("Unknown AVPlayer.timeControlStatus")
         }
     }
     
@@ -216,6 +218,8 @@ extension AVPlayerWrapper: AVPlayerObserverDelegate {
             self._state = .loading
         case .playing:
             self._state = .playing
+        @unknown default:
+            break
         }
     }
     
@@ -239,6 +243,8 @@ extension AVPlayerWrapper: AVPlayerObserverDelegate {
             break
             
         case .unknown:
+            break
+        @unknown default:
             break
         }
     }
