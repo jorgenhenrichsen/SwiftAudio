@@ -10,23 +10,6 @@ import MediaPlayer
 
 public typealias AudioPlayerState = AVPlayerWrapperState
 
-@available(*, deprecated, message: "Delegates will be removed in future versions of SwiftAudio. Use event handlers instead.")
-public protocol AudioPlayerDelegate: class {
-    
-    func audioPlayer(playerDidChangeState state: AudioPlayerState)
-    
-    func audioPlayer(itemPlaybackEndedWithReason reason: PlaybackEndedReason)
-    
-    func audioPlayer(secondsElapsed seconds: Double)
-    
-    func audioPlayer(failedWithError error: Error?)
-    
-    func audioPlayer(seekTo seconds: Int, didFinish: Bool)
-    
-    func audioPlayer(didUpdateDuration duration: Double)
-
-}
-
 public class AudioPlayer: AVPlayerWrapperDelegate {
     
     private var _wrapper: AVPlayerWrapperProtocol
@@ -38,9 +21,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     public let nowPlayingInfoController: NowPlayingInfoControllerProtocol
     public let remoteCommandController: RemoteCommandController
-    
     public let event = EventHolder()
-    public weak var delegate: AudioPlayerDelegate?
     
     var _currentItem: AudioItem?
     public var currentItem: AudioItem? {
@@ -226,7 +207,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         self.reset()
         self.wrapper.stop()
         self.event.playbackEnd.emit(data: .playerStopped)
-        self.delegate?.audioPlayer(itemPlaybackEndedWithReason: .playerStopped)
     }
     
     /**
@@ -336,17 +316,14 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         default: break
         }
         self.event.stateChange.emit(data: state)
-        self.delegate?.audioPlayer(playerDidChangeState: state)
     }
     
     func AVWrapper(secondsElapsed seconds: Double) {
         self.event.secondElapse.emit(data: seconds)
-        self.delegate?.audioPlayer(secondsElapsed: seconds)
     }
     
     func AVWrapper(failedWithError error: Error?) {
         self.event.fail.emit(data: error)
-        self.delegate?.audioPlayer(failedWithError: error)
     }
     
     func AVWrapper(seekTo seconds: Int, didFinish: Bool) {
@@ -354,17 +331,14 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
             updateNowPlayingCurrentTime(currentTime)
         }
         self.event.seek.emit(data: (seconds, didFinish))
-        self.delegate?.audioPlayer(seekTo: seconds, didFinish: didFinish)
     }
     
     func AVWrapper(didUpdateDuration duration: Double) {
         self.event.updateDuration.emit(data: duration)
-        self.delegate?.audioPlayer(didUpdateDuration: duration)
     }
     
     func AVWrapperItemDidPlayToEndTime() {
         self.event.playbackEnd.emit(data: .playedUntilEnd)
-        self.delegate?.audioPlayer(itemPlaybackEndedWithReason: .playedUntilEnd)
     }
     
 }
