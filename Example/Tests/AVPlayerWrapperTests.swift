@@ -157,12 +157,15 @@ class AVPlayerWrapperTests: QuickSpec {
                 })
                 
                 context("when seeking to a time", {
-                    let holder = AVPlayerWrapperDelegateHolder()
+                    var holder: AVPlayerWrapperDelegateHolder!
                     let seekTime: TimeInterval = 0.5
                     beforeEach {
+                        holder = AVPlayerWrapperDelegateHolder()
+                        holder.stateUpdate = { state in
+                            wrapper.seek(to: seekTime)
+                        }
                         wrapper.delegate = holder
                         wrapper.load(from: Source.url, playWhenReady: false)
-                        wrapper.seek(to: seekTime)
                     }
                     
                     it("should eventually be equal to the seeked time", closure: {

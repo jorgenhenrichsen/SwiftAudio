@@ -103,9 +103,15 @@ class AudioPlayerTests: QuickSpec {
                 
                 context("when seeking to a time", {
                     let seekTime: TimeInterval = 1.0
+                    var holder: AudioPlayerEventListener!
                     beforeEach {
+                        holder = AudioPlayerEventListener(audioPlayer: audioPlayer)
+                        holder.stateUpdate = { state in
+                            if (state == .ready) {
+                                audioPlayer.seek(to: seekTime)
+                            }
+                        }
                         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
-                        audioPlayer.seek(to: seekTime)
                     }
                     
                     it("should eventually be equal to the seeked time", closure: {
@@ -169,7 +175,7 @@ class AudioPlayerTests: QuickSpec {
                         }
                         
                         it("should have the applied timePitchAlgorithm", closure: {
-                            expect(audioPlayer.wrapper.currentItem?.audioTimePitchAlgorithm).to(equal(AVAudioTimePitchAlgorithm.timeDomain))
+                            expect(audioPlayer.wrapper.currentItem?.audioTimePitchAlgorithm).toEventually(equal(AVAudioTimePitchAlgorithm.timeDomain))
                         })
                     })
                     
@@ -180,7 +186,7 @@ class AudioPlayerTests: QuickSpec {
                         }
                         
                         it("should have the applied timePitchAlgorithm", closure: {
-                            expect(audioPlayer.wrapper.currentItem?.audioTimePitchAlgorithm).to(equal(AVAudioTimePitchAlgorithm.spectral))
+                            expect(audioPlayer.wrapper.currentItem?.audioTimePitchAlgorithm).toEventually(equal(AVAudioTimePitchAlgorithm.spectral))
                         })
                     })
                 })

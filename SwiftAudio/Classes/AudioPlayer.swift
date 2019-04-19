@@ -163,13 +163,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
                      playWhenReady: playWhenReady,
                      initialTime: (item as? InitialTiming)?.getInitialTime())
         
-        if let item = item as? TimePitching {
-            wrapper.currentItem?.audioTimePitchAlgorithm = item.getPitchAlgorithmType()
-        }
-        else {
-            wrapper.currentItem?.audioTimePitchAlgorithm = audioTimePitchAlgorithm
-        }
-        
         self._currentItem = item
         
         if (automaticallyUpdateNowPlayingInfo) {
@@ -299,6 +292,15 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         self._currentItem = nil
     }
     
+    private func setTimePitchingAlgorithmForCurrentItem() {
+        if let item = currentItem as? TimePitching {
+            wrapper.currentItem?.audioTimePitchAlgorithm = item.getPitchAlgorithmType()
+        }
+        else {
+            wrapper.currentItem?.audioTimePitchAlgorithm = audioTimePitchAlgorithm
+        }
+    }
+    
     // MARK: - AVPlayerWrapperDelegate
     
     func AVWrapper(didChangeState state: AVPlayerWrapperState) {
@@ -307,6 +309,8 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
             if (automaticallyUpdateNowPlayingInfo) {
                 updateNowPlayingPlaybackValues()
             }
+            
+            setTimePitchingAlgorithmForCurrentItem()
         case .playing, .paused:
             if (automaticallyUpdateNowPlayingInfo) {
                 updateNowPlayingCurrentTime(currentTime)
