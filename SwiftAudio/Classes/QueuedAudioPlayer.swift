@@ -120,7 +120,6 @@ public class QueuedAudioPlayer: AudioPlayer {
      */
     public func next() throws {
         event.playbackEnd.emit(data: .skippedToNext)
-        delegate?.audioPlayer(itemPlaybackEndedWithReason: .skippedToNext)
         let nextItem = try queueManager.next()
         try self.load(item: nextItem, playWhenReady: true)
     }
@@ -130,7 +129,6 @@ public class QueuedAudioPlayer: AudioPlayer {
      */
     public func previous() throws {
         event.playbackEnd.emit(data: .skippedToPrevious)
-        delegate?.audioPlayer(itemPlaybackEndedWithReason: .skippedToPrevious)
         let previousItem = try queueManager.previous()
         try self.load(item: previousItem, playWhenReady: true)
     }
@@ -154,7 +152,6 @@ public class QueuedAudioPlayer: AudioPlayer {
      */
     public func jumpToItem(atIndex index: Int, playWhenReady: Bool = true) throws {
         event.playbackEnd.emit(data: .jumpedToIndex)
-        delegate?.audioPlayer(itemPlaybackEndedWithReason: .jumpedToIndex)
         let item = try queueManager.jump(to: index)
         try self.load(item: item, playWhenReady: playWhenReady)
     }
