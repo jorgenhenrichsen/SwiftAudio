@@ -126,7 +126,9 @@ class AVPlayerWrapperTests: XCTestCase {
         XCTAssert(wrapper.currentTime == 0)
     }
     
-    func test_AVPlayerWrapper__currentTime__seeking__should_seek() {
+    // MARK: - Seeking
+    
+    func test_AVPlayerWrapper__seeking__should_seek() {
         let seekTime: TimeInterval = 5.0
         let expectation = XCTestExpectation()
         holder.stateUpdate = { state in
@@ -139,7 +141,7 @@ class AVPlayerWrapperTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func test_AVPlayerWrapper__currentTime__loading_source_with_initial_time__should_seel() {
+    func test_AVPlayerWrapper__loading_source_with_initial_time__should_seek() {
         let expectation = XCTestExpectation()
         holder.didSeekTo = { seconds in
             expectation.fulfill()
