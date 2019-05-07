@@ -38,7 +38,7 @@ class AudioPlayerTests: XCTestCase {
             }
         }
         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
     
     func test_AudioPlayer__state__load_source_playWhenReady__should_be_playing() {
@@ -50,7 +50,7 @@ class AudioPlayerTests: XCTestCase {
             }
         }
         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
     
     func test_AudioPlayer__state__play_source__should_be_playing() {
@@ -63,7 +63,7 @@ class AudioPlayerTests: XCTestCase {
             }
         }
         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
     
     func test_AudioPlayer__state__pausing_source__should_be_paused() {
@@ -76,7 +76,7 @@ class AudioPlayerTests: XCTestCase {
             }
         }
         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
     
     func test_AudioPlayer__state__stopping_source__should_be_idle() {
@@ -95,7 +95,7 @@ class AudioPlayerTests: XCTestCase {
             }
         }
         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
     
     // MARK: - Current time
@@ -116,7 +116,7 @@ class AudioPlayerTests: XCTestCase {
             }
         }
         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
     
     func test_AudioPlayer__currentTime__when_loading_source_with_intial_time__should_be_equal_to_initial_time() {
@@ -132,7 +132,7 @@ class AudioPlayerTests: XCTestCase {
             }
         }
         try? audioPlayer.load(item: item, playWhenReady: false)
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
     
     // MARK: - Rate
@@ -153,7 +153,7 @@ class AudioPlayerTests: XCTestCase {
             }
         }
         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
     
     // MARK: - Current item
@@ -174,7 +174,7 @@ class AudioPlayerTests: XCTestCase {
             }
         }
         try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
     
 }
