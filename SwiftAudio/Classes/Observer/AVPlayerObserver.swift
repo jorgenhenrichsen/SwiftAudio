@@ -49,9 +49,7 @@ class AVPlayerObserver: NSObject {
     }
     
     deinit {
-        if self.isObserving {
-            self.stopObserving()
-        }
+        self.stopObserving()
     }
     
     /**
@@ -61,20 +59,19 @@ class AVPlayerObserver: NSObject {
         guard let player = player else {
             return
         }
-        if self.isObserving {
-            self.stopObserving()
-        }
+        self.stopObserving()
         self.isObserving = true
         player.addObserver(self, forKeyPath: AVPlayerKeyPath.status, options: self.statusChangeOptions, context: &AVPlayerObserver.context)
         player.addObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, options: self.timeControlStatusChangeOptions, context: &AVPlayerObserver.context)
     }
     
     func stopObserving() {
-        guard let player = player else {
+        guard let player = player, self.isObserving else {
             return
         }
         player.removeObserver(self, forKeyPath: AVPlayerKeyPath.status, context: &AVPlayerObserver.context)
         player.removeObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, context: &AVPlayerObserver.context)
+        self.isObserving = false
         
     }
     

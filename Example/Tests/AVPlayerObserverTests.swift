@@ -25,6 +25,10 @@ class AVPlayerObserverTests: QuickSpec, AVPlayerObserverDelegate {
                 observer.delegate = self
             }
             
+            it("should not be observing", closure: {
+                expect(observer.isObserving).to(beFalse())
+            })
+            
             context("when observing has started", {
                 beforeEach {
                     observer.startObserving()
@@ -53,6 +57,17 @@ class AVPlayerObserverTests: QuickSpec, AVPlayerObserverDelegate {
                     
                     it("should be observing", closure: {
                         expect(observer.isObserving).toEventually(beTrue())
+                    })
+                })
+                
+                context("when stopping observing", closure: {
+                    
+                    beforeEach {
+                        observer.stopObserving()
+                    }
+                    
+                    it("should not be observing", closure: {
+                        expect(observer.isObserving).to(beFalse())
                     })
                 })
             })
