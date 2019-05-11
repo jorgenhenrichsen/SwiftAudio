@@ -169,6 +169,10 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     func load(from url: URL, playWhenReady: Bool) {
         reset(soft: true)
         _playWhenReady = playWhenReady
+        
+        if currentItem?.status == .failed {
+            recreateAVPlayer()
+        }
 
         // Set item
         let currentAsset = AVURLAsset(url: url)
@@ -199,6 +203,15 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         if !soft {
             avPlayer.replaceCurrentItem(with: nil)
         }
+    }
+    
+    /// Will recreate the AVPlayer instance. Used when the current one fails.
+    private func recreateAVPlayer() {
+        let player = AVPlayer()
+        playerObserver.player = player
+        playerTimeObserver.player = player
+        playerTimeObserver.registerForPeriodicTimeEvents()
+        avPlayer = player
     }
     
 }
