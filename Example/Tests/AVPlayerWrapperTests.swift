@@ -235,6 +235,10 @@ class AVPlayerWrapperTests: QuickSpec {
 }
 
 class AVPlayerWrapperDelegateHolder: AVPlayerWrapperDelegate {
+    func AVWrapperDidRecreateAVPlayer() {
+        
+    }
+    
     func AVWrapperItemDidPlayToEndTime() {
         
     }

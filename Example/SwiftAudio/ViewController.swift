@@ -31,6 +31,7 @@ class ViewController: UIViewController {
         controller.player.event.secondElapse.addListener(self, handleAudioPlayerSecondElapsed)
         controller.player.event.seek.addListener(self, handleAudioPlayerDidSeek)
         controller.player.event.updateDuration.addListener(self, handleAudioPlayerUpdateDuration)
+        controller.player.event.didRecreateAVPlayer.addListener(self, handleAVPlayerRecreated)
     }
     
     @IBAction func togglePlay(_ sender: Any) {
@@ -114,6 +115,10 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             self.updateTimeValues()
         }
+    }
+    
+    func handleAVPlayerRecreated() {
+        try? controller.audioSessionController.set(category: .playback)
     }
     
 }

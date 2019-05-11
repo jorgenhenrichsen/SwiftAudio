@@ -212,6 +212,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         playerTimeObserver.player = player
         playerTimeObserver.registerForPeriodicTimeEvents()
         avPlayer = player
+        delegate?.AVWrapperDidRecreateAVPlayer()
     }
     
 }

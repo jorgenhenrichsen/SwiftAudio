@@ -16,5 +16,6 @@ protocol AVPlayerWrapperDelegate: class {
     func AVWrapper(seekTo seconds: Int, didFinish: Bool)
     func AVWrapper(didUpdateDuration duration: Double)
     func AVWrapperItemDidPlayToEndTime()
+    func AVWrapperDidRecreateAVPlayer()
     
 }
