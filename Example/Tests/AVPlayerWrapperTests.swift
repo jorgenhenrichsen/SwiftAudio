@@ -14,10 +14,9 @@ class AVPlayerWrapperTests: QuickSpec {
             var wrapper: AVPlayerWrapper!
 
             beforeEach {
-                let player = AVPlayer()
-                player.automaticallyWaitsToMinimizeStalling = false
-                player.volume = 0.0
-                wrapper = AVPlayerWrapper(avPlayer: player)
+                wrapper = AVPlayerWrapper()
+                wrapper.automaticallyWaitsToMinimizeStalling = false
+                wrapper.volume = 0.0
                 wrapper.bufferDuration = 0.0001
             }
 
