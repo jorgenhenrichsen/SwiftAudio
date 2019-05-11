@@ -36,39 +36,46 @@ class AVPlayerObserver: NSObject {
         static let timeControlStatus = #keyPath(AVPlayer.timeControlStatus)
     }
     
-    let player: AVPlayer
+
     private let statusChangeOptions: NSKeyValueObservingOptions = [.new, .initial]
     private let timeControlStatusChangeOptions: NSKeyValueObservingOptions = [.new]
     var isObserving: Bool = false
     
     weak var delegate: AVPlayerObserverDelegate?
-    
-    init(player: AVPlayer) {
-        self.player = player
+    weak var player: AVPlayer? {
+        willSet {
+            self.stopObserving()
+        }
     }
     
     deinit {
         if self.isObserving {
-            self.player.removeObserver(self, forKeyPath: AVPlayerKeyPath.status, context: &AVPlayerObserver.context)
-            self.player.removeObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, context: &AVPlayerObserver.context)
+            self.stopObserving()
         }
     }
     
     /**
      Start receiving events from this observer.
-     
-     - Important: If this observer is already receiving events, it will first be removed. Never remove this observer manually.
      */
     func startObserving() {
-        main.async {
-            if self.isObserving {
-                self.player.removeObserver(self, forKeyPath: AVPlayerKeyPath.status, context: &AVPlayerObserver.context)
-                self.player.removeObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, context: &AVPlayerObserver.context)
-            }
-            self.isObserving = true
-            self.player.addObserver(self, forKeyPath: AVPlayerKeyPath.status, options: self.statusChangeOptions, context: &AVPlayerObserver.context)
-            self.player.addObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, options: self.timeControlStatusChangeOptions, context: &AVPlayerObserver.context)
+        guard let player = player else {
+            return
         }
+        if self.isObserving {
+            self.stopObserving()
+        }
+        self.isObserving = true
+        player.addObserver(self, forKeyPath: AVPlayerKeyPath.status, options: self.statusChangeOptions, context: &AVPlayerObserver.context)
+        player.addObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, options: self.timeControlStatusChangeOptions, context: &AVPlayerObserver.context)
+    }
+    
+    func stopObserving() {
+        guard let player = player else {
+            return
+        }
+        player.removeObserver(self, forKeyPath: AVPlayerKeyPath.status, context: &AVPlayerObserver.context)
+        player.removeObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, context: &AVPlayerObserver.context)
+        
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
