@@ -17,7 +17,8 @@ class AVPlayerTimeObserverTests: QuickSpec {
                 player = AVPlayer()
                 player.automaticallyWaitsToMinimizeStalling = false
                 player.volume = 0
-                observer = AVPlayerTimeObserver(player: player, periodicObserverTimeInterval: TimeEventFrequency.everyQuarterSecond.getTime())
+                observer = AVPlayerTimeObserver(periodicObserverTimeInterval: TimeEventFrequency.everyQuarterSecond.getTime())
+                observer.player = player
             }
             
             context("has started boundary time observing", {
