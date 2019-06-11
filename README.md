@@ -23,13 +23,13 @@ SwiftAudio is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'SwiftAudio', '~> 0.9.0'
+pod 'SwiftAudio', '~> 0.9.1'
 ```
 
 ### Carthage
 SwiftAudio supports [Carthage](https://github.com/Carthage/Carthage). Add this to your Cartfile:
 ```ruby
-github "jorgenhenrichsen/SwiftAudio" ~> 0.9.0
+github "jorgenhenrichsen/SwiftAudio" ~> 0.9.1
 ```
 Then follow the rest of Carthage instructions on [adding a framework](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
