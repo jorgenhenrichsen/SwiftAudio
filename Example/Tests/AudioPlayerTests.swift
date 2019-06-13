@@ -106,16 +106,12 @@ class AudioPlayerTests: XCTestCase {
     
     func test_AudioPlayer__currentTime__playing_source__shold_be_greater_than_0() {
         let expectation = XCTestExpectation()
-        listener.stateUpdate = { state in
-            switch state {
-            case .playing:
-                if self.audioPlayer.currentTime > 0.0 {
-                    expectation.fulfill()
-                }
-            default: break
+        listener.secondsElapse = { _ in
+            if self.audioPlayer.currentTime > 0.0 {
+                expectation.fulfill()
             }
         }
-        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: true)
+        try? audioPlayer.load(item: LongSource.getAudioItem(), playWhenReady: true)
         wait(for: [expectation], timeout: 20.0)
     }
     
@@ -190,11 +186,13 @@ class AudioPlayerEventListener {
     }
     
     var stateUpdate: ((_ state: AudioPlayerState) -> Void)?
+    var secondsElapse: ((_ seconds: TimeInterval) -> Void)?
     var seekCompletion: (() -> Void)?
     
     init(audioPlayer: AudioPlayer) {
         audioPlayer.event.stateChange.addListener(self, handleDidUpdateState)
         audioPlayer.event.seek.addListener(self, handleSeek)
+        audioPlayer.event.secondElapse.addListener(self, handleSecondsElapse)
     }
     
     func handleDidUpdateState(state: AudioPlayerState) {
@@ -203,6 +201,10 @@ class AudioPlayerEventListener {
     
     func handleSeek(data: AudioPlayer.SeekEventData) {
         seekCompletion?()
+    }
+    
+    func handleSecondsElapse(data: AudioPlayer.SecondElapseEventData) {
+        self.secondsElapse?(data)
     }
     
 }
