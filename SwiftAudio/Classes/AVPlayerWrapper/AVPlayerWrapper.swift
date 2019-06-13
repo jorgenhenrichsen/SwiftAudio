@@ -191,7 +191,6 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
                         if isPendingAsset {
                             let currentItem = AVPlayerItem(asset: pendingAsset, automaticallyLoadedAssetKeys: [Constants.assetPlayableKey])
                             currentItem.preferredForwardBufferDuration = self.bufferDuration
-                            self.avPlayer.automaticallyWaitsToMinimizeStalling = false
                             self.avPlayer.replaceCurrentItem(with: currentItem)
                             
                             // Register for events
