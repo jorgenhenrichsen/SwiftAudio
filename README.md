@@ -1,3 +1,5 @@
+![logo](Images/original-horizontal.png)
+
 # SwiftAudio
 
 [![Build Status](https://app.bitrise.io/app/3d3ac2ba8d817235/status.svg?token=PHIPu3oMde5GdQEOZ1Ilww&branch=master)](https://app.bitrise.io/app/3d3ac2ba8d817235)
