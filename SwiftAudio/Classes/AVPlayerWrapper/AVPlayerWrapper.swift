@@ -171,7 +171,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     func load(from url: URL, playWhenReady: Bool) {
         reset(soft: true)
         _playWhenReady = playWhenReady
-        
+
         if currentItem?.status == .failed {
             recreateAVPlayer()
         }
@@ -185,7 +185,6 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
                 
                 DispatchQueue.main.async {
                     let isPendingAsset = (self._pendingAsset != nil && pendingAsset.isEqual(self._pendingAsset))
-                    
                     switch status {
                     case .loaded:
                         if isPendingAsset {
