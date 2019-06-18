@@ -106,6 +106,7 @@ class AudioPlayerTests: XCTestCase {
     
     func test_AudioPlayer__currentTime__playing_source__shold_be_greater_than_0() {
         let expectation = XCTestExpectation()
+        audioPlayer.timeEventFrequency = .everyQuarterSecond
         listener.secondsElapse = { _ in
             if self.audioPlayer.currentTime > 0.0 {
                 expectation.fulfill()
