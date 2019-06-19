@@ -26,7 +26,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     
     // MARK: - Properties
     
-    let avPlayer: AVPlayer
+    var avPlayer: AVPlayer
     let playerObserver: AVPlayerObserver
     let playerTimeObserver: AVPlayerTimeObserver
     let playerItemNotificationObserver: AVPlayerItemNotificationObserver
@@ -46,10 +46,12 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         }
     }
     
-    public init(avPlayer: AVPlayer = AVPlayer()) {
-        self.avPlayer = avPlayer
-        self.playerObserver = AVPlayerObserver(player: avPlayer)
-        self.playerTimeObserver = AVPlayerTimeObserver(player: avPlayer, periodicObserverTimeInterval: timeEventFrequency.getTime())
+    public init() {
+        self.avPlayer = AVPlayer()
+        self.playerObserver = AVPlayerObserver()
+        self.playerObserver.player = avPlayer
+        self.playerTimeObserver = AVPlayerTimeObserver(periodicObserverTimeInterval: timeEventFrequency.getTime())
+        self.playerTimeObserver.player = avPlayer
         self.playerItemNotificationObserver = AVPlayerItemNotificationObserver()
         self.playerItemObserver = AVPlayerItemObserver()
         
@@ -169,6 +171,10 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     func load(from url: URL, playWhenReady: Bool) {
         reset(soft: true)
         _playWhenReady = playWhenReady
+
+        if currentItem?.status == .failed {
+            recreateAVPlayer()
+        }
         
         // Set item
         self._pendingAsset = AVURLAsset(url: url)
@@ -179,13 +185,11 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
                 
                 DispatchQueue.main.async {
                     let isPendingAsset = (self._pendingAsset != nil && pendingAsset.isEqual(self._pendingAsset))
-                    
                     switch status {
                     case .loaded:
                         if isPendingAsset {
                             let currentItem = AVPlayerItem(asset: pendingAsset, automaticallyLoadedAssetKeys: [Constants.assetPlayableKey])
                             currentItem.preferredForwardBufferDuration = self.bufferDuration
-                            self.avPlayer.automaticallyWaitsToMinimizeStalling = false
                             self.avPlayer.replaceCurrentItem(with: currentItem)
                             
                             // Register for events
@@ -237,6 +241,16 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         if !soft {
             avPlayer.replaceCurrentItem(with: nil)
         }
+    }
+    
+    /// Will recreate the AVPlayer instance. Used when the current one fails.
+    private func recreateAVPlayer() {
+        let player = AVPlayer()
+        playerObserver.player = player
+        playerTimeObserver.player = player
+        playerTimeObserver.registerForPeriodicTimeEvents()
+        avPlayer = player
+        delegate?.AVWrapperDidRecreateAVPlayer()
     }
     
 }

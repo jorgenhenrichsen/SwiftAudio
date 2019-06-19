@@ -15,6 +15,7 @@ extension AudioPlayer {
     public typealias FailEventData = (Error?)
     public typealias SeekEventData = (seconds: Int, didFinish: Bool)
     public typealias UpdateDurationEventData = (Double)
+    public typealias DidRecreateAVPlayerEventData = ()
     
     public struct EventHolder {
         
@@ -37,7 +38,8 @@ extension AudioPlayer {
         public let secondElapse: AudioPlayer.Event<SecondElapseEventData> = AudioPlayer.Event()
         
         /**
-         Emitted when the player encounters an error.
+         Emitted when the player encounters an error. This will ultimately result in the AVPlayer instance to be recreated.
+         If this event is emitted, it means you will need to load a new item in some way. Calling play() will not resume playback.
          - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
          */
         public let fail: AudioPlayer.Event<FailEventData> = AudioPlayer.Event()
@@ -53,6 +55,13 @@ extension AudioPlayer {
          - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
          */
         public let updateDuration: AudioPlayer.Event<UpdateDurationEventData> = AudioPlayer.Event()
+        
+        /**
+         Emitted when the underlying AVPlayer instance is recreated. Recreation happens if the current player fails.
+         - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
+         - Note: It can be necessary to set the AVAudioSession's category again when this event is emitted.
+         */
+        public let didRecreateAVPlayer: AudioPlayer.Event<()> = AudioPlayer.Event()
         
     }
     
