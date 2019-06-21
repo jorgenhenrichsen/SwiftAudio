@@ -63,6 +63,18 @@ class MyCustomViewController: UIViewController {
 }
 ```
 
+If you want to use the [Combine](https://developer.apple.com/documentation/combine) framework for events, each event in the `AudioPlayer` has an `EventPublisher` that can be subscribed to:
+```swift
+let audioPlayer = AudioPlayer()
+audioPlayer.event.stateChange.publisher.subscribe(subscriber: someSubscriber)
+
+/// Using a Sink
+audioPlayer.event.stateChange.publisher.sink { state in 
+    /// Handle state change here.
+}
+```
+**Important**: This requires iOS version equal to or later than 13.0. If an application needs to support older iOS versions it is recommended to use the regular `Event.addListener(listener:)` method.
+
 #### QueuedAudioPlayer
 The `QueuedAudioPlayer` is a subclass of `AudioPlayer` that maintains a queue of audio tracks.
 ```swift
