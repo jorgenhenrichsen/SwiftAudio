@@ -10,18 +10,20 @@ import Foundation
 
 public struct APError {
     
-    enum LoadError: Error {
+    public enum LoadError: Error {
         case invalidSourceUrl(String)
     }
     
-    enum PlaybackError: Error {
+    public enum PlaybackError: Error {
         case noLoadedItem
     }
     
-    enum QueueError: Error {
+    public enum QueueError: Error {
         case noPreviousItem
         case noNextItem
         case invalidIndex(index: Int, message: String)
     }
+    
+    public enum EventError: Error {}
     
 }
