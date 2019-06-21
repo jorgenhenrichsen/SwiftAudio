@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 extension AudioPlayer {
     
@@ -69,7 +70,7 @@ extension AudioPlayer {
     
     class Invoker<EventData> {
         
-        // Signals false if the listener object is nil
+        /// Signals false if the listener object is nil. If `false` is signaled, the invoker should not be retained.
         let invoke: (EventData) -> Bool
         weak var listener: AnyObject?
         
@@ -114,7 +115,7 @@ extension AudioPlayer {
                 self.invokersSemaphore.signal()
             }
         }
-        
+
         func emit(data: EventData) {
             eventQueue.async {
                 self.invokersSemaphore.wait()
@@ -125,6 +126,34 @@ extension AudioPlayer {
             }
         }
         
+        /**
+         The publisher for this event. Use this for subscription through the Combine framework.
+         */
+        @available(iOS 13.0, *)
+        public lazy var publisher: EventPublisher<EventData> = EventPublisher(event: self)
+    }
+    
+}
+
+@available(iOS 13.0, *)
+extension AudioPlayer {
+    
+    public class EventPublisher<EventData>: Publisher {
+        
+        public typealias Output = EventData
+        public typealias Failure = APError.EventError
+        
+        private weak var event: Event<EventData>?
+        
+        init(event: Event<EventData>) {
+            self.event = event
+        }
+        
+        public func receive<S>(subscriber: S) where S : Subscriber, Failure == S.Failure, Output == S.Input {
+            event?.addListener(self) { (data) in
+                let _ = subscriber.receive(data)
+            }
+        }
     }
     
 }
