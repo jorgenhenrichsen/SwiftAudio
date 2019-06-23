@@ -178,8 +178,6 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
             recreateAVPlayer()
         }
         
-        // Set item
-        self._pendingAsset?.cancelLoading() // Cancel loading if an item is already being loaded when loading a new item.
         self._pendingAsset = AVURLAsset(url: url)
         
         if let pendingAsset = _pendingAsset {
@@ -242,10 +240,8 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         playerTimeObserver.unregisterForBoundaryTimeEvents()
         playerItemNotificationObserver.stopObservingCurrentItem()
         
-        if self._pendingAsset != nil {
-            self._pendingAsset?.cancelLoading()
-            self._pendingAsset = nil
-        }
+        self._pendingAsset?.cancelLoading()
+        self._pendingAsset = nil
         
         if !soft {
             avPlayer.replaceCurrentItem(with: nil)
