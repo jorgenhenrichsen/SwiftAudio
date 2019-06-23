@@ -168,6 +168,8 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         }
     }
     
+    
+    
     func load(from url: URL, playWhenReady: Bool) {
         reset(soft: true)
         _playWhenReady = playWhenReady
@@ -177,9 +179,16 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         }
         
         // Set item
+        self._pendingAsset?.cancelLoading() // Cancel loading if an item is already being loaded when loading a new item.
         self._pendingAsset = AVURLAsset(url: url)
+        
         if let pendingAsset = _pendingAsset {
-            pendingAsset.loadValuesAsynchronously(forKeys: [Constants.assetPlayableKey], completionHandler: {
+            pendingAsset.loadValuesAsynchronously(forKeys: [Constants.assetPlayableKey], completionHandler: { [weak self] in
+                
+                guard let self = self else {
+                    return
+                }
+                
                 var error: NSError? = nil
                 let status = pendingAsset.statusOfValue(forKey: Constants.assetPlayableKey, error: &error)
                 
