@@ -208,7 +208,6 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
                         break
                         
                     case .failed:
-                        // print("load asset failed")
                         if isPendingAsset {
                             self.delegate?.AVWrapper(failedWithError: error)
                             self._pendingAsset = nil
@@ -216,7 +215,6 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
                         break
                         
                     case .cancelled:
-                        // print("load asset cancelled")
                         break
                         
                     default:
