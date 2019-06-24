@@ -36,6 +36,11 @@ public protocol InitialTiming {
     func getInitialTime() -> TimeInterval
 }
 
+/// Make your `AudioItem`-subclass conform to this protocol to control enable the ability to set authorization headers.
+public protocol Authorizing {
+    func getHeaders() -> [String: Any]
+}
+
 public class DefaultAudioItem: AudioItem {
     
     public var audioUrl: String
@@ -122,6 +127,27 @@ public class DefaultAudioItemInitialTime: DefaultAudioItem, InitialTiming {
     
     public func getInitialTime() -> TimeInterval {
         return initialTime
+    }
+    
+}
+
+/// An AudioItem that also conforms to the `Authorizing`-protocol
+public class DefaultAudioItemAuthorizing: DefaultAudioItem, Authorizing {
+    
+    public var headers: [String: Any]
+    
+    public override init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, sourceType: SourceType, artwork: UIImage?) {
+        self.headers = [:]
+        super.init(audioUrl: audioUrl, artist: artist, title: title, albumTitle: albumTitle, sourceType: sourceType, artwork: artwork)
+    }
+    
+    public init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, sourceType: SourceType, artwork: UIImage?, headers: [String: Any]) {
+        self.headers = headers
+        super.init(audioUrl: audioUrl, artist: artist, title: title, albumTitle: albumTitle, sourceType: sourceType, artwork: artwork)
+    }
+    
+    public func getHeaders() -> [String: Any] {
+        return headers
     }
     
 }

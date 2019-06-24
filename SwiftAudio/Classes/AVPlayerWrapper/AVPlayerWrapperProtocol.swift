@@ -49,8 +49,7 @@ protocol AVPlayerWrapperProtocol: class {
     
     func seek(to seconds: TimeInterval)
     
-    func load(from url: URL, playWhenReady: Bool)
-    
-    func load(from url: URL, playWhenReady: Bool, initialTime: TimeInterval?)
+    func load(from url: URL, playWhenReady: Bool, headers: [String: Any]?)
+    func load(from url: URL, playWhenReady: Bool, initialTime: TimeInterval?, headers: [String: Any]?)
     
 }

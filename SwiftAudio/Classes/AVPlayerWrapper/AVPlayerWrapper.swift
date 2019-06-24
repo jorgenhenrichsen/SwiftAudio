@@ -168,7 +168,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         }
     }
     
-    func load(from url: URL, playWhenReady: Bool) {
+    func load(from url: URL, playWhenReady: Bool, headers: [String: Any]? = nil) {
         reset(soft: true)
         _playWhenReady = playWhenReady
 
@@ -176,8 +176,13 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
             recreateAVPlayer()
         }
         
+        var options: [String: Any] = [:]
+        if let headers = headers {
+            options = ["AVURLAssetHTTPHeaderFieldsKey": headers]
+        }
+        
         // Set item
-        self._pendingAsset = AVURLAsset(url: url)
+        self._pendingAsset = AVURLAsset(url: url, options: options)
         if let pendingAsset = _pendingAsset {
             pendingAsset.loadValuesAsynchronously(forKeys: [Constants.assetPlayableKey], completionHandler: {
                 var error: NSError? = nil
@@ -220,10 +225,10 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         }
     }
     
-    func load(from url: URL, playWhenReady: Bool, initialTime: TimeInterval?) {
+    func load(from url: URL, playWhenReady: Bool, initialTime: TimeInterval?, headers: [String: Any]?) {
         _initialTime = initialTime
         self.pause()
-        self.load(from: url, playWhenReady: playWhenReady)
+        self.load(from: url, playWhenReady: playWhenReady, headers: headers)
     }
     
     // MARK: - Util

@@ -99,7 +99,7 @@ class AVPlayerWrapperTests: XCTestCase {
             default: break
             }
         }
-        wrapper.load(from: LongSource.url, playWhenReady: true, initialTime: 4.0)
+        wrapper.load(from: LongSource.url, playWhenReady: true, initialTime: 4.0, headers: [:])
         wait(for: [expectation], timeout: 20.0)
     }
     
@@ -146,7 +146,8 @@ class AVPlayerWrapperTests: XCTestCase {
         holder.didSeekTo = { seconds in
             expectation.fulfill()
         }
-        wrapper.load(from: LongSource.url, playWhenReady: false, initialTime: 4.0)
+        
+        wrapper.load(from: LongSource.url, playWhenReady: false, initialTime: 4.0, headers: [:])
         wait(for: [expectation], timeout: 20.0)
     }
     
