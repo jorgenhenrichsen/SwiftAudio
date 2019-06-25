@@ -144,7 +144,9 @@ public enum RemoteCommand {
             .changePlaybackPosition,
             .skipForward(preferredIntervals: []),
             .skipBackward(preferredIntervals: []),
-            .like(isActive: false, localizedTitle: "", localizedShortTitle: "")
+            .like(isActive: false, localizedTitle: "", localizedShortTitle: ""),
+            .dislike(isActive: false, localizedTitle: "", localizedShortTitle: ""),
+            .bookmark(isActive: false, localizedTitle: "", localizedShortTitle: "")
         ]
     }
     
