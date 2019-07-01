@@ -68,9 +68,9 @@ class AudioPlayerTests: XCTestCase {
     
     func test_AudioPlayer__state__pausing_source__should_be_paused() {
         let expectation = XCTestExpectation()
-        listener.stateUpdate = { state in
+        listener.stateUpdate = { [weak audioPlayer] state in
             switch state {
-            case .playing: self.audioPlayer.pause()
+            case .playing: audioPlayer?.pause()
             case .paused: expectation.fulfill()
             default: break
             }
@@ -82,11 +82,11 @@ class AudioPlayerTests: XCTestCase {
     func test_AudioPlayer__state__stopping_source__should_be_idle() {
         let expectation = XCTestExpectation()
         var hasBeenPlaying: Bool = false
-        listener.stateUpdate = { state in
+        listener.stateUpdate = { [weak audioPlayer] state in
             switch state {
             case .playing:
                 hasBeenPlaying = true
-                self.audioPlayer.stop()
+                audioPlayer?.stop()
             case .idle:
                 if hasBeenPlaying {
                     expectation.fulfill()
@@ -117,22 +117,6 @@ class AudioPlayerTests: XCTestCase {
 //        wait(for: [expectation], timeout: 20.0)
 //    }
     
-    func test_AudioPlayer__currentTime__when_loading_source_with_intial_time__should_be_equal_to_initial_time() {
-        let expectation = XCTestExpectation()
-        let item = DefaultAudioItemInitialTime(audioUrl: LongSource.path, artist: nil, title: nil, albumTitle: nil, sourceType: .file, artwork: nil, initialTime: 4.0)
-        listener.stateUpdate = { state in
-            switch state {
-            case .ready:
-                if self.audioPlayer.currentTime == item.getInitialTime() {
-                    expectation.fulfill()
-                }
-            default: break
-            }
-        }
-        try? audioPlayer.load(item: item, playWhenReady: false)
-        wait(for: [expectation], timeout: 20.0)
-    }
-    
     // MARK: - Rate
     
     func test_AudioPlayer__rate__should_be_0() {
@@ -141,10 +125,11 @@ class AudioPlayerTests: XCTestCase {
     
     func test_AudioPlayer__rate__playing_source__should_be_1() {
         let expectation = XCTestExpectation()
-        listener.stateUpdate = { state in
+        listener.stateUpdate = { [weak audioPlayer] state in
+            guard let audioPlayer = audioPlayer else { return }
             switch state {
             case .playing:
-                if self.audioPlayer.rate == 1.0 {
+                if audioPlayer.rate == 1.0 {
                     expectation.fulfill()
                 }
             default: break
@@ -162,10 +147,11 @@ class AudioPlayerTests: XCTestCase {
     
     func test_AudioPlayer__currentItem__loading_source__should_not_be_nil() {
         let expectation = XCTestExpectation()
-        listener.stateUpdate = { state in
+        listener.stateUpdate = { [weak audioPlayer] state in
+            guard let audioPlayer = audioPlayer else { return }
             switch state {
             case .ready:
-                if self.audioPlayer.currentItem != nil {
+                if audioPlayer.currentItem != nil {
                     expectation.fulfill()
                 }
             default: break
@@ -191,10 +177,18 @@ class AudioPlayerEventListener {
     var secondsElapse: ((_ seconds: TimeInterval) -> Void)?
     var seekCompletion: (() -> Void)?
     
+    weak var audioPlayer: AudioPlayer?
+    
     init(audioPlayer: AudioPlayer) {
         audioPlayer.event.stateChange.addListener(self, handleDidUpdateState)
         audioPlayer.event.seek.addListener(self, handleSeek)
         audioPlayer.event.secondElapse.addListener(self, handleSecondsElapse)
+    }
+    
+    deinit {
+        audioPlayer?.event.stateChange.removeListener(self)
+        audioPlayer?.event.seek.removeListener(self)
+        audioPlayer?.event.secondElapse.removeListener(self)
     }
     
     func handleDidUpdateState(state: AudioPlayerState) {

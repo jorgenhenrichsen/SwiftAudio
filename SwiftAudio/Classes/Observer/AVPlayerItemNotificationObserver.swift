@@ -22,8 +22,14 @@ class AVPlayerItemNotificationObserver {
     
     private let notificationCenter: NotificationCenter = NotificationCenter.default
     
-    weak var observingItem: AVPlayerItem?
+    private(set) weak var observingItem: AVPlayerItem?
     weak var delegate: AVPlayerItemNotificationObserverDelegate?
+    
+    private(set) var isObserving: Bool = false
+    
+    deinit {
+        stopObservingCurrentItem()
+    }
     
     /**
      Will start observing notifications from an item.
@@ -34,6 +40,7 @@ class AVPlayerItemNotificationObserver {
     func startObserving(item: AVPlayerItem) {
         stopObservingCurrentItem()
         observingItem = item
+        isObserving = true
         notificationCenter.addObserver(self, selector: #selector(itemDidPlayToEndTime), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
     }
     
@@ -41,10 +48,12 @@ class AVPlayerItemNotificationObserver {
      Stop receiving notifications for the current item.
      */
     func stopObservingCurrentItem() {
-        if let observingItem = observingItem {
-            notificationCenter.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: observingItem)
+        guard let observingItem = observingItem, isObserving else {
+            return
         }
-        observingItem = nil
+        self.notificationCenter.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: observingItem)
+        self.observingItem = nil
+        self.isObserving = false
     }
     
     @objc private func itemDidPlayToEndTime() {

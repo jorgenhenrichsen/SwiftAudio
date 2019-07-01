@@ -30,37 +30,34 @@ class AVPlayerItemObserver: NSObject {
         static let loadedTimeRanges = #keyPath(AVPlayerItem.loadedTimeRanges)
     }
     
-    var isObserving: Bool = false
+    private(set) var isObserving: Bool = false
     
-    weak var observingItem: AVPlayerItem?
+    private(set) weak var observingItem: AVPlayerItem?
     weak var delegate: AVPlayerItemObserverDelegate?
     
     deinit {
-        if self.isObserving {
-            stopObservingCurrentItem()
-        }
+        stopObservingCurrentItem()
     }
     
     /**
-     Start observing an item. Will remove self as observer from old item.
+     Start observing an item. Will remove self as observer from old item, if any.
      
      - parameter item: The player item to observe.
      */
     func startObserving(item: AVPlayerItem) {
-        main.async {
-            if self.isObserving {
-                self.stopObservingCurrentItem()
-            }
-            self.isObserving = true
-            self.observingItem = item
-            item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.duration, options: [.new], context: &AVPlayerItemObserver.context)
-            item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.loadedTimeRanges, options: [.new], context: &AVPlayerItemObserver.context)
-        }
+        self.stopObservingCurrentItem()
+        self.isObserving = true
+        self.observingItem = item
+        item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.duration, options: [.new], context: &AVPlayerItemObserver.context)
+        item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.loadedTimeRanges, options: [.new], context: &AVPlayerItemObserver.context)
     }
     
     func stopObservingCurrentItem() {
-        observingItem?.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.duration, context: &AVPlayerItemObserver.context)
-        observingItem?.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.loadedTimeRanges, context: &AVPlayerItemObserver.context)
+        guard let observingItem = observingItem, isObserving else {
+            return
+        }
+        observingItem.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.duration, context: &AVPlayerItemObserver.context)
+        observingItem.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.loadedTimeRanges, context: &AVPlayerItemObserver.context)
         self.isObserving = false
         self.observingItem = nil
     }
