@@ -79,6 +79,30 @@ public struct SkipIntervalCommand: RemoteCommandProtocol {
     
 }
 
+public struct FeedbackCommand: RemoteCommandProtocol {
+    
+    public static let like = FeedbackCommand(id: "Like", commandKeyPath: \MPRemoteCommandCenter.likeCommand, handlerKeyPath: \RemoteCommandController.handleLikeCommand)
+    
+    public static let dislike = FeedbackCommand(id: "Dislike", commandKeyPath: \MPRemoteCommandCenter.dislikeCommand, handlerKeyPath: \RemoteCommandController.handleDislikeCommand)
+    
+    public static let bookmark = FeedbackCommand(id: "Bookmark", commandKeyPath: \MPRemoteCommandCenter.bookmarkCommand, handlerKeyPath: \RemoteCommandController.handleBookmarkCommand)
+    
+    public typealias Command = MPFeedbackCommand
+    
+    public let id: String
+    
+    public var commandKeyPath: KeyPath<MPRemoteCommandCenter, MPFeedbackCommand>
+    
+    public var handlerKeyPath: KeyPath<RemoteCommandController, RemoteCommandHandler>
+    
+    func set(isActive: Bool, localizedTitle: String, localizedShortTitle: String) -> FeedbackCommand {
+        MPRemoteCommandCenter.shared()[keyPath: commandKeyPath].isActive = isActive
+        MPRemoteCommandCenter.shared()[keyPath: commandKeyPath].localizedTitle = localizedTitle
+        MPRemoteCommandCenter.shared()[keyPath: commandKeyPath].localizedShortTitle = localizedShortTitle
+        return self
+    }
+}
+
 public enum RemoteCommand {
 
     case play
@@ -99,6 +123,12 @@ public enum RemoteCommand {
     
     case skipBackward(preferredIntervals: [NSNumber])
     
+    case like(isActive: Bool, localizedTitle: String, localizedShortTitle: String)
+    
+    case dislike(isActive: Bool, localizedTitle: String, localizedShortTitle: String)
+    
+    case bookmark(isActive: Bool, localizedTitle: String, localizedShortTitle: String)
+    
     /**
      All values in an array for convenience.
      Don't use for associated values.
@@ -114,6 +144,9 @@ public enum RemoteCommand {
             .changePlaybackPosition,
             .skipForward(preferredIntervals: []),
             .skipBackward(preferredIntervals: []),
+            .like(isActive: false, localizedTitle: "", localizedShortTitle: ""),
+            .dislike(isActive: false, localizedTitle: "", localizedShortTitle: ""),
+            .bookmark(isActive: false, localizedTitle: "", localizedShortTitle: "")
         ]
     }
     

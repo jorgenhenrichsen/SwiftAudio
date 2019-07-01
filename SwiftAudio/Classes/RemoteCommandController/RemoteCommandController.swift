@@ -64,6 +64,12 @@ public class RemoteCommandController {
         case .changePlaybackPosition: self.enableCommand(ChangePlaybackPositionCommand.changePlaybackPosition)
         case .skipForward(let preferredIntervals): self.enableCommand(SkipIntervalCommand.skipForward.set(preferredIntervals: preferredIntervals))
         case .skipBackward(let preferredIntervals): self.enableCommand(SkipIntervalCommand.skipBackward.set(preferredIntervals: preferredIntervals))
+        case .like(let isActive, let localizedTitle, let localizedShortTitle):
+            self.enableCommand(FeedbackCommand.like.set(isActive: isActive, localizedTitle: localizedTitle, localizedShortTitle: localizedShortTitle))
+        case .dislike(let isActive, let localizedTitle, let localizedShortTitle):
+            self.enableCommand(FeedbackCommand.dislike.set(isActive: isActive, localizedTitle: localizedTitle, localizedShortTitle: localizedShortTitle))
+        case .bookmark(let isActive, let localizedTitle, let localizedShortTitle):
+            self.enableCommand(FeedbackCommand.bookmark.set(isActive: isActive, localizedTitle: localizedTitle, localizedShortTitle: localizedShortTitle))
         }
     }
     
@@ -78,6 +84,9 @@ public class RemoteCommandController {
         case .changePlaybackPosition: self.disableCommand(ChangePlaybackPositionCommand.changePlaybackPosition)
         case .skipForward(_): self.disableCommand(SkipIntervalCommand.skipForward)
         case .skipBackward(_): self.disableCommand(SkipIntervalCommand.skipBackward)
+        case .like(_, _, _): self.disableCommand(FeedbackCommand.like)
+        case .dislike(_, _, _): self.disableCommand(FeedbackCommand.dislike)
+        case .bookmark(_, _, _): self.disableCommand(FeedbackCommand.bookmark)
         }
     }
     
@@ -92,6 +101,9 @@ public class RemoteCommandController {
     public lazy var handleChangePlaybackPositionCommand: RemoteCommandHandler  = self.handleChangePlaybackPositionCommandDefault
     public lazy var handleNextTrackCommand: RemoteCommandHandler = self.handleNextTrackCommandDefault
     public lazy var handlePreviousTrackCommand: RemoteCommandHandler = self.handlePreviousTrackCommandDefault
+    public lazy var handleLikeCommand: RemoteCommandHandler = self.handleLikeCommandDefault
+    public lazy var handleDislikeCommand: RemoteCommandHandler = self.handleDislikeCommandDefault
+    public lazy var handleBookmarkCommand: RemoteCommandHandler = self.handleBookmarkCommandDefault
     
     private func handlePlayCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         if let audioPlayer = self.audioPlayer {
@@ -178,6 +190,18 @@ public class RemoteCommandController {
             }
         }
         return MPRemoteCommandHandlerStatus.commandFailed
+    }
+    
+    private func handleLikeCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        return MPRemoteCommandHandlerStatus.success
+    }
+    
+    private func handleDislikeCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        return MPRemoteCommandHandlerStatus.success
+    }
+    
+    private func handleBookmarkCommandDefault(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        return MPRemoteCommandHandlerStatus.success
     }
     
     private func getRemoteCommandHandlerStatus(forError error: Error) -> MPRemoteCommandHandlerStatus {
