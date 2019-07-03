@@ -305,16 +305,14 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     func AVWrapper(didChangeState state: AVPlayerWrapperState) {
         switch state {
-        case .ready:
+        case .ready, .loading:
             if (automaticallyUpdateNowPlayingInfo) {
                 updateNowPlayingPlaybackValues()
             }
-            
             setTimePitchingAlgorithmForCurrentItem()
         case .playing, .paused:
             if (automaticallyUpdateNowPlayingInfo) {
-                updateNowPlayingCurrentTime(currentTime)
-                updateNowPlayingRate(rate)
+                updateNowPlayingPlaybackValues()
             }
         default: break
         }

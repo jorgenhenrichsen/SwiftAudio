@@ -181,6 +181,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         self._pendingAsset = AVURLAsset(url: url)
         
         if let pendingAsset = _pendingAsset {
+            self._state = .loading
             pendingAsset.loadValuesAsynchronously(forKeys: [Constants.assetPlayableKey], completionHandler: { [weak self] in
                 
                 guard let self = self else {
@@ -272,7 +273,7 @@ extension AVPlayerWrapper: AVPlayerObserverDelegate {
                 self._state = .paused
             }
         case .waitingToPlayAtSpecifiedRate:
-            self._state = .loading
+            self._state = .buffering
         case .playing:
             self._state = .playing
         @unknown default:
@@ -284,13 +285,14 @@ extension AVPlayerWrapper: AVPlayerObserverDelegate {
         switch status {
             
         case .readyToPlay:
-            self._state = .ready
-            
             if let initialTime = _initialTime {
                 self.seek(to: initialTime)
             }
             else if _playWhenReady {
                 self.play()
+            }
+            else {
+                self._state = .ready
             }
             
             break

@@ -32,10 +32,13 @@ class ViewController: UIViewController {
         controller.player.event.seek.addListener(self, handleAudioPlayerDidSeek)
         controller.player.event.updateDuration.addListener(self, handleAudioPlayerUpdateDuration)
         controller.player.event.didRecreateAVPlayer.addListener(self, handleAVPlayerRecreated)
+        
+        updateMetaData()
+        handleAudioPlayerStateChange(data: controller.player.playerState)
     }
     
     @IBAction func togglePlay(_ sender: Any) {
-        if (!controller.audioSessionController.audioSessionIsActive) {
+        if !controller.audioSessionController.audioSessionIsActive {
             try? controller.audioSessionController.activateSession()
         }
         controller.player.togglePlaying()
@@ -90,10 +93,10 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             self.setPlayButtonState(forAudioPlayerState: data)
             switch data {
-            case .ready:
+            case .ready, .loading:
                 self.updateMetaData()
                 self.updateTimeValues()
-            case .loading, .playing, .paused, .idle:
+            case .buffering, .playing, .paused, .idle:
                 self.updateTimeValues()
             }
         }
