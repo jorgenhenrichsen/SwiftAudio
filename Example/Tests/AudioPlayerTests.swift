@@ -29,6 +29,11 @@ class AudioPlayerTests: XCTestCase {
         XCTAssert(audioPlayer.playerState == AudioPlayerState.idle)
     }
     
+    func test_AudioPlayer__state__load_source__should_be_loading() {
+        try? audioPlayer.load(item: Source.getAudioItem(), playWhenReady: false)
+        XCTAssertEqual(audioPlayer.playerState, AudioPlayerState.loading)
+    }
+    
     func test_AudioPlayer__state__load_source__should_be_ready() {
         let expectation = XCTestExpectation()
         listener.stateUpdate = { state in
