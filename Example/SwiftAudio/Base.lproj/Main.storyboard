@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -63,7 +62,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FCd-3e-22D">
-                                <rect key="frame" x="67" y="84" width="240" height="240"/>
+                                <rect key="frame" x="67.5" y="84" width="240" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="5Sj-BZ-sg4"/>
                                     <constraint firstAttribute="height" constant="240" id="Hij-Yw-6Lg"/>
@@ -105,6 +104,9 @@
                                 <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="1ML-yD-9Rf">
+                                <rect key="frame" x="177.5" y="587" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -117,12 +119,14 @@
                             <constraint firstItem="T7Y-1Q-7UU" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="HoH-i0-yof"/>
                             <constraint firstItem="RWN-If-dGG" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="Nw7-WM-LFd"/>
                             <constraint firstItem="RX3-VR-CL6" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="O0h-NL-iXW"/>
+                            <constraint firstItem="1ML-yD-9Rf" firstAttribute="top" secondItem="EOo-zV-6l2" secondAttribute="bottom" constant="20" id="Uop-aD-I5b"/>
                             <constraint firstItem="dfk-yr-rwm" firstAttribute="top" secondItem="FCd-3e-22D" secondAttribute="bottom" constant="30" id="W4w-6K-AW8"/>
                             <constraint firstItem="RWN-If-dGG" firstAttribute="top" secondItem="T7Y-1Q-7UU" secondAttribute="bottom" constant="25" id="XgV-XL-QCL"/>
                             <constraint firstItem="dfk-yr-rwm" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="YUE-uf-Rp1"/>
                             <constraint firstItem="RVb-HZ-QCX" firstAttribute="top" secondItem="RWN-If-dGG" secondAttribute="bottom" constant="8" id="ZkD-u2-Zbr"/>
                             <constraint firstItem="T7Y-1Q-7UU" firstAttribute="top" secondItem="dfk-yr-rwm" secondAttribute="bottom" constant="4" id="baR-zV-tgo"/>
                             <constraint firstItem="RWN-If-dGG" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="eNt-u9-qot"/>
+                            <constraint firstItem="1ML-yD-9Rf" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="fdl-RK-Hq8"/>
                             <constraint firstItem="RX3-VR-CL6" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="16" id="hEd-b2-Ggo"/>
                             <constraint firstItem="FCd-3e-22D" firstAttribute="top" secondItem="l9B-hM-Ajc" secondAttribute="bottom" constant="30" id="ikz-ZP-jNM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RX3-VR-CL6" secondAttribute="trailing" constant="16" id="kSP-Mq-R5P"/>
@@ -136,6 +140,7 @@
                         <outlet property="artistLabel" destination="T7Y-1Q-7UU" id="b5S-lt-PqG"/>
                         <outlet property="elapsedTimeLabel" destination="3CL-8o-zYW" id="7Wg-7X-Vrd"/>
                         <outlet property="imageView" destination="FCd-3e-22D" id="gKL-za-haV"/>
+                        <outlet property="loadIndicator" destination="1ML-yD-9Rf" id="Xes-Ag-vhg"/>
                         <outlet property="playButton" destination="EOo-zV-6l2" id="2d1-ad-s1k"/>
                         <outlet property="remainingTimeLabel" destination="RVb-HZ-QCX" id="8hp-CK-XjF"/>
                         <outlet property="slider" destination="RWN-If-dGG" id="Yxw-Gf-bR3"/>

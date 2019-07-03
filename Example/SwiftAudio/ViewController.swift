@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var elapsedTimeLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
+    @IBOutlet weak var loadIndicator: UIActivityIndicatorView!
     
     var isScrubbing: Bool = false
     let controller = AudioController.shared
@@ -90,13 +91,22 @@ class ViewController: UIViewController {
     // MARK: - AudioPlayer Event Handlers
     
     func handleAudioPlayerStateChange(data: AudioPlayer.StateChangeEventData) {
+        print(data)
         DispatchQueue.main.async {
             self.setPlayButtonState(forAudioPlayerState: data)
             switch data {
-            case .ready, .loading:
+            case .loading:
+                self.loadIndicator.startAnimating()
                 self.updateMetaData()
                 self.updateTimeValues()
-            case .buffering, .playing, .paused, .idle:
+            case .buffering:
+                self.loadIndicator.startAnimating()
+            case .ready:
+                self.loadIndicator.stopAnimating()
+                self.updateMetaData()
+                self.updateTimeValues()
+            case .playing, .paused, .idle:
+                self.loadIndicator.stopAnimating()
                 self.updateTimeValues()
             }
         }
