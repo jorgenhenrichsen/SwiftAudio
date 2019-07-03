@@ -285,16 +285,16 @@ extension AVPlayerWrapper: AVPlayerObserverDelegate {
         switch status {
             
         case .readyToPlay:
-            if let initialTime = _initialTime {
-                self.seek(to: initialTime)
-            }
-            else if _playWhenReady {
+            
+            if _playWhenReady {
                 self.play()
             }
             else {
                 self._state = .ready
+                if let initialTime = _initialTime {
+                    self.seek(to: initialTime)
+                }
             }
-            
             break
             
         case .failed:
