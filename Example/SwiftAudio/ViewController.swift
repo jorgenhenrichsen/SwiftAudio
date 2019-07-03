@@ -22,9 +22,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
     @IBOutlet weak var loadIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var errorLabel: UILabel!
     
-    var isScrubbing: Bool = false
-    let controller = AudioController.shared
+    private var isScrubbing: Bool = false
+    private let controller = AudioController.shared
+    private var lastLoadFailed: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +35,7 @@ class ViewController: UIViewController {
         controller.player.event.seek.addListener(self, handleAudioPlayerDidSeek)
         controller.player.event.updateDuration.addListener(self, handleAudioPlayerUpdateDuration)
         controller.player.event.didRecreateAVPlayer.addListener(self, handleAVPlayerRecreated)
-        
+        controller.player.event.fail.addListener(self, handlePlayerFailure)
         updateMetaData()
         handleAudioPlayerStateChange(data: controller.player.playerState)
     }
@@ -42,7 +44,14 @@ class ViewController: UIViewController {
         if !controller.audioSessionController.audioSessionIsActive {
             try? controller.audioSessionController.activateSession()
         }
-        controller.player.togglePlaying()
+        if lastLoadFailed, let item = controller.player.currentItem {
+            lastLoadFailed = false
+            errorLabel.isHidden = true
+            try? controller.player.load(item: item, playWhenReady: true)
+        }
+        else {
+            controller.player.togglePlaying()
+        }
     }
     
     @IBAction func previous(_ sender: Any) {
@@ -86,6 +95,12 @@ class ViewController: UIViewController {
     
     func setPlayButtonState(forAudioPlayerState state: AudioPlayerState) {
         playButton.setTitle(state == .playing ? "Pause" : "Play", for: .normal)
+    }
+    
+    func setErrorMessage(_ message: String) {
+        self.loadIndicator.stopAnimating()
+        errorLabel.isHidden = false
+        errorLabel.text = message
     }
     
     // MARK: - AudioPlayer Event Handlers
@@ -132,6 +147,17 @@ class ViewController: UIViewController {
     
     func handleAVPlayerRecreated() {
         try? controller.audioSessionController.set(category: .playback)
+    }
+    
+    func handlePlayerFailure(data: AudioPlayer.FailEventData) {
+        if let error = data as NSError? {
+            if error.code == -1009 {
+                lastLoadFailed = true
+                DispatchQueue.main.async {
+                    self.setErrorMessage("Network disconnected. Please try again...")
+                }
+            }
+        }
     }
     
 }
