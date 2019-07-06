@@ -36,6 +36,11 @@ public protocol InitialTiming {
     func getInitialTime() -> TimeInterval
 }
 
+/// Make your `AudioItem`-subclass conform to this protocol to control enable the ability to set initialization options for the asset.
+public protocol AssetOptionsProviding {
+    func getAssetOptions() -> [String : Any]
+}
+
 public class DefaultAudioItem: AudioItem {
     
     public var audioUrl: String
@@ -122,6 +127,27 @@ public class DefaultAudioItemInitialTime: DefaultAudioItem, InitialTiming {
     
     public func getInitialTime() -> TimeInterval {
         return initialTime
+    }
+    
+}
+
+/// An AudioItem that also conforms to the `AssetOptionsProviding`-protocol
+public class DefaultAudioItemAuthorizing: DefaultAudioItem, AssetOptionsProviding {
+    
+    public var options: [String: Any]
+    
+    public override init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, sourceType: SourceType, artwork: UIImage?) {
+        self.options = [:]
+        super.init(audioUrl: audioUrl, artist: artist, title: title, albumTitle: albumTitle, sourceType: sourceType, artwork: artwork)
+    }
+    
+    public init(audioUrl: String, artist: String?, title: String?, albumTitle: String?, sourceType: SourceType, artwork: UIImage?, options: [String: Any]) {
+        self.options = options
+        super.init(audioUrl: audioUrl, artist: artist, title: title, albumTitle: albumTitle, sourceType: sourceType, artwork: artwork)
+    }
+    
+    public func getAssetOptions() -> [String : Any] {
+        return options
     }
     
 }

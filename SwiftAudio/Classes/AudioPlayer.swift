@@ -161,7 +161,8 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         
         wrapper.load(from: url,
                      playWhenReady: playWhenReady,
-                     initialTime: (item as? InitialTiming)?.getInitialTime())
+                     initialTime: (item as? InitialTiming)?.getInitialTime(),
+                     options:(item as? AssetOptionsProviding)?.getAssetOptions())
         
         self._currentItem = item
         
