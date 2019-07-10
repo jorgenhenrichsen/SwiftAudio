@@ -19,6 +19,7 @@ public enum PlaybackEndedReason: String {
 }
 
 class AVPlayerWrapper: AVPlayerWrapperProtocol {
+    
     struct Constants {
         static let assetPlayableKey = "playable"
     }

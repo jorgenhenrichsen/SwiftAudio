@@ -36,9 +36,9 @@ public protocol InitialTiming {
     func getInitialTime() -> TimeInterval
 }
 
-/// Make your `AudioItem`-subclass conform to this protocol to control enable the ability to set initialization options for the asset.
+/// Make your `AudioItem`-subclass conform to this protocol to set initialization options for the asset. Available keys available at [Apple Developer Documentation](https://developer.apple.com/documentation/avfoundation/avurlasset/initialization_options).
 public protocol AssetOptionsProviding {
-    func getAssetOptions() -> [String : Any]
+    func getAssetOptions() -> [String: Any]
 }
 
 public class DefaultAudioItem: AudioItem {
@@ -132,7 +132,7 @@ public class DefaultAudioItemInitialTime: DefaultAudioItem, InitialTiming {
 }
 
 /// An AudioItem that also conforms to the `AssetOptionsProviding`-protocol
-public class DefaultAudioItemAuthorizing: DefaultAudioItem, AssetOptionsProviding {
+public class DefaultAudioItemAssetOptionsProviding: DefaultAudioItem, AssetOptionsProviding {
     
     public var options: [String: Any]
     
@@ -146,7 +146,7 @@ public class DefaultAudioItemAuthorizing: DefaultAudioItem, AssetOptionsProvidin
         super.init(audioUrl: audioUrl, artist: artist, title: title, albumTitle: albumTitle, sourceType: sourceType, artwork: artwork)
     }
     
-    public func getAssetOptions() -> [String : Any] {
+    public func getAssetOptions() -> [String: Any] {
         return options
     }
     
