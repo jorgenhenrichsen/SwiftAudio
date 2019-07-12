@@ -170,7 +170,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     
     
     
-    func load(from url: URL, playWhenReady: Bool) {
+    func load(from url: URL, playWhenReady: Bool, options: [String: Any]? = nil) {
         reset(soft: true)
         _playWhenReady = playWhenReady
 
@@ -178,7 +178,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
             recreateAVPlayer()
         }
         
-        self._pendingAsset = AVURLAsset(url: url)
+        self._pendingAsset = AVURLAsset(url: url, options: options)
         
         if let pendingAsset = _pendingAsset {
             self._state = .loading
@@ -226,10 +226,10 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         }
     }
     
-    func load(from url: URL, playWhenReady: Bool, initialTime: TimeInterval?) {
+    func load(from url: URL, playWhenReady: Bool, initialTime: TimeInterval? = nil, options: [String : Any]? = nil) {
         _initialTime = initialTime
         self.pause()
-        self.load(from: url, playWhenReady: playWhenReady)
+        self.load(from: url, playWhenReady: playWhenReady, options: options)
     }
     
     // MARK: - Util
