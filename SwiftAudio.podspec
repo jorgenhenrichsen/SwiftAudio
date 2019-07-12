@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftAudio'
-  s.version          = '0.10.0'
+  s.version          = '0.11.0'
   s.summary          = 'Easy audio streaming for iOS'
   s.description      = <<-DESC
 SwiftAudio is an audio player written in Swift, making it simpler to work with audio playback from streams and files.
