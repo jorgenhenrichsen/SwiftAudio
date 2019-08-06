@@ -40,9 +40,15 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     public var audioTimePitchAlgorithm: AVAudioTimePitchAlgorithm = AVAudioTimePitchAlgorithm.lowQualityZeroLatency
     
     /**
-     Default remote commands to use for each playing item
-     */
-    public var remoteCommands: [RemoteCommand] = []
+        Default remote commands to use for each playing item.
+        */
+    public var remoteCommands: [RemoteCommand] = [] {
+        didSet {
+            if let item = currentItem {
+                self.enableRemoteCommands(forItem: item)
+            }
+        }
+    }
     
     
     // MARK: - Getters from AVPlayerWrapper
