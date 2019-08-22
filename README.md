@@ -138,8 +138,6 @@ The current info can be cleared with:
 ```
 
 ### Remote Commands
-**First** go to App Settings -> Capabilites -> Background Modes -> Check 'Remote notifications'
-
 To enable remote commands for the player you need to populate the RemoteCommands array for the player:
 ```swift
 audioPlayer.remoteCommands = [
