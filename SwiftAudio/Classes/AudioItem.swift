@@ -65,7 +65,7 @@ public class DefaultAudioItem: AudioItem {
     }
     
     public func getSourceUrl() -> String {
-        return audioUrl
+        return encodeURL(audioUrl)
     }
     
     public func getArtist() -> String? {
@@ -87,7 +87,18 @@ public class DefaultAudioItem: AudioItem {
     public func getArtwork(_ handler: @escaping (UIImage?) -> Void) {
         handler(artwork)
     }
-    
+    private func encodeURL(_ source:String) -> String {
+        let encodedURL = audioUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        guard let encoded = encodedURL else {
+            fatalError("SourceURL error.")
+        }
+        
+        if !encoded.hasPrefix("http://") && !encoded.hasPrefix("https://") {
+           fatalError("Source is not secure. add http/https to your URL")
+            
+        }
+        return encoded
+    }
 }
 
 /// An AudioItem that also conforms to the `TimePitching`-protocol
