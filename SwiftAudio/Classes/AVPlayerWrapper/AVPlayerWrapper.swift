@@ -333,6 +333,10 @@ extension AVPlayerWrapper: AVPlayerItemNotificationObserverDelegate {
 }
 
 extension AVPlayerWrapper: AVPlayerItemObserverDelegate {
+    func item(didUpdateTimedMetadata metadata: String) {
+        //TODO
+    }
+    
     
     // MARK: - AVPlayerItemObserverDelegate
     
