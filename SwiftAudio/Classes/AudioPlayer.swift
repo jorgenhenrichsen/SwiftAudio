@@ -28,8 +28,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         return _currentItem
     }
     
-    private let Test = "Test"
-    
     /**
      Set this to false to disable automatic updating of now playing info for control center and lock screen.
      */
@@ -137,6 +135,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         
         self._wrapper.delegate = self
         self.remoteCommandController.audioPlayer = self
+        let test = "test"
     }
     
     // MARK: - Player Actions
