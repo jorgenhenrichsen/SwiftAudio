@@ -28,6 +28,7 @@ class AVPlayerItemObserver: NSObject {
     private struct AVPlayerItemKeyPath {
         static let duration = #keyPath(AVPlayerItem.duration)
         static let loadedTimeRanges = #keyPath(AVPlayerItem.loadedTimeRanges)
+        static let timedMetada = #keyPath(AVPlayerItem.timedMetadata)
     }
     
     private(set) var isObserving: Bool = false
@@ -50,6 +51,7 @@ class AVPlayerItemObserver: NSObject {
         self.observingItem = item
         item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.duration, options: [.new], context: &AVPlayerItemObserver.context)
         item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.loadedTimeRanges, options: [.new], context: &AVPlayerItemObserver.context)
+        item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.timedMetada, options: [.new], context: &AVPlayerItemObserver.context)
     }
     
     func stopObservingCurrentItem() {
@@ -58,6 +60,7 @@ class AVPlayerItemObserver: NSObject {
         }
         observingItem.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.duration, context: &AVPlayerItemObserver.context)
         observingItem.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.loadedTimeRanges, context: &AVPlayerItemObserver.context)
+        observingItem.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.timedMetada, context: &AVPlayerItemObserver.context)
         self.isObserving = false
         self.observingItem = nil
     }
