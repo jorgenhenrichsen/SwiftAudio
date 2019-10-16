@@ -135,7 +135,6 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         
         self._wrapper.delegate = self
         self.remoteCommandController.audioPlayer = self
-        let test = "test"
     }
     
     // MARK: - Player Actions
@@ -340,9 +339,9 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         self.event.updateDuration.emit(data: duration)
     }
     
-//    func AVWrapper(didUpdateTimedMetadata metadata: String) {
-//        //self.event.updateTimedMetadata.emit(data: metadata)
-//    }
+    func AVWrapper(didUpdateTimedMetadata metadata: String) {
+        //self.event.updateTimedMetadata.emit(data: metadata)
+    }
     
     func AVWrapperItemDidPlayToEndTime() {
         self.event.playbackEnd.emit(data: .playedUntilEnd)
