@@ -340,7 +340,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     }
     
     func AVWrapper(didUpdateTimedMetadata metadata: String) {
-        //self.event.updateTimedMetadata.emit(data: metadata)
+        self.event.updateTimedMetadata.emit(data: metadata)
     }
     
     func AVWrapperItemDidPlayToEndTime() {
