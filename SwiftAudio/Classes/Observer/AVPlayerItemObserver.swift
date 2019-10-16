@@ -87,12 +87,12 @@ class AVPlayerItemObserver: NSObject {
                 self.delegate?.item(didUpdateDuration: duration.seconds)
             }
             
-            case AVPlayerItemKeyPath.timedMetada:
-                if let timedMetada = change?[.newKey] as? [AVMetadataItem] {
-                    if timedMetada.count > 0, let metadata = timedMetada[0].value(forKey: "value") as? String{
-                        self.delegate?.item(didUpdateTimedMetadata: metadata)
-                    }
+        case AVPlayerItemKeyPath.timedMetada:
+            if let timedMetada = change?[.newKey] as? [AVMetadataItem]?, let metadatas = timedMetada{
+                if metadatas.count > 0, let metadata = metadatas[0].value(forKey: "value") as? String{
+                    self.delegate?.item(didUpdateTimedMetadata: metadata)
                 }
+            }
         default: break
             
         }
