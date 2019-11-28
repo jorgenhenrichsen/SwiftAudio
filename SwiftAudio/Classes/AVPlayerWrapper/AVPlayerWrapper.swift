@@ -284,14 +284,12 @@ extension AVPlayerWrapper: AVPlayerObserverDelegate {
     func player(statusDidChange status: AVPlayer.Status) {
         switch status {
         case .readyToPlay:
+            self._state = .ready
             if _playWhenReady && (_initialTime ?? 0) == 0 {
                 self.play()
             }
-            else {
-                self._state = .ready
-                if let initialTime = _initialTime {
-                    self.seek(to: initialTime)
-                }
+            else if let initialTime = _initialTime {
+                self.seek(to: initialTime)
             }
             break
             
