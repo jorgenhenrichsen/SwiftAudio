@@ -32,6 +32,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     let playerItemNotificationObserver: AVPlayerItemNotificationObserver
     let playerItemObserver: AVPlayerItemObserver
     
+    private var _rate: Float = 1.0
     /**
      True if the last call to load(from:playWhenReady) had playWhenReady=true.
      */
@@ -118,8 +119,15 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     }
     
     var rate: Float {
-        get { return avPlayer.rate }
-        set { avPlayer.rate = newValue }
+        get { return _rate }
+        set {
+            if(newValue>0){
+                _rate = newValue
+                if(avPlayer.rate>0){
+                    avPlayer.rate = _rate
+                }
+            }
+        }
     }
     
     var volume: Float {
@@ -133,7 +141,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     }
     
     func play() {
-        avPlayer.play()
+        avPlayer.rate = _rate
     }
     
     func pause() {
