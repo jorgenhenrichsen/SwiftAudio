@@ -166,6 +166,12 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
             }
             self.delegate?.AVWrapper(seekTo: Int(seconds), didFinish: finished)
         }
+        //hack - reset avplayer buffer
+        if(avPlayer.rate > 0){
+            let r = avPlayer.rate
+            avPlayer.rate = 0
+            avPlayer.rate = r
+        }
     }
     
     
