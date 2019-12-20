@@ -89,6 +89,16 @@ public class AudioSessionController {
     public func set(category: AVAudioSession.Category) throws {
         try audioSession.setCategory(category, mode: audioSession.mode, options: audioSession.categoryOptions)
     }
+  
+    @available(iOS 10.0, *)
+    public func set(category: AVAudioSession.Category, mode: AVAudioSession.Mode, options: AVAudioSession.CategoryOptions) throws {
+        try audioSession.setCategory(category, mode: mode, options: options)
+    }
+    
+    @available(iOS 11.0, *)
+    public func set(category: AVAudioSession.Category, mode: AVAudioSession.Mode, policy: AVAudioSession.RouteSharingPolicy, options:AVAudioSession.CategoryOptions) throws {
+        try audioSession.setCategory(category, mode: mode, policy: policy, options: options)
+    }
     
     // MARK: - Interruptions
     
