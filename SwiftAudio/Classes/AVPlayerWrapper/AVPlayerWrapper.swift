@@ -136,6 +136,14 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         avPlayer.play()
     }
     
+    func playImmediately(){
+        if rate == 0 {
+            avPlayer.playImmediately(atRate: 1.0)
+        } else {
+            avPlayer.playImmediately(atRate: rate)
+        }
+    }
+    
     func pause() {
         avPlayer.pause()
     }

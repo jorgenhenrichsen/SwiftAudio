@@ -41,6 +41,8 @@ protocol AVPlayerWrapperProtocol: class {
     
     func play()
     
+    func playImmediately()
+    
     func pause()
     
     func togglePlaying()
