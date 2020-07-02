@@ -56,6 +56,9 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         self.playerItemObserver = AVPlayerItemObserver()
         
         self.playerObserver.delegate = self
+        
+        self.playerObserver.bufferDelegate = self
+        
         self.playerTimeObserver.delegate = self
         self.playerItemNotificationObserver.delegate = self
         self.playerItemObserver.delegate = self
@@ -108,6 +111,8 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     }
     
     weak var delegate: AVPlayerWrapperDelegate? = nil
+    
+    weak var dataBufferDelegate: AVPlayerWrapperBufferingDelegate? = nil
     
     var bufferDuration: TimeInterval = 0
     
@@ -337,5 +342,13 @@ extension AVPlayerWrapper: AVPlayerItemObserverDelegate {
     func item(didUpdateDuration duration: Double) {
         self.delegate?.AVWrapper(didUpdateDuration: duration)
     }
+    
+}
+
+extension AVPlayerWrapper: AVPlayerObserveBufferDelegate {
+    func getBufferPosition(buffer: Double) {
+        self.dataBufferDelegate?.AVWrappperBuffering(buffer: buffer)
+    }
+    
     
 }

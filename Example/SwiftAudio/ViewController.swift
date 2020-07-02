@@ -36,6 +36,8 @@ class ViewController: UIViewController {
         controller.player.event.updateDuration.addListener(self, handleAudioPlayerUpdateDuration)
         controller.player.event.didRecreateAVPlayer.addListener(self, handleAVPlayerRecreated)
         controller.player.event.fail.addListener(self, handlePlayerFailure)
+        controller.player.event.receiveBufferPosition.addListener(self, printCurrentBuffer)
+        
         updateMetaData()
         handleAudioPlayerStateChange(data: controller.player.playerState)
     }
@@ -125,6 +127,10 @@ class ViewController: UIViewController {
                 self.updateTimeValues()
             }
         }
+    }
+    
+    func printCurrentBuffer(data: Double) {
+        print("duration :\(controller.player.duration) burrefed: \(controller.player.bufferedPosition) percent: \(controller.player.bufferedPosition / controller.player.duration)")
     }
     
     func handleAudioPlayerSecondElapsed(data: AudioPlayer.SecondElapseEventData) {

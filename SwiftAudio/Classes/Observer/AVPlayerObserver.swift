@@ -23,6 +23,15 @@ protocol AVPlayerObserverDelegate: class {
     
 }
 
+protocol AVPlayerObserveBufferDelegate: class {
+    
+    /**
+    Called when the AVPlayer.currentItem.loadedTimeRanges changes.
+    */
+    func getBufferPosition(buffer: Double)
+}
+
+
 /**
  Observing an AVPlayers status changes.
  */
@@ -34,6 +43,7 @@ class AVPlayerObserver: NSObject {
     private struct AVPlayerKeyPath {
         static let status = #keyPath(AVPlayer.status)
         static let timeControlStatus = #keyPath(AVPlayer.timeControlStatus)
+        static let buff = "loadedTimeRanges"
     }
     
     private let statusChangeOptions: NSKeyValueObservingOptions = [.new, .initial]
@@ -41,6 +51,9 @@ class AVPlayerObserver: NSObject {
     private(set) var isObserving: Bool = false
     
     weak var delegate: AVPlayerObserverDelegate?
+    
+    weak var bufferDelegate: AVPlayerObserveBufferDelegate?
+
     weak var player: AVPlayer? {
         willSet {
             self.stopObserving()
@@ -62,6 +75,11 @@ class AVPlayerObserver: NSObject {
         self.isObserving = true
         player.addObserver(self, forKeyPath: AVPlayerKeyPath.status, options: self.statusChangeOptions, context: &AVPlayerObserver.context)
         player.addObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, options: self.timeControlStatusChangeOptions, context: &AVPlayerObserver.context)
+        
+        guard let _playerItem = player.currentItem else { return }
+        
+        _playerItem.addObserver(self, forKeyPath: AVPlayerKeyPath.buff, options: self.statusChangeOptions, context: &AVPlayerObserver.context)
+
     }
     
     func stopObserving() {
@@ -70,6 +88,10 @@ class AVPlayerObserver: NSObject {
         }
         player.removeObserver(self, forKeyPath: AVPlayerKeyPath.status, context: &AVPlayerObserver.context)
         player.removeObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, context: &AVPlayerObserver.context)
+        
+        //note: should create remove observer for AVPlayer.currentItem.loadedTimeRanges, but not be created for now because it cause crash whan move to next song (tested on SwiftAudio example)
+
+        
         self.isObserving = false
     }
     
@@ -86,6 +108,10 @@ class AVPlayerObserver: NSObject {
             
         case AVPlayerKeyPath.timeControlStatus:
             self.handleTimeControlStatusChange(change)
+            
+        case AVPlayerKeyPath.buff:
+            handleBufferPositionChange(change)
+
             
         default:
             break
@@ -112,4 +138,13 @@ class AVPlayerObserver: NSObject {
         }
     }
     
+    private func handleBufferPositionChange(_ change: [NSKeyValueChangeKey: Any]?) {
+        
+        if let bufferPosition = player?.currentItem?.loadedTimeRanges.last?.timeRangeValue.end.seconds {
+            bufferDelegate?.getBufferPosition(buffer: bufferPosition)
+        }
+        
+        
+    }
+
 }
