@@ -21,6 +21,12 @@ public class QueuedAudioPlayer: AudioPlayer {
      */
     public var automaticallyPlayNextSong: Bool = true
     
+    /**
+     Set wether the player should loop when a song is finished.
+     Default is `faluse`.
+     */
+    public var loop: Bool = false
+    
     public override var currentItem: AudioItem? {
         return queueManager.current
     }
@@ -185,8 +191,13 @@ public class QueuedAudioPlayer: AudioPlayer {
     
     override func AVWrapperItemDidPlayToEndTime() {
         super.AVWrapperItemDidPlayToEndTime()
-        if automaticallyPlayNextSong {
-            try? self.next()
+        if loop {
+            seek(to: .zero)
+            play()
+        } else {
+            if automaticallyPlayNextSong {
+                try? self.next()
+            }
         }
     }
     
