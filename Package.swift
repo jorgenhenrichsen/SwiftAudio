@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftAudio",
+    platforms: [.iOS(.v10)],
     products: [
         .library(
             name: "SwiftAudio",
