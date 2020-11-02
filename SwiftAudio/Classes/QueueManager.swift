@@ -43,6 +43,22 @@ class QueueManager<T> {
         return _currentIndex
     }
     
+    public var nextIndex: Int? {
+        let nextIndex = _currentIndex + 1
+        guard _items.count > nextIndex else {
+            return nil
+        }
+        return nextIndex
+    }
+    
+    public var previousIndex: Int? {
+        let previousIndex = _currentIndex - 1
+        guard previousIndex >= 0 else {
+            return nil
+        }
+        return previousIndex
+    }
+    
     /**
      The current item for the queue.
      */
@@ -95,8 +111,7 @@ class QueueManager<T> {
      */
     @discardableResult
     public func next() throws -> T {
-        let nextIndex = _currentIndex + 1
-        guard _items.count > nextIndex else {
+        guard let nextIndex = self.nextIndex else {
             throw APError.QueueError.noNextItem
         }
         _currentIndex = nextIndex
@@ -112,8 +127,7 @@ class QueueManager<T> {
      */
     @discardableResult
     public func previous() throws -> T {
-        let previousIndex = _currentIndex - 1
-        guard previousIndex >= 0 else {
+        guard let previousIndex = self.previousIndex else {
             throw APError.QueueError.noPreviousItem
         }
         _currentIndex = previousIndex

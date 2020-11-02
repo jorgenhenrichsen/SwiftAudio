@@ -10,12 +10,12 @@ import Foundation
 import AVFoundation
 import MediaPlayer
 
-public enum PlaybackEndedReason: String {
+public enum PlaybackEndedReason {
     case playedUntilEnd
     case playerStopped
-    case skippedToNext
-    case skippedToPrevious
-    case jumpedToIndex
+    case skippedToNext(oldIndex: Int, newIndex: Int)
+    case skippedToPrevious(oldIndex: Int, newIndex: Int)
+    case jumpedToIndex(oldIndex: Int, newIndex: Int)
 }
 
 class AVPlayerWrapper: AVPlayerWrapperProtocol {
