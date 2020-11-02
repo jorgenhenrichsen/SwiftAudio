@@ -1,7 +1,7 @@
 PODS:
   - Nimble (8.0.1)
   - Quick (2.0.0)
-  - SwiftAudio (0.7.2)
+  - SwiftAudio (0.11.2)
 
 DEPENDENCIES:
   - Nimble (~> 8.0.0)
@@ -9,7 +9,7 @@ DEPENDENCIES:
   - SwiftAudio (from `../`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Nimble
     - Quick
 
@@ -20,8 +20,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
   Quick: ce1276c7c27ba2da3cb2fd0cde053c3648b3b22d
-  SwiftAudio: a7bb22e98fd48fd908f7ffca992166e0057ce8ea
+  SwiftAudio: 217f5f184b27a0e25ff0fe7647021f05a21c06c9
 
 PODFILE CHECKSUM: 08ea4075437f8ff3c4f84ed70827a8132461373f
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.9.3
