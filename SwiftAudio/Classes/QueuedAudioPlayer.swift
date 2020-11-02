@@ -120,8 +120,7 @@ public class QueuedAudioPlayer: AudioPlayer {
      */
     public func next() throws {
         event.playbackEnd.emit(data: .skippedToNext)
-        let nextItem = try queueManager.next()
-        try self.load(item: nextItem, playWhenReady: true)
+        try self._next()
     }
     
     /**
@@ -186,8 +185,12 @@ public class QueuedAudioPlayer: AudioPlayer {
     override func AVWrapperItemDidPlayToEndTime() {
         super.AVWrapperItemDidPlayToEndTime()
         if automaticallyPlayNextSong {
-            try? self.next()
+            try? self._next()
         }
     }
     
+    private func _next() throws {
+        let nextItem = try queueManager.next()
+        try self.load(item: nextItem, playWhenReady: true)
+    }
 }

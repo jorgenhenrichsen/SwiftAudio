@@ -31,6 +31,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         controller.player.event.stateChange.addListener(self, handleAudioPlayerStateChange)
+        controller.player.event.playbackEnd.addListener(self, handleAudioPlayerPlaybackEnd(data:))
         controller.player.event.secondElapse.addListener(self, handleAudioPlayerSecondElapsed)
         controller.player.event.seek.addListener(self, handleAudioPlayerDidSeek)
         controller.player.event.updateDuration.addListener(self, handleAudioPlayerUpdateDuration)
@@ -106,7 +107,7 @@ class ViewController: UIViewController {
     // MARK: - AudioPlayer Event Handlers
     
     func handleAudioPlayerStateChange(data: AudioPlayer.StateChangeEventData) {
-        print(data)
+        print("state=\(data)")
         DispatchQueue.main.async {
             self.setPlayButtonState(forAudioPlayerState: data)
             switch data {
@@ -125,6 +126,10 @@ class ViewController: UIViewController {
                 self.updateTimeValues()
             }
         }
+    }
+    
+    func handleAudioPlayerPlaybackEnd(data: AudioPlayer.PlaybackEndEventData) {
+        print("playEndReason=\(data)")
     }
     
     func handleAudioPlayerSecondElapsed(data: AudioPlayer.SecondElapseEventData) {
