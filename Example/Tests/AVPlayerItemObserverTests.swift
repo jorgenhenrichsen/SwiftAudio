@@ -47,6 +47,10 @@ class AVPlayerItemObserverTests: QuickSpec {
 }
 
 class AVPlayerItemObserverDelegateHolder: AVPlayerItemObserverDelegate {
+    func getBufferPosition(buffer: Double) {
+        
+    }
+    
     
     var updateDuration: ((_ duration: Double) -> Void)?
     

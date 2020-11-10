@@ -15,6 +15,11 @@ protocol AVPlayerItemObserverDelegate: class {
      */
     func item(didUpdateDuration duration: Double)
     
+    /**
+    Called when the AVPlayer.currentItem.loadedTimeRanges changes.
+    */
+    func getBufferPosition(buffer: Double)
+    
 }
 
 /**
@@ -75,12 +80,23 @@ class AVPlayerItemObserver: NSObject {
             }
         
         case AVPlayerItemKeyPath.loadedTimeRanges:
-            if let ranges = change?[.newKey] as? [NSValue], let duration = ranges.first?.timeRangeValue.duration {
-                self.delegate?.item(didUpdateDuration: duration.seconds)
-            }
+//            if let ranges = change?[.newKey] as? [NSValue], let duration = ranges.first?.timeRangeValue.duration {
+//                self.delegate?.item(didUpdateDuration: duration.seconds)
+//            }
+            handleBufferPositionChange()
+            
         default: break
             
         }
+    }
+    
+    private func handleBufferPositionChange() {
+        
+        if let bufferPosition = observingItem?.loadedTimeRanges.last?.timeRangeValue.end.seconds {
+            delegate?.getBufferPosition(buffer: bufferPosition)
+        }
+        
+        
     }
     
 }
