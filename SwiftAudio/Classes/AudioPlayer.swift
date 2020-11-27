@@ -340,7 +340,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     }
     
     func AVWrapperItemDidPlayToEndTime() {
-        self.event.playbackEnd.emit(data: .playedUntilEnd)
+        self.event.playbackEnd.emit(data: .playedUntilEnd(index: 0))
     }
     
     func AVWrapperDidRecreateAVPlayer() {

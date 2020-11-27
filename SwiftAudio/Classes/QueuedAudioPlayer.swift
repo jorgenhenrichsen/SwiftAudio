@@ -189,7 +189,7 @@ public class QueuedAudioPlayer: AudioPlayer {
     // MARK: - AVPlayerWrapperDelegate
     
     override func AVWrapperItemDidPlayToEndTime() {
-        super.AVWrapperItemDidPlayToEndTime()
+        self.event.playbackEnd.emit(data: .playedUntilEnd(index: currentIndex))
         if automaticallyPlayNextSong {
             try? self._next()
         }

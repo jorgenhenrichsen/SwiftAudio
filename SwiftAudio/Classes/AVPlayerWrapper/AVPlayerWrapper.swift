@@ -11,7 +11,7 @@ import AVFoundation
 import MediaPlayer
 
 public enum PlaybackEndedReason {
-    case playedUntilEnd
+    case playedUntilEnd(index: Int)
     case playerStopped
     case skippedToNext(oldIndex: Int, newIndex: Int)
     case skippedToPrevious(oldIndex: Int, newIndex: Int)
