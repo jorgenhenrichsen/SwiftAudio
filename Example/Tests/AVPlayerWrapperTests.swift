@@ -200,6 +200,7 @@ class AVPlayerWrapperDelegateHolder: AVPlayerWrapperDelegate {
     
     var stateUpdate: ((_ state: AVPlayerWrapperState) -> Void)?
     var didUpdateDuration: ((_ duration: Double) -> Void)?
+    var didUpdateTimedMetaData: ((_ metaData: String) -> Void)?
     var didSeekTo: ((_ seconds: Int) -> Void)?
     var itemDidComplete: (() -> Void)?
     
@@ -224,6 +225,10 @@ class AVPlayerWrapperDelegateHolder: AVPlayerWrapperDelegate {
             self.stateUpdate?(state)
         }
         didUpdateDuration?(duration)
+    }
+    
+    func AVWrapper(didUpdateTimedMetadata metadata: String) {
+        didUpdateTimedMetaData?(metadata)
     }
     
 }

@@ -49,8 +49,13 @@ class AVPlayerItemObserverTests: QuickSpec {
 class AVPlayerItemObserverDelegateHolder: AVPlayerItemObserverDelegate {
     
     var updateDuration: ((_ duration: Double) -> Void)?
+    var updateTimedMetaData: ((_ metaData: String) -> Void)?
     
     func item(didUpdateDuration duration: Double) {
         updateDuration?(duration)
+    }
+    
+    func item(didUpdateTimedMetadata metadata: String) {
+        updateTimedMetaData?(metadata)
     }
 }
