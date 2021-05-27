@@ -21,5 +21,3 @@ jobs:
           xcodebuild test -scheme SwiftAudio-Example -destination "${destination}" -enableCodeCoverage YES
         env:
           destination: ${{ matrix.destination }}
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1.2.1
