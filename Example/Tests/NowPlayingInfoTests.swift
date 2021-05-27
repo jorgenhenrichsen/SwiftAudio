@@ -21,9 +21,9 @@ class NowPlayingInfoTests: QuickSpec {
                 audioPlayer.volume = 0
             }
             
-            describe("its NowPlayingInfoController", {
+            describe("its NowPlayingInfoController") {
                 
-                context("when loading an AudioItem", {
+                context("when loading an AudioItem") {
                     
                     var item: AudioItem!
                     
@@ -32,7 +32,7 @@ class NowPlayingInfoTests: QuickSpec {
                         try? audioPlayer.load(item: item, playWhenReady: false)
                     }
                     
-                    it("should eventually be updated with meta data", closure: {
+                    it("should eventually be updated with meta data") {
                         expect(nowPlayingController.getTitle()).toEventuallyNot(beNil())
                         expect(nowPlayingController.getTitle()).toEventually(equal(item.getTitle()!))
                         
@@ -43,11 +43,11 @@ class NowPlayingInfoTests: QuickSpec {
                         expect(nowPlayingController.getAlbumTitle()).toEventually(equal(item.getAlbumTitle()!))
                         
                         expect(nowPlayingController.getArtwork()).toEventuallyNot(beNil())
-                    })
+                    }
                     
-                })
+                }
                 
-                context("when playing an AudioItem", {
+                context("when playing an AudioItem") {
                     
                     var item: AudioItem!
                     
@@ -56,15 +56,15 @@ class NowPlayingInfoTests: QuickSpec {
                         try? audioPlayer.load(item: item, playWhenReady: true)
                     }
                     
-                    it("should eventually be updated with playback values", closure: {
+                    it("should eventually be updated with playback values") {
                         expect(nowPlayingController.getRate()).toEventuallyNot(beNil())
                         expect(nowPlayingController.getDuration()).toEventuallyNot(beNil())
                         expect(nowPlayingController.getCurrentTime()).toEventuallyNot(beNil())
-                    })
+                    }
                     
-                })
+                }
                 
-            })
+            }
             
         }
         

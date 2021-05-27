@@ -21,53 +21,53 @@ class AVPlayerTimeObserverTests: QuickSpec {
                 observer.player = player
             }
             
-            context("has started boundary time observing", {
+            context("has started boundary time observing") {
                 
                 beforeEach {
                     observer.registerForBoundaryTimeEvents()
                 }
                 
-                it("should have a boundary token", closure: {
+                it("should have a boundary token") {
                     expect(observer.boundaryTimeStartObserverToken).toNot(beNil())
-                })
+                }
                 
-                context("has ended boundary time observing", {
+                context("has ended boundary time observing") {
                     
                     beforeEach {
                         observer.unregisterForBoundaryTimeEvents()
                     }
                     
-                    it("should have no boundary token", closure: {
+                    it("should have no boundary token") {
                         expect(observer.boundaryTimeStartObserverToken).to(beNil())
-                    })
+                    }
                     
-                })
+                }
                 
-            })
+            }
             
-            context("has started periodic time observing", {
+            context("has started periodic time observing") {
                 
                 beforeEach {
                     observer.registerForPeriodicTimeEvents()
                 }
                 
-                it("should have a periodic token", closure: {
+                it("should have a periodic token") {
                     expect(observer.periodicTimeObserverToken).toNot(beNil())
-                })
+                }
                 
-                context("ended periodic time observing", {
+                context("ended periodic time observing") {
                     
                     beforeEach {
                         observer.unregisterForPeriodicEvents()
                     }
                     
-                    it("should have no periodic token", closure: {
+                    it("should have no periodic token") {
                         expect(observer.periodicTimeObserverToken).to(beNil())
-                    })
+                    }
                     
-                })
+                }
                 
-            })
+            }
             
         }
         

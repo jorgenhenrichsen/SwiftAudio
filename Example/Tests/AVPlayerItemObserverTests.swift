@@ -13,35 +13,35 @@ class AVPlayerItemObserverTests: QuickSpec {
             beforeEach {
                 observer = AVPlayerItemObserver()
             }
-            describe("observed item", {
-                context("when observing", {
+            describe("observed item") {
+                context("when observing") {
                     var item: AVPlayerItem!
                     beforeEach {
                         item = AVPlayerItem(url: URL(fileURLWithPath: Source.path))
                         observer.startObserving(item: item)
                     }
                     
-                    it("should exist", closure: {
+                    it("should exist") {
                         expect(observer.observingItem).toEventuallyNot(beNil())
-                    })
-                })
-            })
+                    }
+                }
+            }
             
-            describe("observing status", {
-                it("should not be observing", closure: {
+            describe("observing status") {
+                it("should not be observing") {
                     expect(observer.isObserving).toEventuallyNot(beTrue())
-                })
-                context("when observing", {
+                }
+                context("when observing") {
                     var item: AVPlayerItem!
                     beforeEach {
                         item = AVPlayerItem(url: URL(fileURLWithPath: Source.path))
                         observer.startObserving(item: item)
                     }
-                    it("should be observing", closure: {
+                    it("should be observing") {
                         expect(observer.isObserving).toEventually(beTrue())
-                    })
-                })
-            })
+                    }
+                }
+            }
         }
     }
 }

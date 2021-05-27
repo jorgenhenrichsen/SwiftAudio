@@ -20,33 +20,33 @@ class AudioPlayerEventTests: QuickSpec {
                 event = AudioPlayer.Event()
             }
             
-            describe("its invokers", {
+            describe("its invokers") {
                 
-                context("when adding a listener", {
+                context("when adding a listener") {
                     var listener: EventListener!
                     beforeEach {
                         listener = EventListener()
                         event.addListener(listener, listener!.handleEvent)
                     }
                     
-                    it("should have one element", closure: {
+                    it("should have one element") {
                         expect(event.invokers.count).toEventuallyNot(equal(0))
-                    })
+                    }
                     
-                    context("then that listener is deinitialized and an an event is emitted", {
+                    context("then that listener is deinitialized and an an event is emitted") {
                         beforeEach {
                             listener = nil
                             event.emit(data: ())
                         }
                         
-                        it("should remove the invoker", closure: {
+                        it("should remove the invoker") {
                             expect(event.invokers.count).toEventually(equal(0))
-                        })
+                        }
                         
-                    })
-                })
+                    }
+                }
                 
-                context("when adding multiple listeners", {
+                context("when adding multiple listeners") {
                     var listeners: [EventListener]!
                     
                     beforeEach {
@@ -57,23 +57,23 @@ class AudioPlayerEventTests: QuickSpec {
                         }
                     }
                     
-                    it("should have several listeners", closure: {
+                    it("should have several listeners") {
                         expect(event.invokers.count).toEventually(equal(listeners.count))
-                    })
+                    }
                     
-                    context("then removing one", {
+                    context("then removing one") {
                         beforeEach {
                             event.removeListener(listeners[listeners.count / 2])
                         }
                         
-                        it("should have one less invoker", closure: {
+                        it("should have one less invoker") {
                             expect(event.invokers.count).toEventually(equal(listeners.count - 1))
-                        })
-                    })
+                        }
+                    }
                     
-                })
+                }
                 
-            })
+            }
         }
         
     }

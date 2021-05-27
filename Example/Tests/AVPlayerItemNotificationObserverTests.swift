@@ -19,27 +19,27 @@ class AVPlayerItemNotificationObserverTests: QuickSpec {
                 observer = AVPlayerItemNotificationObserver()
             }
             
-            context("when started observing", {
+            context("when started observing") {
                 beforeEach {
                     observer.startObserving(item: item)
                 }
                 
-                it("should have an observed item", closure: {
+                it("should have an observed item") {
                     expect(observer.observingItem).toNot(beNil())
-                })
+                }
                 
-                context("when ended observing", {
+                context("when ended observing") {
                     
                     beforeEach {
                         observer.stopObservingCurrentItem()
                     }
                     
-                    it("should have no observed item", closure: {
+                    it("should have no observed item") {
                         expect(observer.observingItem).to(beNil())
-                    })
+                    }
                     
-                })
-            })
+                }
+            }
             
         }
 
