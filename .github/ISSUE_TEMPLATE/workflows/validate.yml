@@ -16,9 +16,9 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-      - name: Generate Xcodeproj
-        run: swift package generate-xcodeproj
       - name: Run Tests
-        run: xcodebuild test -scheme DSKit-Package -destination "${destination}"
+        run: |-
+          cd Example
+          xcodebuild test -scheme SwiftAudio-Example -destination "${destination}"
         env:
           destination: ${{ matrix.destination }}
