@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftAudio
+import UIKit
 
 struct Source {
     static let path: String = Bundle.main.path(forResource: "TestSound", ofType: "m4a")!

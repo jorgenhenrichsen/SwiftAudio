@@ -31,9 +31,9 @@ class NowPlayingInfoControllerTests: QuickSpec {
                             nowPlayingController.clear()
                         }
                         
-                        it("should be empty", closure: {
+                        it("should be empty") {
                             expect(nowPlayingController.info.count).to(equal(0))
-                        })
+                        }
                     }
                 }
             }
@@ -60,9 +60,9 @@ class NowPlayingInfoControllerTests: QuickSpec {
                             nowPlayingController.clear()
                         }
                         
-                        it("should be empty", closure: {
+                        it("should be empty") {
                             expect(nowPlayingController.infoCenter.nowPlayingInfo?.count).to(equal(0))
-                        })
+                        }
                     }
                 }
             }

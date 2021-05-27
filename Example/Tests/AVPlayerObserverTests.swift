@@ -25,52 +25,52 @@ class AVPlayerObserverTests: QuickSpec, AVPlayerObserverDelegate {
                 observer.delegate = self
             }
             
-            it("should not be observing", closure: {
+            it("should not be observing") {
                 expect(observer.isObserving).to(beFalse())
-            })
+            }
             
-            context("when observing has started", {
+            context("when observing has started") {
                 beforeEach {
                     observer.startObserving()
                 }
                 
-                it("should be observing", closure: {
+                it("should be observing") {
                     expect(observer.isObserving).toEventually(beTrue())
-                })
+                }
                 
-                context("when player has started", {
+                context("when player has started") {
                     beforeEach {
                         player.replaceCurrentItem(with: AVPlayerItem(url: URL(fileURLWithPath: Source.path)))
                         player.play()
                     }
                     
-                    it("it should update the delegate", closure: {
+                    it("it should update the delegate") {
                         expect(self.status).toEventuallyNot(beNil())
                         expect(self.timeControlStatus).toEventuallyNot(beNil())
-                    })
-                })
+                    }
+                }
                 
-                context("when observing again", {
+                context("when observing again") {
                     beforeEach {
                         observer.startObserving()
                     }
                     
-                    it("should be observing", closure: {
+                    it("should be observing") {
                         expect(observer.isObserving).toEventually(beTrue())
-                    })
-                })
+                    }
+                }
                 
-                context("when stopping observing", closure: {
+                context("when stopping observing") {
                     
                     beforeEach {
                         observer.stopObserving()
                     }
                     
-                    it("should not be observing", closure: {
+                    it("should not be observing") {
                         expect(observer.isObserving).to(beFalse())
-                    })
-                })
-            })
+                    }
+                }
+            }
             
         }
     }
