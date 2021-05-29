@@ -12,7 +12,7 @@ class NowPlayingInfoControllerTests: QuickSpec {
             var nowPlayingController: NowPlayingInfoController!
             
             beforeEach {
-                nowPlayingController = NowPlayingInfoController(infoCenter: NowPlayingInfoCenter_Mock())
+                nowPlayingController = NowPlayingInfoController(dispatchQueue: MockDispatchQueue(), infoCenter: NowPlayingInfoCenter_Mock())
             }
             
             describe("its info dictionary") {

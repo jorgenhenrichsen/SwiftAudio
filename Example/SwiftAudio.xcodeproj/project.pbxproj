@@ -46,6 +46,7 @@
 		9B05AA332660276400C7A389 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = 9B05AA322660276400C7A389 /* Nimble */; };
 		9B05AA3A266028E200C7A389 /* SwiftAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 9B05AA39266028E200C7A389 /* SwiftAudio */; };
 		9B05AA3C26602C0E00C7A389 /* SwiftAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 9B05AA3B26602C0E00C7A389 /* SwiftAudio */; };
+		9B521D0E2662937600EF0C3A /* MockDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B521D0D2662937600EF0C3A /* MockDispatchQueue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* AVPlayerObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerObserverTests.swift; sourceTree = "<group>"; };
 		9B05AA38266028D600C7A389 /* SwiftAudio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftAudio; path = ..; sourceTree = "<group>"; };
+		9B521D0D2662937600EF0C3A /* MockDispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDispatchQueue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 				07756B68218A4E870023935E /* AudioSession.swift */,
 				074B0D6A222C247B001A45A9 /* NowPlayingInfoCenter.swift */,
 				074B0D6C222C24DE001A45A9 /* NowPlayingInfoController.swift */,
+				9B521D0D2662937600EF0C3A /* MockDispatchQueue.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				0775575920668B020002C6A1 /* QueueManagerTests.swift in Sources */,
 				074A6483205C155E0083D868 /* AVPlayerTimeObserverTests.swift in Sources */,
 				078C908F210D263200555E80 /* AVPlayerItemObserverTests.swift in Sources */,
+				9B521D0E2662937600EF0C3A /* MockDispatchQueue.swift in Sources */,
 				0708ED6C2116DA4C00EB29BD /* AudioSessionControllerTests.swift in Sources */,
 				074B0D6B222C247B001A45A9 /* NowPlayingInfoCenter.swift in Sources */,
 				07DBB1E1212C17E600BB4278 /* QueuedAudioPlayerTests.swift in Sources */,
