@@ -2,10 +2,7 @@ name: validate
 on: [push]
 jobs:
   unit-tests:
-    runs-on: [self-hosted, macOS, arm64e]
-    defaults:
-      run:
-        shell: "/usr/bin/arch -arch arm64e /bin/bash {0}"
+    runs-on: macos-latest
     strategy:
       matrix:
         destination:
