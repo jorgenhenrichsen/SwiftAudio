@@ -88,7 +88,7 @@ let audioItem = DefaultAudioItem(audioUrl: "someUrl", sourceType: .stream)
 player.add(item: audioItem, playWhenReady: true) // Since this is the first item, we can supply playWhenReady: true to immedietaly start playing when the item is loaded.
 ```
 
-When a track is done playing, the player will load the next track and update the queue, as long as `automaticallyPlayNextSong` is `true` (default).
+When a track is done playing, the player will load the next track and update the queue.
 
 ##### Navigating the queue
 All `AudioItem`s are stored in either `previousItems` or `nextItems`, which refers to items that come prior to the `currentItem` and after, respectively. The queue is navigated with:
@@ -113,6 +113,9 @@ Current options for configuring the `AudioPlayer`:
 - `isMuted`
 - `rate`
 - `audioTimePitchAlgorithm`: This value decides the `AVAudioTimePitchAlgorithm` used for each `AudioItem`. Implement `TimePitching` in your `AudioItem`-subclass to override individually for each `AudioItem`.
+
+Options particular to `QueuedAudioPlayer`:
+- `repeatMode`: The repeat mode: off, track, queue
 
 ### Audio Session
 Remember to activate an audio session with an appropriate category for your app. This can be done with `AudioSessionController`:
