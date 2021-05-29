@@ -59,6 +59,9 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         self.playerTimeObserver.delegate = self
         self.playerItemNotificationObserver.delegate = self
         self.playerItemObserver.delegate = self
+
+        // disabled since we're not making use of video playback
+        self.avPlayer.allowsExternalPlayback = false;
         
         playerTimeObserver.registerForPeriodicTimeEvents()
     }
