@@ -10,6 +10,7 @@ import MediaPlayer
 
 
 public class NowPlayingInfoController: NowPlayingInfoControllerProtocol {
+    private let concurrentInfoQueue = DispatchQueue(label: "com.doublesymmetry.nowPlayingInfoQueue", attributes: .concurrent)
     
     private var _infoCenter: NowPlayingInfoCenter
     private var _info: [String: Any] = [:]
@@ -31,15 +32,24 @@ public class NowPlayingInfoController: NowPlayingInfoControllerProtocol {
     }
     
     public func set(keyValues: [NowPlayingInfoKeyValue]) {
-        keyValues.forEach { (keyValue) in
-            _info[keyValue.getKey()] = keyValue.getValue()
+        concurrentInfoQueue.async(flags: .barrier) { [weak self] in
+            guard let self = self else { return }
+
+            keyValues.forEach { (keyValue) in
+                self._info[keyValue.getKey()] = keyValue.getValue()
+            }
+
+            self._infoCenter.nowPlayingInfo = self._info
         }
-        self._infoCenter.nowPlayingInfo = _info
     }
     
     public func set(keyValue: NowPlayingInfoKeyValue) {
-        _info[keyValue.getKey()] = keyValue.getValue()
-        self._infoCenter.nowPlayingInfo = _info
+        concurrentInfoQueue.async(flags: .barrier) { [weak self] in
+            guard let self = self else { return }
+
+            self._info[keyValue.getKey()] = keyValue.getValue()
+            self._infoCenter.nowPlayingInfo = self._info
+        }
     }
     
     public func clear() {
