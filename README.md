@@ -1,5 +1,9 @@
 ![logo](Images/original-horizontal.png)
 
+## ⚠️ This repo is not actively maintained ⚠️
+Please do not use this in production applications.
+A fork of this package can be found [here](https://github.com/DoubleSymmetry/SwiftAudioEx).
+
 # SwiftAudio
 
 [![Build Status](https://app.bitrise.io/app/3d3ac2ba8d817235/status.svg?token=PHIPu3oMde5GdQEOZ1Ilww&branch=master)](https://app.bitrise.io/app/3d3ac2ba8d817235)
