@@ -15,6 +15,11 @@ protocol AVPlayerItemObserverDelegate: class {
      */
     func item(didUpdateDuration duration: Double)
     
+    /**
+     Called when the observed item updates the metadata
+     */
+    func item(didUpdateTimedMetadata metadata: String)
+    
 }
 
 /**
@@ -28,6 +33,7 @@ class AVPlayerItemObserver: NSObject {
     private struct AVPlayerItemKeyPath {
         static let duration = #keyPath(AVPlayerItem.duration)
         static let loadedTimeRanges = #keyPath(AVPlayerItem.loadedTimeRanges)
+        static let timedMetada = #keyPath(AVPlayerItem.timedMetadata)
     }
     
     private(set) var isObserving: Bool = false
@@ -50,6 +56,7 @@ class AVPlayerItemObserver: NSObject {
         self.observingItem = item
         item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.duration, options: [.new], context: &AVPlayerItemObserver.context)
         item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.loadedTimeRanges, options: [.new], context: &AVPlayerItemObserver.context)
+        item.addObserver(self, forKeyPath: AVPlayerItemKeyPath.timedMetada, options: [.new], context: &AVPlayerItemObserver.context)
     }
     
     func stopObservingCurrentItem() {
@@ -58,6 +65,7 @@ class AVPlayerItemObserver: NSObject {
         }
         observingItem.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.duration, context: &AVPlayerItemObserver.context)
         observingItem.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.loadedTimeRanges, context: &AVPlayerItemObserver.context)
+        observingItem.removeObserver(self, forKeyPath: AVPlayerItemKeyPath.timedMetada, context: &AVPlayerItemObserver.context)
         self.isObserving = false
         self.observingItem = nil
     }
@@ -77,6 +85,13 @@ class AVPlayerItemObserver: NSObject {
         case AVPlayerItemKeyPath.loadedTimeRanges:
             if let ranges = change?[.newKey] as? [NSValue], let duration = ranges.first?.timeRangeValue.duration {
                 self.delegate?.item(didUpdateDuration: duration.seconds)
+            }
+            
+        case AVPlayerItemKeyPath.timedMetada:
+            if let timedMetada = change?[.newKey] as? [AVMetadataItem]?, let metadatas = timedMetada{
+                if metadatas.count > 0, let metadata = metadatas[0].value(forKey: "value") as? String{
+                    self.delegate?.item(didUpdateTimedMetadata: metadata)
+                }
             }
         default: break
             

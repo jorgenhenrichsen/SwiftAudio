@@ -331,11 +331,14 @@ extension AVPlayerWrapper: AVPlayerItemNotificationObserverDelegate {
 }
 
 extension AVPlayerWrapper: AVPlayerItemObserverDelegate {
-    
+
     // MARK: - AVPlayerItemObserverDelegate
     
     func item(didUpdateDuration duration: Double) {
         self.delegate?.AVWrapper(didUpdateDuration: duration)
     }
     
+    func item(didUpdateTimedMetadata metadata: String) {
+        self.delegate?.AVWrapper(didUpdateTimedMetadata: metadata)
+    }
 }
