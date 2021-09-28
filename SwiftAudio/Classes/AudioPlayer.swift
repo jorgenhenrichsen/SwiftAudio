@@ -264,6 +264,13 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         updateNowPlayingRate(rate)
     }
     
+    public func updateNowPlayingPlaybackValue_notPlay(){
+        updateNowPlayingCurrentTime(currentTime)
+        updateNowPlayingDuration(duration)
+        updateNowPlayingRate(0)
+    }
+
+    
     private func updateNowPlayingDuration(_ duration: Double) {
         nowPlayingInfoController.set(keyValue: MediaItemProperty.duration(duration))
     }
@@ -306,11 +313,21 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     func AVWrapper(didChangeState state: AVPlayerWrapperState) {
         switch state {
-        case .ready, .loading:
+        case .ready:
             if (automaticallyUpdateNowPlayingInfo) {
                 updateNowPlayingPlaybackValues()
             }
             setTimePitchingAlgorithmForCurrentItem()
+        case .loading:
+            if (automaticallyUpdateNowPlayingInfo) {
+                updateNowPlayingPlaybackValue_notPlay()
+            }
+            setTimePitchingAlgorithmForCurrentItem()
+        case .buffering:
+            if (automaticallyUpdateNowPlayingInfo) {
+                updateNowPlayingPlaybackValue_notPlay()
+            }
+
         case .playing, .paused:
             if (automaticallyUpdateNowPlayingInfo) {
                 updateNowPlayingPlaybackValues()
