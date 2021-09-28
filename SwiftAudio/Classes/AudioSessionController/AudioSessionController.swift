@@ -10,7 +10,7 @@ import AVFoundation
 
 
 public protocol AudioSessionControllerDelegate: class {
-    func handleInterruption(type: AVAudioSession.InterruptionType)
+    func handleInterruption(type: AVAudioSession.InterruptionType, options: AVAudioSession.InterruptionOptions?)
 }
 
 
@@ -112,7 +112,13 @@ public class AudioSessionController {
                 return
         }
         
-        self.delegate?.handleInterruption(type: type)
+        var options: AVAudioSession.InterruptionOptions?
+        if type == .ended {
+            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+                options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+            }
+        }
+        
+        self.delegate?.handleInterruption(type: type, options: options)
     }
-    
 }
