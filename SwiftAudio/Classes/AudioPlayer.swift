@@ -187,6 +187,13 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     }
     
     /**
+    Start playback immediately
+    */
+    public func playImmediately(){
+        self.wrapper.playImmediately()
+    }
+    
+    /**
      Pause playback
      */
     public func pause() {
