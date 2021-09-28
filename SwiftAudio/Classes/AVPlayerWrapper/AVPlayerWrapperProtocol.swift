@@ -28,6 +28,8 @@ protocol AVPlayerWrapperProtocol: class {
     
     var delegate: AVPlayerWrapperDelegate? { get set }
     
+    var dataBufferDelegate: AVPlayerWrapperBufferingDelegate? { get set }
+    
     var bufferDuration: TimeInterval { get set }
     
     var timeEventFrequency: TimeEventFrequency { get set }

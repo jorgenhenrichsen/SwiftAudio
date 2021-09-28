@@ -63,6 +63,12 @@ extension AudioPlayer {
          */
         public let didRecreateAVPlayer: AudioPlayer.Event<()> = AudioPlayer.Event()
         
+        /**
+        Emitted when buffering data changed.
+        - Important: -
+        */
+        public let receiveBufferPosition: AudioPlayer.Event<Double> = AudioPlayer.Event()
+        
     }
     
     public typealias EventClosure<EventData> = (EventData) -> Void

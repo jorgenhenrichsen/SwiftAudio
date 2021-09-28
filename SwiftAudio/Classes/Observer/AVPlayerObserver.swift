@@ -23,6 +23,8 @@ protocol AVPlayerObserverDelegate: class {
     
 }
 
+
+
 /**
  Observing an AVPlayers status changes.
  */
@@ -41,6 +43,7 @@ class AVPlayerObserver: NSObject {
     private(set) var isObserving: Bool = false
     
     weak var delegate: AVPlayerObserverDelegate?
+
     weak var player: AVPlayer? {
         willSet {
             self.stopObserving()
@@ -62,6 +65,8 @@ class AVPlayerObserver: NSObject {
         self.isObserving = true
         player.addObserver(self, forKeyPath: AVPlayerKeyPath.status, options: self.statusChangeOptions, context: &AVPlayerObserver.context)
         player.addObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, options: self.timeControlStatusChangeOptions, context: &AVPlayerObserver.context)
+        
+
     }
     
     func stopObserving() {
@@ -70,6 +75,8 @@ class AVPlayerObserver: NSObject {
         }
         player.removeObserver(self, forKeyPath: AVPlayerKeyPath.status, context: &AVPlayerObserver.context)
         player.removeObserver(self, forKeyPath: AVPlayerKeyPath.timeControlStatus, context: &AVPlayerObserver.context)
+
+        
         self.isObserving = false
     }
     
@@ -111,5 +118,5 @@ class AVPlayerObserver: NSObject {
             delegate?.player(didChangeTimeControlStatus: status)
         }
     }
-    
+
 }

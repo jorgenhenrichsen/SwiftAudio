@@ -19,3 +19,7 @@ protocol AVPlayerWrapperDelegate: class {
     func AVWrapperDidRecreateAVPlayer()
     
 }
+
+protocol AVPlayerWrapperBufferingDelegate: class {
+    func AVWrappperBuffering(buffer:Double)
+}

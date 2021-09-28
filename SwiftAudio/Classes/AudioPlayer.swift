@@ -134,6 +134,8 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         self.remoteCommandController = remoteCommandController
         
         self._wrapper.delegate = self
+        self._wrapper.dataBufferDelegate = self
+        
         self.remoteCommandController.audioPlayer = self
     }
     
@@ -346,5 +348,13 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     func AVWrapperDidRecreateAVPlayer() {
         self.event.didRecreateAVPlayer.emit(data: ())
     }
+    
+}
+
+extension AudioPlayer: AVPlayerWrapperBufferingDelegate {
+    func AVWrappperBuffering(buffer: Double) {
+        self.event.receiveBufferPosition.emit(data: buffer)
+    }
+    
     
 }
